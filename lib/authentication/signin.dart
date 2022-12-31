@@ -47,24 +47,21 @@ class _SignInState extends State<SignIn> {
               )
             ],
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: AppThemeShared.textFormField(
-                context: context,
-                controller: phoneNumberController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                hintText: "Phone Number",
-                validator: Utility.phoneNumberValidator,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                prefixIcon: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "+91",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
-          ),
+          AppThemeShared.textFormField(
+              context: context,
+              controller: phoneNumberController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [LengthLimitingTextInputFormatter(10)],
+              hintText: "Phone Number",
+              validator: Utility.phoneNumberValidator,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              prefixIcon: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "+91",
+                  style: TextStyle(fontSize: 18),
+                ),
+              )),
           const SizedBox(height: 20),
           AppThemeShared.sharedButton(
               context: context,

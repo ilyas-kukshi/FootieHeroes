@@ -24,6 +24,7 @@ mixin _$PlayerPersonalInfo {
   String get name => throw _privateConstructorUsedError;
   String get phoneNo => throw _privateConstructorUsedError;
   String get position => throw _privateConstructorUsedError;
+  String get role => throw _privateConstructorUsedError;
   String get prefFoot => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   String? get photoUri => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $PlayerPersonalInfoCopyWith<$Res> {
       String name,
       String phoneNo,
       String position,
+      String role,
       String prefFoot,
       String gender,
       String? photoUri});
@@ -67,6 +69,7 @@ class _$PlayerPersonalInfoCopyWithImpl<$Res, $Val extends PlayerPersonalInfo>
     Object? name = null,
     Object? phoneNo = null,
     Object? position = null,
+    Object? role = null,
     Object? prefFoot = null,
     Object? gender = null,
     Object? photoUri = freezed,
@@ -87,6 +90,10 @@ class _$PlayerPersonalInfoCopyWithImpl<$Res, $Val extends PlayerPersonalInfo>
       position: null == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
               as String,
       prefFoot: null == prefFoot
           ? _value.prefFoot
@@ -117,6 +124,7 @@ abstract class _$$_PlayerPersonalInfoCopyWith<$Res>
       String name,
       String phoneNo,
       String position,
+      String role,
       String prefFoot,
       String gender,
       String? photoUri});
@@ -137,6 +145,7 @@ class __$$_PlayerPersonalInfoCopyWithImpl<$Res>
     Object? name = null,
     Object? phoneNo = null,
     Object? position = null,
+    Object? role = null,
     Object? prefFoot = null,
     Object? gender = null,
     Object? photoUri = freezed,
@@ -157,6 +166,10 @@ class __$$_PlayerPersonalInfoCopyWithImpl<$Res>
       position: null == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
               as String,
       prefFoot: null == prefFoot
           ? _value.prefFoot
@@ -182,6 +195,7 @@ class _$_PlayerPersonalInfo extends _PlayerPersonalInfo {
       required this.name,
       required this.phoneNo,
       required this.position,
+      required this.role,
       required this.prefFoot,
       required this.gender,
       this.photoUri})
@@ -199,6 +213,8 @@ class _$_PlayerPersonalInfo extends _PlayerPersonalInfo {
   @override
   final String position;
   @override
+  final String role;
+  @override
   final String prefFoot;
   @override
   final String gender;
@@ -207,7 +223,7 @@ class _$_PlayerPersonalInfo extends _PlayerPersonalInfo {
 
   @override
   String toString() {
-    return 'PlayerPersonalInfo(id: $id, name: $name, phoneNo: $phoneNo, position: $position, prefFoot: $prefFoot, gender: $gender, photoUri: $photoUri)';
+    return 'PlayerPersonalInfo(id: $id, name: $name, phoneNo: $phoneNo, position: $position, role: $role, prefFoot: $prefFoot, gender: $gender, photoUri: $photoUri)';
   }
 
   @override
@@ -220,6 +236,7 @@ class _$_PlayerPersonalInfo extends _PlayerPersonalInfo {
             (identical(other.phoneNo, phoneNo) || other.phoneNo == phoneNo) &&
             (identical(other.position, position) ||
                 other.position == position) &&
+            (identical(other.role, role) || other.role == role) &&
             (identical(other.prefFoot, prefFoot) ||
                 other.prefFoot == prefFoot) &&
             (identical(other.gender, gender) || other.gender == gender) &&
@@ -229,8 +246,8 @@ class _$_PlayerPersonalInfo extends _PlayerPersonalInfo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, phoneNo, position, prefFoot, gender, photoUri);
+  int get hashCode => Object.hash(runtimeType, id, name, phoneNo, position,
+      role, prefFoot, gender, photoUri);
 
   @JsonKey(ignore: true)
   @override
@@ -253,6 +270,7 @@ abstract class _PlayerPersonalInfo extends PlayerPersonalInfo {
       required final String name,
       required final String phoneNo,
       required final String position,
+      required final String role,
       required final String prefFoot,
       required final String gender,
       final String? photoUri}) = _$_PlayerPersonalInfo;
@@ -269,6 +287,8 @@ abstract class _PlayerPersonalInfo extends PlayerPersonalInfo {
   String get phoneNo;
   @override
   String get position;
+  @override
+  String get role;
   @override
   String get prefFoot;
   @override

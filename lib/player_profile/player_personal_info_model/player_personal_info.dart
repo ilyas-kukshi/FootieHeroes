@@ -15,6 +15,7 @@ abstract class PlayerPersonalInfo implements _$PlayerPersonalInfo {
     required String name,
     required String phoneNo,
     required String position,
+    required String role,
     required String prefFoot,
     required String gender,
     String? photoUri

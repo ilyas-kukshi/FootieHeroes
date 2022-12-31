@@ -128,18 +128,20 @@ class _OtpState extends State<Otp> {
       Fluttertoast.showToast(msg: e.toString());
     });
 
-   
-    await FirebaseFirestore.instance
-        .collection("Players")
-        .where("phoneNumber", isEqualTo: user.user!.phoneNumber)
-        .get()
-        .then((document) {
-      if (document.size > 0) {
-        Navigator.pop(context);
-      } else {
-        Navigator.pop(context);
-      }
-    });
+    if (user.user?.uid != null) {
+      await FirebaseFirestore.instance
+          .collection("Players")
+          .where("phoneNumber", isEqualTo: user.user!.phoneNumber)
+          .get()
+          .then((document) {
+        if (document.size > 0) {
+          Navigator.pop(context);
+        } else {
+          Navigator.pop(context);
+          Navigator.pushNamed(context, "/createProfile", arguments: user);
+        }
+      });
+    }
 
     // Navigator.pop(context);
     // Navigator.pushNamed(context, '/dashboardMain');
