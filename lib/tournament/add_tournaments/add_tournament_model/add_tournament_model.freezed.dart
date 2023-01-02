@@ -25,8 +25,8 @@ mixin _$AddTournamentModel {
   PlayerPersonalInfo get organizer => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
-  String? get logoUri => throw _privateConstructorUsedError;
-  String? get bannerUri => throw _privateConstructorUsedError;
+  String get logoUri => throw _privateConstructorUsedError;
+  String get bannerUri => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,8 +46,8 @@ abstract class $AddTournamentModelCopyWith<$Res> {
       PlayerPersonalInfo organizer,
       DateTime startDate,
       DateTime endDate,
-      String? logoUri,
-      String? bannerUri});
+      String logoUri,
+      String bannerUri});
 
   $PlayerPersonalInfoCopyWith<$Res> get organizer;
 }
@@ -70,8 +70,8 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
     Object? organizer = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? logoUri = freezed,
-    Object? bannerUri = freezed,
+    Object? logoUri = null,
+    Object? bannerUri = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -94,14 +94,14 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      logoUri: freezed == logoUri
+      logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bannerUri: freezed == bannerUri
+              as String,
+      bannerUri: null == bannerUri
           ? _value.bannerUri
           : bannerUri // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
@@ -128,8 +128,8 @@ abstract class _$$_AddTournamentModelCopyWith<$Res>
       PlayerPersonalInfo organizer,
       DateTime startDate,
       DateTime endDate,
-      String? logoUri,
-      String? bannerUri});
+      String logoUri,
+      String bannerUri});
 
   @override
   $PlayerPersonalInfoCopyWith<$Res> get organizer;
@@ -151,8 +151,8 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
     Object? organizer = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? logoUri = freezed,
-    Object? bannerUri = freezed,
+    Object? logoUri = null,
+    Object? bannerUri = null,
   }) {
     return _then(_$_AddTournamentModel(
       id: freezed == id
@@ -175,14 +175,14 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      logoUri: freezed == logoUri
+      logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bannerUri: freezed == bannerUri
+              as String,
+      bannerUri: null == bannerUri
           ? _value.bannerUri
           : bannerUri // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -196,8 +196,8 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       required this.organizer,
       required this.startDate,
       required this.endDate,
-      this.logoUri,
-      this.bannerUri})
+      required this.logoUri,
+      required this.bannerUri})
       : super._();
 
   factory _$_AddTournamentModel.fromJson(Map<String, dynamic> json) =>
@@ -214,9 +214,9 @@ class _$_AddTournamentModel extends _AddTournamentModel {
   @override
   final DateTime endDate;
   @override
-  final String? logoUri;
+  final String logoUri;
   @override
-  final String? bannerUri;
+  final String bannerUri;
 
   @override
   String toString() {
@@ -267,8 +267,8 @@ abstract class _AddTournamentModel extends AddTournamentModel {
       required final PlayerPersonalInfo organizer,
       required final DateTime startDate,
       required final DateTime endDate,
-      final String? logoUri,
-      final String? bannerUri}) = _$_AddTournamentModel;
+      required final String logoUri,
+      required final String bannerUri}) = _$_AddTournamentModel;
   _AddTournamentModel._() : super._();
 
   factory _AddTournamentModel.fromJson(Map<String, dynamic> json) =
@@ -285,9 +285,9 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   @override
   DateTime get endDate;
   @override
-  String? get logoUri;
+  String get logoUri;
   @override
-  String? get bannerUri;
+  String get bannerUri;
   @override
   @JsonKey(ignore: true)
   _$$_AddTournamentModelCopyWith<_$_AddTournamentModel> get copyWith =>

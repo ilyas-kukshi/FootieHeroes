@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,14 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   String verificationIdLocal = '';
   TextEditingController phoneNumberController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,4 +112,22 @@ class _SignInState extends State<SignIn> {
   }
 
   void verificationCompleted(PhoneAuthCredential credential) async {}
+
+  checkLogin() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection("Players")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((value) {
+        if (value.exists) {
+          Navigator.pushNamed(context, "/dashboardMain");
+        } else {
+          Navigator.pushNamed(context, '/createProfile');
+        }
+      }).onError((error, stackTrace) {
+        Fluttertoast.showToast(msg: error.toString());
+      });
+    }
+  }
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/authentication/otp_model.dart';
+import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
@@ -20,6 +21,7 @@ class Otp extends StatefulWidget {
 
 class _OtpState extends State<Otp> {
   TextEditingController otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,14 +133,22 @@ class _OtpState extends State<Otp> {
     if (user.user?.uid != null) {
       await FirebaseFirestore.instance
           .collection("Players")
-          .where("phoneNumber", isEqualTo: user.user!.phoneNumber)
+          .where("phoneNo", isEqualTo: user.user!.phoneNumber)
           .get()
           .then((document) {
         if (document.size > 0) {
           Navigator.pop(context);
+          Navigator.pushNamed(context, '/dashboardMain');
         } else {
           Navigator.pop(context);
-          Navigator.pushNamed(context, "/createProfile", arguments: user);
+          Navigator.pushNamed(context, "/createProfile",
+              arguments: PlayerPersonalInfo(
+                  name: "",
+                  phoneNo: user.user!.phoneNumber.toString(),
+                  position: "",
+                  role: "",
+                  prefFoot: "",
+                  gender: ""));
         }
       });
     }

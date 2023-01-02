@@ -6,8 +6,6 @@ class AppThemeShared {
   static Color secondaryColor = const Color(0xff62B6B7);
   static Color tertiartyColor = const Color(0xff97DECE);
 
-  
-
   static appBar(
       {required String title,
       required BuildContext context,

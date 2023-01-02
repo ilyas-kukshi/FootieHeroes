@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,11 +12,12 @@ import 'package:footie_heroes/player_profile/player_personal_info_model/player_p
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // ignore: must_be_immutable
 class CreateProfile extends StatefulWidget {
-  UserCredential user;
+  PlayerPersonalInfo user;
   CreateProfile({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -30,12 +33,14 @@ class _CreateProfileState extends State<CreateProfile> {
 
   File? file;
   String? imagePath;
+  CroppedFile? croppedFile;
   bool imageSelected = false;
+  bool networkImage = false;
 
-  String position = 'DEF';
-  String role = "GK";
-  String prefFoot = "Left";
-  String gender = "Male";
+  late String position;
+  late String role;
+  late String prefFoot;
+  late String gender;
 
   List<String> posList = ["DEF", "MID", "ATT"];
   List<String> defRoles = ["GK", "CB", "LB", "RB", "LWB", "RWB"];
@@ -47,7 +52,24 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   void initState() {
     super.initState();
-    phoneNumberController.text = widget.user.user!.phoneNumber.toString();
+
+    widget.user.position == ""
+        ? position = 'DEF'
+        : position = widget.user.position;
+    widget.user.role == "" ? role = 'GK' : role = widget.user.role;
+    widget.user.prefFoot == ""
+        ? prefFoot = 'Left'
+        : prefFoot = widget.user.prefFoot;
+    widget.user.gender == "" ? gender = 'Male' : gender = widget.user.gender;
+
+    nameController.text = widget.user.name;
+    phoneNumberController.text = widget.user.phoneNo;
+
+    if (widget.user.photoUri != null) {
+      imagePath = widget.user.photoUri;
+      imageSelected = true;
+      networkImage = true;
+    }
   }
 
   @override
@@ -64,43 +86,97 @@ class _CreateProfileState extends State<CreateProfile> {
                 children: [
                   const SizedBox(height: 10),
                   imageSelected
-                      ? Image.file(
-                          file!,
-                          fit: BoxFit.contain,
-                          height: 200,
-                          width: MediaQuery.of(context).size.width * 0.85,
-                        )
+                      ? Stack(children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: InkWell(
+                              onTap: () {
+                                file = null;
+                                imageSelected = false;
+                                imagePath = null;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppThemeShared.primaryColor,
+                                  ),
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: networkImage
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.user.photoUri!,
+                                      fit: BoxFit.fill,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    radius: 75,
+                                    backgroundImage: FileImage(
+                                      File(imagePath!),
+                                    ),
+                                  ),
+                          ),
+                        ])
                       : GestureDetector(
                           onTap: () => pickFile(),
                           child: Column(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                      color: AppThemeShared.secondaryColor,
-                                      width: 5),
-                                  // borderRadius: BorderRadius.circular(12)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.perm_identity,
-                                    color: AppThemeShared.secondaryColor,
-                                    size: 75,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: AppThemeShared.secondaryColor,
+                                        width: 5),
+                                    // borderRadius: BorderRadius.circular(12)
                                   ),
-                                ),
-                              ),
-                              Text(
-                                "Add Photo",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: AppThemeShared.primaryColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.perm_identity,
+                                      color: AppThemeShared.secondaryColor,
+                                      size: 75,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                  InkWell(
+                    onTap: () => pickFile(),
+                    child: Text(
+                      imageSelected ? "Change Photo" : "Add Photo",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: AppThemeShared.primaryColor,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 30),
                   AppThemeShared.textFormField(
                     context: context,
@@ -186,7 +262,11 @@ class _CreateProfileState extends State<CreateProfile> {
                       onTap: () {
                         final valid = formKey.currentState!.validate();
 
-                        if (valid) saveProfile();
+                        !valid
+                            ? Fluttertoast.showToast(msg: "Complete Details ")
+                            : file != null
+                                ? uploadFile()
+                                : saveProfile(imagePath);
                       })
                 ],
               ),
@@ -196,37 +276,100 @@ class _CreateProfileState extends State<CreateProfile> {
   }
 
   pickFile() async {
-    if (await Permission.photos.request().isGranted) {
-      final result = await FilePicker.platform.pickFiles();
+    // Permission.storage.
+    if (await Permission.storage.request().isGranted) {
+      // file = null;
+      final result = await FilePicker.platform
+          .pickFiles(allowMultiple: false, type: FileType.image);
       if (result != null) {
         file = File(result.files.single.path!);
-        setState(() {
+        imagePath = null;
+        croppedFile = await ImageCropper().cropImage(
+            sourcePath: file!.path,
+            cropStyle: CropStyle.circle,
+            aspectRatioPresets: Platform.isAndroid
+                ? [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ]
+                : [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+            uiSettings: [
+              AndroidUiSettings(
+                hideBottomControls: true,
+                // lockAspectRatio: true,
+                activeControlsWidgetColor: AppThemeShared.primaryColor,
+                toolbarWidgetColor: AppThemeShared.primaryColor,
+                initAspectRatio: CropAspectRatioPreset.ratio4x3,
+              )
+            ]);
+
+        if (croppedFile == null) {
+          file?.delete();
+          Fluttertoast.showToast(msg: "Please crop the photo");
+        } else {
           imageSelected = true;
-          imagePath = result.files.single.path;
-        });
+
+          imagePath = croppedFile?.path;
+          setState(() {});
+        }
       } else {
         // User canceled the picker
       }
-    } else {
-      Permission.photos.request();
+    } else if (await Permission.storage.isPermanentlyDenied ||
+        await Permission.storage.isDenied) {
+      openAppSettings();
+      Fluttertoast.showToast(
+          msg: "FootieHeroes need permission to access photos");
     }
   }
 
-  saveProfile() async {
+  uploadFile() async {
+    TaskSnapshot? fileUpload;
+    try {
+      fileUpload = await FirebaseStorage.instance
+          .ref()
+          .child("players/" +
+              FirebaseAuth.instance.currentUser!.uid.toString() +
+              "/ProfilePic/")
+          .putFile(File(croppedFile!.path));
+    } on FirebaseException catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+
+    if (fileUpload!.state == TaskState.success) {
+      try {
+        final String downloadUrl = await fileUpload.ref.getDownloadURL();
+        saveProfile(downloadUrl);
+      } on FirebaseException catch (e) {
+        Fluttertoast.showToast(msg: e.toString());
+      }
+    }
+  }
+
+  saveProfile(String? photoUri) async {
     DialogShared.loadingDialog(context, "Updating Profile");
     PlayerPersonalInfo playerPersonalInfo = PlayerPersonalInfo(
-      id: widget.user.user!.uid,
-      name: nameController.text,
-      phoneNo: phoneNumberController.text,
-      position: position,
-      role: role,
-      prefFoot: prefFoot,
-      gender: gender,
-    );
+        id: widget.user.id,
+        name: nameController.text,
+        phoneNo: phoneNumberController.text,
+        position: position,
+        role: role,
+        prefFoot: prefFoot,
+        gender: gender,
+        photoUri: photoUri);
 
     await FirebaseFirestore.instance
         .collection("Players")
-        .doc(widget.user.user!.uid)
+        .doc(widget.user.id)
         .set(playerPersonalInfo.toJson())
         .then((value) {})
         .catchError((err) {

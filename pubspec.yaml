@@ -39,11 +39,15 @@ dependencies:
   cloud_firestore: ^4.3.0
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.3
+  firebase_auth_web: ^5.2.4
   mobile_number: ^2.1.1
   page_transition: ^2.0.9
   firebase_storage: ^11.0.10
   file_picker: ^5.2.4
   permission_handler: ^10.2.0
+  cached_network_image: ^3.2.2
+  image_cropper: ^3.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

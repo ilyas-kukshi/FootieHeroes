@@ -15,8 +15,8 @@ _$_AddTournamentModel _$$_AddTournamentModelFromJson(
           json['organizer'] as Map<String, dynamic>),
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
-      logoUri: json['logoUri'] as String?,
-      bannerUri: json['bannerUri'] as String?,
+      logoUri: json['logoUri'] as String,
+      bannerUri: json['bannerUri'] as String,
     );
 
 Map<String, dynamic> _$$_AddTournamentModelToJson(
