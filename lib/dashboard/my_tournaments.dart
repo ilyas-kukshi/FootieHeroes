@@ -66,10 +66,13 @@ class _MyTournamentsState extends State<MyTournaments> {
             Stack(
               children: [
                 CachedNetworkImage(
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.fill,
-                    height: 150,
-                    imageUrl: tournament.bannerUri)
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fill,
+                  height: 150,
+                  imageUrl: tournament.bannerUri,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                )
               ],
             ),
             Padding(

@@ -48,7 +48,7 @@ class AppThemeShared {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           fixedSize: Size(width, height),
-          primary: color,
+        
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           )),

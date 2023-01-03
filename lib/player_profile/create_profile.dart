@@ -337,6 +337,7 @@ class _CreateProfileState extends State<CreateProfile> {
     try {
       fileUpload = await FirebaseStorage.instance
           .ref()
+          // ignore: prefer_interpolation_to_compose_strings
           .child("players/" +
               FirebaseAuth.instance.currentUser!.uid.toString() +
               "/ProfilePic/")
