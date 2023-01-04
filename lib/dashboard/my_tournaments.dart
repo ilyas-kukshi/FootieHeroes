@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournamen.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MyTournaments extends StatefulWidget {
   const MyTournaments({Key? key}) : super(key: key);
@@ -19,6 +22,8 @@ class _MyTournamentsState extends State<MyTournaments> {
   @override
   void initState() {
     super.initState();
+
+    // initDynamicLink();
   }
 
   @override
@@ -104,8 +109,12 @@ class _MyTournamentsState extends State<MyTournaments> {
                       context: context,
                       width: 100,
                       height: 20,
-                      buttonText: "Follow",
-                      onTap: () {})
+                      buttonText: "Share",
+                      onTap: () {
+                        Utility().createLink(tournament.id!).then((value) {
+                          Share.share(value.toString());
+                        });
+                      })
                 ],
               ),
             )

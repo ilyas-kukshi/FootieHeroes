@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/authentication/otp_model.dart';
+import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 
@@ -25,6 +26,7 @@ class _SignInState extends State<SignIn> {
     super.initState();
 
     checkLogin();
+    Utility().initDynamicLink(context);
   }
 
   @override
@@ -114,20 +116,20 @@ class _SignInState extends State<SignIn> {
   void verificationCompleted(PhoneAuthCredential credential) async {}
 
   checkLogin() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      await FirebaseFirestore.instance
-          .collection("Players")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get()
-          .then((value) {
-        if (value.exists) {
-          Navigator.pushNamed(context, "/dashboardMain");
-        } else {
-          Navigator.pushNamed(context, '/createProfile');
-        }
-      }).onError((error, stackTrace) {
-        Fluttertoast.showToast(msg: error.toString());
-      });
+    if (await Utility().userLoggedIn()) {
+      if (await Utility().userProfileComplete()) {
+        Navigator.pushNamed(context, "/dashboardMain");
+      } else {
+        Navigator.pushNamed(context, '/createProfile',
+            arguments: PlayerPersonalInfo(
+                name: "",
+                phoneNo:
+                    FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
+                position: "",
+                role: "",
+                prefFoot: "",
+                gender: ""));
+      }
     }
   }
 }

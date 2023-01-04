@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:footie_heroes/dashboard/dashboard_drawer.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
+import 'package:footie_heroes/shared/utility.dart';
 
 class DashboardMain extends StatefulWidget {
   const DashboardMain({Key? key}) : super(key: key);
@@ -13,6 +14,11 @@ class DashboardMain extends StatefulWidget {
 
 class _DashboardMainState extends State<DashboardMain> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
