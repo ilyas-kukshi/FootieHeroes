@@ -48,7 +48,7 @@ class AppThemeShared {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           fixedSize: Size(width, height),
-        
+          backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           )),
@@ -184,7 +184,7 @@ class AppThemeShared {
       constraints: BoxConstraints.tightFor(height: height, width: width),
       child: ElevatedButton(
         onPressed: onPressed,
-        style: ElevatedButton.styleFrom(primary: color),
+        style: ElevatedButton.styleFrom(backgroundColor: color),
         child: Text(
           buttonText,
           style: Theme.of(context).textTheme.headline3?.copyWith(fontSize: 16),

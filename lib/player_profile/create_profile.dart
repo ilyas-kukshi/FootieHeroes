@@ -184,13 +184,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     controller: nameController,
                     validator: Utility.nameValidator,
                   ),
-                  //  const SizedBox(height: 30),
-                  // AppThemeShared.textFormField(
-                  //   context: context,
-                  //   labelText: 'Enter Email*',
-                  //   controller: nameController,
-                  //   validator: Utility.nameValidator,
-                  // ),
+                  
                   const SizedBox(height: 20),
                   AppThemeShared.textFormField(
                     context: context,

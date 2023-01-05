@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'add_tournament_model.dart';
 
 // **************************************************************************
@@ -24,7 +26,7 @@ Map<String, dynamic> _$$_AddTournamentModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'organizer': instance.organizer,
+      'organizer': instance.organizer.toJson(),
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'logoUri': instance.logoUri,

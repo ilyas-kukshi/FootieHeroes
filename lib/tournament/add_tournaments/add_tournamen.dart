@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
@@ -61,11 +62,11 @@ class _AddTournamentState extends State<AddTournament> {
               ),
               const SizedBox(height: 50),
               AppThemeShared.textFormField(
-                context: context,
-                labelText: "Tournament Name*",
-                controller: nameController,
-                validator: Utility.nameValidator,
-              ),
+                  context: context,
+                  labelText: "Tournament Name*",
+                  controller: nameController,
+                  validator: Utility.nameValidator,
+                  inputFormatters: [LengthLimitingTextInputFormatter(20)]),
               const SizedBox(height: 20),
               Center(
                 child: SizedBox(

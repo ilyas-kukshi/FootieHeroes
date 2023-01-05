@@ -158,6 +158,10 @@ class Utility {
     return complete;
   }
 
+  static String getInitials(String fullName) => fullName.isNotEmpty
+      ? fullName.trim().split(' ').map((l) => l[0]).take(2).join().toUpperCase()
+      : '';
+
   // initDynamicLinks() async {
   //   final dynamicLinkParams = DynamicLinkParameters(
   //     link: Uri.parse("https://www.example.com/"),
