@@ -12,14 +12,15 @@ abstract class AddTeamModel implements _$AddTeamModel {
     String? id,
     String? logoUri,
     required String name,
-    required String townName
+    required String townName,
+    required String tournamentId,
   }) = _AddTeamModel;
 
-  factory AddTeamModel.fromJson(Map<String, dynamic> json) => _$AddTeamModelFromJson(json);
+  factory AddTeamModel.fromJson(Map<String, dynamic> json) =>
+      _$AddTeamModelFromJson(json);
 
   factory AddTeamModel.fromDocument(DocumentSnapshot documentSnapshot) {
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return AddTeamModel.fromJson(data).copyWith(id: documentSnapshot.id);
   }
 }
-

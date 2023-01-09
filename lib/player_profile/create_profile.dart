@@ -184,7 +184,6 @@ class _CreateProfileState extends State<CreateProfile> {
                     controller: nameController,
                     validator: Utility.nameValidator,
                   ),
-                  
                   const SizedBox(height: 20),
                   AppThemeShared.textFormField(
                     context: context,
@@ -366,8 +365,9 @@ class _CreateProfileState extends State<CreateProfile> {
         .collection("Players")
         .doc(widget.user.id)
         .set(playerPersonalInfo.toJson())
-        .then((value) {})
-        .catchError((err) {
+        .then((value) {
+      Utility().setUserProfileSP(playerPersonalInfo);
+    }).catchError((err) {
       Fluttertoast.showToast(msg: err.toString());
     }).whenComplete(() {
       Navigator.pop(context);

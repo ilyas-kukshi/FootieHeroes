@@ -24,6 +24,7 @@ mixin _$AddTeamModel {
   String? get logoUri => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get townName => throw _privateConstructorUsedError;
+  String get tournamentId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,12 @@ abstract class $AddTeamModelCopyWith<$Res> {
           AddTeamModel value, $Res Function(AddTeamModel) then) =
       _$AddTeamModelCopyWithImpl<$Res, AddTeamModel>;
   @useResult
-  $Res call({String? id, String? logoUri, String name, String townName});
+  $Res call(
+      {String? id,
+      String? logoUri,
+      String name,
+      String townName,
+      String tournamentId});
 }
 
 /// @nodoc
@@ -57,6 +63,7 @@ class _$AddTeamModelCopyWithImpl<$Res, $Val extends AddTeamModel>
     Object? logoUri = freezed,
     Object? name = null,
     Object? townName = null,
+    Object? tournamentId = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -75,6 +82,10 @@ class _$AddTeamModelCopyWithImpl<$Res, $Val extends AddTeamModel>
           ? _value.townName
           : townName // ignore: cast_nullable_to_non_nullable
               as String,
+      tournamentId: null == tournamentId
+          ? _value.tournamentId
+          : tournamentId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -87,7 +98,12 @@ abstract class _$$_AddTeamModelCopyWith<$Res>
       __$$_AddTeamModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? id, String? logoUri, String name, String townName});
+  $Res call(
+      {String? id,
+      String? logoUri,
+      String name,
+      String townName,
+      String tournamentId});
 }
 
 /// @nodoc
@@ -105,6 +121,7 @@ class __$$_AddTeamModelCopyWithImpl<$Res>
     Object? logoUri = freezed,
     Object? name = null,
     Object? townName = null,
+    Object? tournamentId = null,
   }) {
     return _then(_$_AddTeamModel(
       id: freezed == id
@@ -123,6 +140,10 @@ class __$$_AddTeamModelCopyWithImpl<$Res>
           ? _value.townName
           : townName // ignore: cast_nullable_to_non_nullable
               as String,
+      tournamentId: null == tournamentId
+          ? _value.tournamentId
+          : tournamentId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -131,7 +152,11 @@ class __$$_AddTeamModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AddTeamModel extends _AddTeamModel {
   _$_AddTeamModel(
-      {this.id, this.logoUri, required this.name, required this.townName})
+      {this.id,
+      this.logoUri,
+      required this.name,
+      required this.townName,
+      required this.tournamentId})
       : super._();
 
   factory _$_AddTeamModel.fromJson(Map<String, dynamic> json) =>
@@ -145,10 +170,12 @@ class _$_AddTeamModel extends _AddTeamModel {
   final String name;
   @override
   final String townName;
+  @override
+  final String tournamentId;
 
   @override
   String toString() {
-    return 'AddTeamModel(id: $id, logoUri: $logoUri, name: $name, townName: $townName)';
+    return 'AddTeamModel(id: $id, logoUri: $logoUri, name: $name, townName: $townName, tournamentId: $tournamentId)';
   }
 
   @override
@@ -160,12 +187,15 @@ class _$_AddTeamModel extends _AddTeamModel {
             (identical(other.logoUri, logoUri) || other.logoUri == logoUri) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.townName, townName) ||
-                other.townName == townName));
+                other.townName == townName) &&
+            (identical(other.tournamentId, tournamentId) ||
+                other.tournamentId == tournamentId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, logoUri, name, townName);
+  int get hashCode =>
+      Object.hash(runtimeType, id, logoUri, name, townName, tournamentId);
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +216,8 @@ abstract class _AddTeamModel extends AddTeamModel {
       {final String? id,
       final String? logoUri,
       required final String name,
-      required final String townName}) = _$_AddTeamModel;
+      required final String townName,
+      required final String tournamentId}) = _$_AddTeamModel;
   _AddTeamModel._() : super._();
 
   factory _AddTeamModel.fromJson(Map<String, dynamic> json) =
@@ -200,6 +231,8 @@ abstract class _AddTeamModel extends AddTeamModel {
   String get name;
   @override
   String get townName;
+  @override
+  String get tournamentId;
   @override
   @JsonKey(ignore: true)
   _$$_AddTeamModelCopyWith<_$_AddTeamModel> get copyWith =>

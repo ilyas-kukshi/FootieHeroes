@@ -21,8 +21,6 @@ class _MyTournamentsState extends State<MyTournaments> {
   @override
   void initState() {
     super.initState();
-
-    // initDynamicLink();
   }
 
   @override

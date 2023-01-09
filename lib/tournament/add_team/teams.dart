@@ -14,91 +14,97 @@ import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/ad
 // ignore: must_be_immutable
 class Teams extends StatefulWidget {
   AddTournamentModel tournamentModel;
-  Teams({super.key, required this.tournamentModel});
+  bool organizer;
+  Teams({super.key, required this.tournamentModel, required this.organizer});
 
   @override
   State<Teams> createState() => _TeamsState();
 }
 
 class _TeamsState extends State<Teams> {
-  late AddTeamModel teamModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("Tournaments")
-            .doc(widget.tournamentModel.id)
-            .collection("Teams")
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return GridView.builder(
-                padding: const EdgeInsets.all(0),
-                itemCount: snapshot.data.docs.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisExtent: 220),
-                itemBuilder: (context, index) {
-                  teamModel =
-                      AddTeamModel.fromDocument(snapshot.data.docs[index]);
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Column(
-                        children: [
-                          logoWidget(teamModel),
-                          const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              teamModel.name,
-                              overflow: TextOverflow.visible,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("Tournaments")
+              .doc(widget.tournamentModel.id)
+              .collection("Teams")
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                  padding: const EdgeInsets.all(0),
+                  itemCount: snapshot.data.docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, mainAxisExtent: 220),
+                  itemBuilder: (context, index) {
+                    AddTeamModel teamModel =
+                        AddTeamModel.fromDocument(snapshot.data.docs[index]);
+                    return InkWell(
+                      onTap: () => Navigator.pushNamed(context, '/players',
+                          arguments: teamModel),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          child: Column(
+                            children: [
+                              logoWidget(teamModel),
+                              const SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  teamModel.name,
+                                  overflow: TextOverflow.visible,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 10),
+                              Text(
+                                teamModel.townName,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            teamModel.townName,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
+                    );
+                  },
+                );
+              } else {
+                return const Text("No Teams yet, add Teams");
+              }
             } else {
-              return const Text("No Teams yet, add Teams");
+              return const CircularProgressIndicator();
             }
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+          },
+        ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: AppThemeShared.sharedButton(
-            context: context,
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            buttonText: "Add Team",
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => AddTeamBottomSheet(
-                        tournamentModel: widget.tournamentModel,
-                      ),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12))));
-            }),
-      ),
+      bottomNavigationBar: widget.organizer
+          ? AppThemeShared.sharedButton(
+              context: context,
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              buttonText: "Add Team",
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => AddTeamBottomSheet(
+                          tournamentModel: widget.tournamentModel,
+                        ),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12))));
+              })
+          : const Offstage(),
     );
   }
 
@@ -147,22 +153,24 @@ class _TeamsState extends State<Teams> {
                 fit: BoxFit.fill,
               ),
             ),
-      Align(
-        alignment: Alignment.topRight,
-        child: InkWell(
-          onTap: (() => removeTeam(teamModel.id!)),
-          child: CircleAvatar(
-            backgroundColor: AppThemeShared.primaryColor,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
+      widget.organizer
+          ? Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: (() => removeTeam(teamModel.id!)),
+                child: CircleAvatar(
+                  backgroundColor: AppThemeShared.primaryColor,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : const Offstage()
     ]);
   }
 }

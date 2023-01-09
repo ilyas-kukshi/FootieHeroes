@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/teams.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_app_bar_tournament_main.dart';
@@ -18,10 +18,12 @@ class TournamentMain extends StatefulWidget {
 class _TournamentMainState extends State<TournamentMain>
     with TickerProviderStateMixin {
   late TabController tabController;
+  bool organizer = false;
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
+    setOrganzierVariable();
   }
 
   @override
@@ -62,9 +64,16 @@ class _TournamentMainState extends State<TournamentMain>
         Container(),
         Container(),
         Container(),
-        Teams(tournamentModel: widget.tournamentAbout),
+        Teams(tournamentModel: widget.tournamentAbout, organizer: organizer),
         Container()
       ]),
     ));
+  }
+
+  setOrganzierVariable() async {
+    if (await Utility().getProfile() == widget.tournamentAbout.organizer) {
+      organizer = true;
+      setState(() {});
+    }
   }
 }

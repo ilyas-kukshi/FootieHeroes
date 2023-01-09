@@ -270,7 +270,8 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
         .add(AddTeamModel(
                 name: nameController.text,
                 townName: townController.text,
-                logoUri: logoUrl)
+                logoUri: logoUrl,
+                tournamentId: widget.tournamentModel.id!)
             .toJson())
         .then((value) {
       Navigator.pop(context);

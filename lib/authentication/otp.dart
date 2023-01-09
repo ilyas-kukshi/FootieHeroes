@@ -11,6 +11,7 @@ import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 
+
 class Otp extends StatefulWidget {
   final OtpModel otpModel;
   const Otp({Key? key, required this.otpModel}) : super(key: key);
@@ -137,6 +138,8 @@ class _OtpState extends State<Otp> {
           .get()
           .then((document) {
         if (document.size > 0) {
+          Utility().setUserProfileSP(
+              PlayerPersonalInfo.fromDocument(document.docs.first));
           Navigator.pop(context);
           Navigator.pushNamed(context, '/dashboardMain');
         } else {

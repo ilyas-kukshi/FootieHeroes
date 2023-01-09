@@ -44,6 +44,8 @@ class _AddTournamentState extends State<AddTournament> {
   CroppedFile? logoCropped;
   bool logoSelected = false;
 
+  String? noOfHalfs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,50 +65,84 @@ class _AddTournamentState extends State<AddTournament> {
               const SizedBox(height: 50),
               AppThemeShared.textFormField(
                   context: context,
+                  widthPercent: 0.95,
                   labelText: "Tournament Name*",
                   controller: nameController,
                   validator: Utility.nameValidator,
                   inputFormatters: [LengthLimitingTextInputFormatter(20)]),
               const SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: AppThemeShared.textFormField(
-                      context: context,
-                      labelText: "Start Date*",
-                      readonly: true,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      controller: startDateController,
-                      validator: Utility.nameValidator,
-                      onTap: () {
-                        selectStartDate(context);
-                      },
-                      suffixIcon: Icon(
-                        Icons.calendar_today,
-                        color: AppThemeShared.primaryColor,
-                      )),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: AppThemeShared.textFormField(
+                            context: context,
+                            labelText: "Start Date*",
+                            readonly: true,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            controller: startDateController,
+                            validator: Utility.nameValidator,
+                            onTap: () {
+                              selectStartDate(context);
+                            },
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: AppThemeShared.primaryColor,
+                            )),
+                      ),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: AppThemeShared.textFormField(
+                            context: context,
+                            labelText: "End Date*",
+                            readonly: true,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            controller: endDateController,
+                            validator: Utility.nameValidator,
+                            onTap: () {
+                              selectEndDate(context);
+                            },
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: AppThemeShared.primaryColor,
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: AppThemeShared.textFormField(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppThemeShared.sharedDropDown(
+                        value: noOfHalfs,
+                        context: context,
+                        widthPercent: 0.45,
+                        hint: "No of halfs",
+                        items: ["1", "2"],
+                        onChanged: (value) {
+                          setState(() {
+                            noOfHalfs = value!;
+                          });
+                        }),
+                    AppThemeShared.textFormField(
                       context: context,
-                      labelText: "End Date*",
-                      readonly: true,
+                      widthPercent: 0.45,
+                      labelText: "No of mins each half",
                       keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      controller: endDateController,
-                      validator: Utility.nameValidator,
-                      onTap: () {
-                        selectEndDate(context);
-                      },
-                      suffixIcon: Icon(
-                        Icons.calendar_today,
-                        color: AppThemeShared.primaryColor,
-                      )),
+                    )
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -133,7 +169,7 @@ class _AddTournamentState extends State<AddTournament> {
       child: Center(
         child: Container(
           height: 150,
-          width: MediaQuery.of(context).size.width * 0.85,
+          width: MediaQuery.of(context).size.width * 0.95,
           decoration: BoxDecoration(
             border: Border.all(
               color: AppThemeShared.primaryColor,

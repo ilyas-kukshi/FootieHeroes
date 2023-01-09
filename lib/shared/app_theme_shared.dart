@@ -200,8 +200,8 @@ class AppThemeShared {
       double? width = 200,
       double widthPercent = 0.85,
       bool widthPixel = false,
-      String hint = "",
-      String value = "",
+      String? hint,
+      String? value,
       Color hintColor = const Color(0xff439A97),
       Color borderColor = const Color(0xff439A97)}) {
     return Container(
@@ -209,16 +209,15 @@ class AppThemeShared {
       width:
           widthPixel ? width : MediaQuery.of(context).size.width * widthPercent,
       decoration: BoxDecoration(
-          border: Border.all(color: AppThemeShared.primaryColor, width: 2)),
+          border: Border.all(color: AppThemeShared.secondaryColor, width: 2)),
       child: DropdownButton(
           // dropdownColor: AppThemeShared.secondaryColor,
           hint: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              hint,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              hint!,
+              style:
+                  TextStyle(fontSize: 18, color: AppThemeShared.secondaryColor),
             ),
           ),
           underline: const Offstage(),
