@@ -25,6 +25,8 @@ mixin _$AddTeamModel {
   String get name => throw _privateConstructorUsedError;
   String get townName => throw _privateConstructorUsedError;
   String get tournamentId => throw _privateConstructorUsedError;
+  bool get isGrouped => throw _privateConstructorUsedError;
+  String? get groupName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +45,9 @@ abstract class $AddTeamModelCopyWith<$Res> {
       String? logoUri,
       String name,
       String townName,
-      String tournamentId});
+      String tournamentId,
+      bool isGrouped,
+      String? groupName});
 }
 
 /// @nodoc
@@ -64,6 +68,8 @@ class _$AddTeamModelCopyWithImpl<$Res, $Val extends AddTeamModel>
     Object? name = null,
     Object? townName = null,
     Object? tournamentId = null,
+    Object? isGrouped = null,
+    Object? groupName = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -86,6 +92,14 @@ class _$AddTeamModelCopyWithImpl<$Res, $Val extends AddTeamModel>
           ? _value.tournamentId
           : tournamentId // ignore: cast_nullable_to_non_nullable
               as String,
+      isGrouped: null == isGrouped
+          ? _value.isGrouped
+          : isGrouped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -103,7 +117,9 @@ abstract class _$$_AddTeamModelCopyWith<$Res>
       String? logoUri,
       String name,
       String townName,
-      String tournamentId});
+      String tournamentId,
+      bool isGrouped,
+      String? groupName});
 }
 
 /// @nodoc
@@ -122,6 +138,8 @@ class __$$_AddTeamModelCopyWithImpl<$Res>
     Object? name = null,
     Object? townName = null,
     Object? tournamentId = null,
+    Object? isGrouped = null,
+    Object? groupName = freezed,
   }) {
     return _then(_$_AddTeamModel(
       id: freezed == id
@@ -144,6 +162,14 @@ class __$$_AddTeamModelCopyWithImpl<$Res>
           ? _value.tournamentId
           : tournamentId // ignore: cast_nullable_to_non_nullable
               as String,
+      isGrouped: null == isGrouped
+          ? _value.isGrouped
+          : isGrouped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -156,7 +182,9 @@ class _$_AddTeamModel extends _AddTeamModel {
       this.logoUri,
       required this.name,
       required this.townName,
-      required this.tournamentId})
+      required this.tournamentId,
+      required this.isGrouped,
+      this.groupName})
       : super._();
 
   factory _$_AddTeamModel.fromJson(Map<String, dynamic> json) =>
@@ -172,10 +200,14 @@ class _$_AddTeamModel extends _AddTeamModel {
   final String townName;
   @override
   final String tournamentId;
+  @override
+  final bool isGrouped;
+  @override
+  final String? groupName;
 
   @override
   String toString() {
-    return 'AddTeamModel(id: $id, logoUri: $logoUri, name: $name, townName: $townName, tournamentId: $tournamentId)';
+    return 'AddTeamModel(id: $id, logoUri: $logoUri, name: $name, townName: $townName, tournamentId: $tournamentId, isGrouped: $isGrouped, groupName: $groupName)';
   }
 
   @override
@@ -189,13 +221,17 @@ class _$_AddTeamModel extends _AddTeamModel {
             (identical(other.townName, townName) ||
                 other.townName == townName) &&
             (identical(other.tournamentId, tournamentId) ||
-                other.tournamentId == tournamentId));
+                other.tournamentId == tournamentId) &&
+            (identical(other.isGrouped, isGrouped) ||
+                other.isGrouped == isGrouped) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, logoUri, name, townName, tournamentId);
+  int get hashCode => Object.hash(runtimeType, id, logoUri, name, townName,
+      tournamentId, isGrouped, groupName);
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +253,9 @@ abstract class _AddTeamModel extends AddTeamModel {
       final String? logoUri,
       required final String name,
       required final String townName,
-      required final String tournamentId}) = _$_AddTeamModel;
+      required final String tournamentId,
+      required final bool isGrouped,
+      final String? groupName}) = _$_AddTeamModel;
   _AddTeamModel._() : super._();
 
   factory _AddTeamModel.fromJson(Map<String, dynamic> json) =
@@ -233,6 +271,10 @@ abstract class _AddTeamModel extends AddTeamModel {
   String get townName;
   @override
   String get tournamentId;
+  @override
+  bool get isGrouped;
+  @override
+  String? get groupName;
   @override
   @JsonKey(ignore: true)
   _$$_AddTeamModelCopyWith<_$_AddTeamModel> get copyWith =>

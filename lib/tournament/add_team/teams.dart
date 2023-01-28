@@ -1,63 +1,64 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_bottom_sheet.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/tournament_dashboard/tournament_main.dart';
 
 // ignore: must_be_immutable
-class Teams extends StatefulWidget {
+class Teams extends ConsumerStatefulWidget {
   AddTournamentModel tournamentModel;
   bool organizer;
   Teams({super.key, required this.tournamentModel, required this.organizer});
 
   @override
-  State<Teams> createState() => _TeamsState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TeamsState();
 }
 
-class _TeamsState extends State<Teams> {
+class _TeamsState extends ConsumerState<Teams> {
+  // List<AddTeamModel> teams = [];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("Tournaments")
-              .doc(widget.tournamentModel.id)
-              .collection("Teams")
-              .snapshots(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return GridView.builder(
+    final teams =
+        ref.watch(currTournamentTeamsProvider(widget.tournamentModel));
+
+    return teams.when(
+      loading: () => const CircularProgressIndicator(),
+      error: (Object error, StackTrace stackTrace) {
+        return Text(error.toString());
+      },
+      data: (teams) {
+        return Scaffold(
+            body: Padding(
+                padding:
+                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                child: GridView.builder(
                   padding: const EdgeInsets.all(0),
-                  itemCount: snapshot.data.docs.length,
+                  itemCount: teams.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3, mainAxisExtent: 220),
                   itemBuilder: (context, index) {
-                    AddTeamModel teamModel =
-                        AddTeamModel.fromDocument(snapshot.data.docs[index]);
                     return InkWell(
                       onTap: () => Navigator.pushNamed(context, '/players',
-                          arguments: teamModel),
+                          arguments: teams[index]),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Card(
                           child: Column(
                             children: [
-                              logoWidget(teamModel),
+                              logoWidget(teams[index]),
                               const SizedBox(height: 10),
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Text(
-                                  teamModel.name,
+                                  teams[index].name,
                                   overflow: TextOverflow.visible,
                                   style: const TextStyle(
                                     fontSize: 18,
@@ -67,7 +68,7 @@ class _TeamsState extends State<Teams> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                teamModel.townName,
+                                teams[index].townName,
                                 overflow: TextOverflow.ellipsis,
                               )
                             ],
@@ -76,49 +77,40 @@ class _TeamsState extends State<Teams> {
                       ),
                     );
                   },
-                );
-              } else {
-                return const Text("No Teams yet, add Teams");
-              }
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-      ),
-      bottomNavigationBar: widget.organizer
-          ? AppThemeShared.sharedButton(
-              context: context,
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              buttonText: "Add Team",
-              onTap: () {
-                showModalBottomSheet(
+                )),
+            bottomNavigationBar: widget.organizer
+                ? AppThemeShared.sharedButton(
                     context: context,
-                    isScrollControlled: true,
-                    builder: (context) => AddTeamBottomSheet(
-                          tournamentModel: widget.tournamentModel,
-                        ),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12))));
-              })
-          : const Offstage(),
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    buttonText: "Add Team",
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => AddTeamBottomSheet(
+                                tournamentModel: widget.tournamentModel,
+                              ),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12))));
+                    })
+                : const Offstage());
+      },
     );
   }
 
-  removeTeam(String docId) async {
+  removeTeam(AddTeamModel removeTeam) async {
     DialogShared.doubleButtonDialog(context,
         "Are you sure you want to remove this team from the tournament.",
         () async {
       await FirebaseFirestore.instance
           .collection("Tournaments")
           .doc(widget.tournamentModel.id)
-          .collection("Teams")
-          .doc(docId)
-          .delete()
-          .then((value) {
+          .update({
+        "teams": FieldValue.arrayRemove([removeTeam.toJson()])
+      }).then((value) {
         Fluttertoast.showToast(msg: "Team Removed");
         Navigator.pop(context);
       }).onError((error, stackTrace) {
@@ -157,7 +149,7 @@ class _TeamsState extends State<Teams> {
           ? Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                onTap: (() => removeTeam(teamModel.id!)),
+                onTap: (() => removeTeam(teamModel)),
                 child: CircleAvatar(
                   backgroundColor: AppThemeShared.primaryColor,
                   child: const Padding(

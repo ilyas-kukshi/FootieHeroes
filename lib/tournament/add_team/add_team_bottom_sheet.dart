@@ -266,14 +266,17 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
     await FirebaseFirestore.instance
         .collection("Tournaments")
         .doc(widget.tournamentModel.id)
-        .collection("Teams")
-        .add(AddTeamModel(
+        .update({
+      "teams": FieldValue.arrayUnion([
+        AddTeamModel(
                 name: nameController.text,
                 townName: townController.text,
                 logoUri: logoUrl,
-                tournamentId: widget.tournamentModel.id!)
-            .toJson())
-        .then((value) {
+                tournamentId: widget.tournamentModel.id!,
+                isGrouped: false)
+            .toJson()
+      ])
+    }).then((value) {
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());

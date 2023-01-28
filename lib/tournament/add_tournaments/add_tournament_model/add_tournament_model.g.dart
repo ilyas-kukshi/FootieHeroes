@@ -17,6 +17,7 @@ _$_AddTournamentModel _$$_AddTournamentModelFromJson(
       endDate: DateTime.parse(json['endDate'] as String),
       logoUri: json['logoUri'] as String,
       bannerUri: json['bannerUri'] as String,
+      teams: json['teams'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$$_AddTournamentModelToJson(
@@ -29,4 +30,5 @@ Map<String, dynamic> _$$_AddTournamentModelToJson(
       'endDate': instance.endDate.toIso8601String(),
       'logoUri': instance.logoUri,
       'bannerUri': instance.bannerUri,
+      'teams': instance.teams,
     };

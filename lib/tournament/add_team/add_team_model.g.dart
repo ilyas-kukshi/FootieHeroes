@@ -13,6 +13,8 @@ _$_AddTeamModel _$$_AddTeamModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       townName: json['townName'] as String,
       tournamentId: json['tournamentId'] as String,
+      isGrouped: json['isGrouped'] as bool,
+      groupName: json['groupName'] as String?,
     );
 
 Map<String, dynamic> _$$_AddTeamModelToJson(_$_AddTeamModel instance) =>
@@ -22,4 +24,6 @@ Map<String, dynamic> _$$_AddTeamModelToJson(_$_AddTeamModel instance) =>
       'name': instance.name,
       'townName': instance.townName,
       'tournamentId': instance.tournamentId,
+      'isGrouped': instance.isGrouped,
+      'groupName': instance.groupName,
     };

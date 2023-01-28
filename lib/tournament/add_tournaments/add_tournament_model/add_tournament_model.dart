@@ -17,6 +17,7 @@ class AddTournamentModel with _$AddTournamentModel {
     required DateTime endDate,
     required String logoUri,
     required String bannerUri,
+    List? teams,
   }) = _AddTournamentModel;
 
   factory AddTournamentModel.fromJson(Map<String, dynamic> json) =>
