@@ -15,6 +15,8 @@ class AddTournamentModel with _$AddTournamentModel {
     required PlayerPersonalInfo organizer,
     required DateTime startDate,
     required DateTime endDate,
+    required int noOfHalfs,
+    required int minsEachHalf,
     required String logoUri,
     required String bannerUri,
     List? teams,

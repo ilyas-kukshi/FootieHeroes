@@ -25,6 +25,8 @@ mixin _$AddTournamentModel {
   PlayerPersonalInfo get organizer => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
+  int get noOfHalfs => throw _privateConstructorUsedError;
+  int get minsEachHalf => throw _privateConstructorUsedError;
   String get logoUri => throw _privateConstructorUsedError;
   String get bannerUri => throw _privateConstructorUsedError;
   List<dynamic>? get teams => throw _privateConstructorUsedError;
@@ -47,6 +49,8 @@ abstract class $AddTournamentModelCopyWith<$Res> {
       PlayerPersonalInfo organizer,
       DateTime startDate,
       DateTime endDate,
+      int noOfHalfs,
+      int minsEachHalf,
       String logoUri,
       String bannerUri,
       List<dynamic>? teams});
@@ -72,6 +76,8 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
     Object? organizer = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? noOfHalfs = null,
+    Object? minsEachHalf = null,
     Object? logoUri = null,
     Object? bannerUri = null,
     Object? teams = freezed,
@@ -97,6 +103,14 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      noOfHalfs: null == noOfHalfs
+          ? _value.noOfHalfs
+          : noOfHalfs // ignore: cast_nullable_to_non_nullable
+              as int,
+      minsEachHalf: null == minsEachHalf
+          ? _value.minsEachHalf
+          : minsEachHalf // ignore: cast_nullable_to_non_nullable
+              as int,
       logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
@@ -135,6 +149,8 @@ abstract class _$$_AddTournamentModelCopyWith<$Res>
       PlayerPersonalInfo organizer,
       DateTime startDate,
       DateTime endDate,
+      int noOfHalfs,
+      int minsEachHalf,
       String logoUri,
       String bannerUri,
       List<dynamic>? teams});
@@ -159,6 +175,8 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
     Object? organizer = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? noOfHalfs = null,
+    Object? minsEachHalf = null,
     Object? logoUri = null,
     Object? bannerUri = null,
     Object? teams = freezed,
@@ -184,6 +202,14 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      noOfHalfs: null == noOfHalfs
+          ? _value.noOfHalfs
+          : noOfHalfs // ignore: cast_nullable_to_non_nullable
+              as int,
+      minsEachHalf: null == minsEachHalf
+          ? _value.minsEachHalf
+          : minsEachHalf // ignore: cast_nullable_to_non_nullable
+              as int,
       logoUri: null == logoUri
           ? _value.logoUri
           : logoUri // ignore: cast_nullable_to_non_nullable
@@ -209,6 +235,8 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       required this.organizer,
       required this.startDate,
       required this.endDate,
+      required this.noOfHalfs,
+      required this.minsEachHalf,
       required this.logoUri,
       required this.bannerUri,
       final List<dynamic>? teams})
@@ -229,6 +257,10 @@ class _$_AddTournamentModel extends _AddTournamentModel {
   @override
   final DateTime endDate;
   @override
+  final int noOfHalfs;
+  @override
+  final int minsEachHalf;
+  @override
   final String logoUri;
   @override
   final String bannerUri;
@@ -244,7 +276,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
 
   @override
   String toString() {
-    return 'AddTournamentModel(id: $id, name: $name, organizer: $organizer, startDate: $startDate, endDate: $endDate, logoUri: $logoUri, bannerUri: $bannerUri, teams: $teams)';
+    return 'AddTournamentModel(id: $id, name: $name, organizer: $organizer, startDate: $startDate, endDate: $endDate, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, logoUri: $logoUri, bannerUri: $bannerUri, teams: $teams)';
   }
 
   @override
@@ -259,6 +291,10 @@ class _$_AddTournamentModel extends _AddTournamentModel {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.noOfHalfs, noOfHalfs) ||
+                other.noOfHalfs == noOfHalfs) &&
+            (identical(other.minsEachHalf, minsEachHalf) ||
+                other.minsEachHalf == minsEachHalf) &&
             (identical(other.logoUri, logoUri) || other.logoUri == logoUri) &&
             (identical(other.bannerUri, bannerUri) ||
                 other.bannerUri == bannerUri) &&
@@ -267,8 +303,18 @@ class _$_AddTournamentModel extends _AddTournamentModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, organizer, startDate,
-      endDate, logoUri, bannerUri, const DeepCollectionEquality().hash(_teams));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      organizer,
+      startDate,
+      endDate,
+      noOfHalfs,
+      minsEachHalf,
+      logoUri,
+      bannerUri,
+      const DeepCollectionEquality().hash(_teams));
 
   @JsonKey(ignore: true)
   @override
@@ -292,6 +338,8 @@ abstract class _AddTournamentModel extends AddTournamentModel {
       required final PlayerPersonalInfo organizer,
       required final DateTime startDate,
       required final DateTime endDate,
+      required final int noOfHalfs,
+      required final int minsEachHalf,
       required final String logoUri,
       required final String bannerUri,
       final List<dynamic>? teams}) = _$_AddTournamentModel;
@@ -310,6 +358,10 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   DateTime get startDate;
   @override
   DateTime get endDate;
+  @override
+  int get noOfHalfs;
+  @override
+  int get minsEachHalf;
   @override
   String get logoUri;
   @override

@@ -29,6 +29,7 @@ class _AddTournamentState extends State<AddTournament> {
   TextEditingController nameController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
+  TextEditingController minsEachHalfController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -44,7 +45,7 @@ class _AddTournamentState extends State<AddTournament> {
   CroppedFile? logoCropped;
   bool logoSelected = false;
 
-  String? noOfHalfs;
+  String noOfHalfs = "1";
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +88,7 @@ class _AddTournamentState extends State<AddTournament> {
                             textInputAction: TextInputAction.next,
                             controller: startDateController,
                             validator: Utility.nameValidator,
-                            onTap: () {
-                              selectStartDate(context);
-                            },
+                            onTap: () => selectStartDate(context),
                             suffixIcon: Icon(
                               Icons.calendar_today,
                               color: AppThemeShared.primaryColor,
@@ -129,7 +128,7 @@ class _AddTournamentState extends State<AddTournament> {
                         value: noOfHalfs,
                         context: context,
                         widthPercent: 0.45,
-                        hint: "No of halfs",
+                        labelText: "No of halfs",
                         items: ["1", "2"],
                         onChanged: (value) {
                           setState(() {
@@ -138,6 +137,7 @@ class _AddTournamentState extends State<AddTournament> {
                         }),
                     AppThemeShared.textFormField(
                       context: context,
+                      controller: minsEachHalfController,
                       widthPercent: 0.45,
                       labelText: "No of mins each half",
                       keyboardType: TextInputType.number,
@@ -373,7 +373,9 @@ class _AddTournamentState extends State<AddTournament> {
         startDate: startDate,
         endDate: endDate,
         bannerUri: bannerUri!,
-        logoUri: logoUri!);
+        logoUri: logoUri!,
+        minsEachHalf: int.parse(minsEachHalfController.text),
+        noOfHalfs: int.parse(noOfHalfs));
 
     await FirebaseFirestore.instance
         .collection("Tournaments")
@@ -397,11 +399,8 @@ class _AddTournamentState extends State<AddTournament> {
   }
 
   selectStartDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: startDate,
-        firstDate: calenderStartDate,
-        lastDate: DateTime(2025));
+    final DateTime? picked = await Utility().selectDate(context,
+        startDate.add(const Duration(days: 1)), startDate, DateTime(2025));
 
     if (picked != null && picked != startDate) {
       setState(() {
@@ -414,11 +413,8 @@ class _AddTournamentState extends State<AddTournament> {
 
   selectEndDate(BuildContext context) async {
     if (startDateController.text.isNotEmpty) {
-      final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: startDate.add(const Duration(days: 1)),
-          firstDate: startDate,
-          lastDate: DateTime(2025));
+      final DateTime? picked = await Utility().selectDate(context,
+          startDate.add(const Duration(days: 1)), startDate, DateTime(2025));
 
       if (picked != null && picked != endDate) {
         setState(() {

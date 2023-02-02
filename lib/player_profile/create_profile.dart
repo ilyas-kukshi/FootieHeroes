@@ -197,7 +197,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   const SizedBox(height: 20),
                   AppThemeShared.sharedDropDown(
                       value: gender,
-                      hint: "Gender*",
+                      labelText: "Gender*",
                       context: context,
                       items: genderList,
                       onChanged: (value) {
@@ -208,7 +208,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   const SizedBox(height: 20),
                   AppThemeShared.sharedDropDown(
                       value: position,
-                      hint: "Select Position*",
+                      labelText: "Select Position*",
                       context: context,
                       items: posList,
                       onChanged: (value) {
@@ -224,7 +224,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   const SizedBox(height: 20),
                   AppThemeShared.sharedDropDown(
                       value: role,
-                      hint: "Select Role*",
+                      labelText: "Select Role*",
                       context: context,
                       items: position == posList.elementAt(0)
                           ? defRoles
@@ -239,7 +239,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   const SizedBox(height: 20),
                   AppThemeShared.sharedDropDown(
                       value: prefFoot,
-                      hint: "Select Position*",
+                      labelText: "Select Position*",
                       context: context,
                       items: prefFootList,
                       onChanged: (value) {

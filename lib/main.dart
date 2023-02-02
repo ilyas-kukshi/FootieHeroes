@@ -9,7 +9,7 @@ import 'package:footie_heroes/dashboard/my_tournaments.dart';
 import 'package:footie_heroes/player_profile/create_profile.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
-import 'package:footie_heroes/tournament/add_tournaments/add_tournamen.dart';
+import 'package:footie_heroes/tournament/add_tournaments/add_tournament.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/matches/add_matches.dart';
 import 'package:footie_heroes/tournament/players/options_add_players.dart';
@@ -43,6 +43,9 @@ class MyApp extends StatelessWidget {
   Route routing(RouteSettings settings) {
     switch (settings.name) {
       //authentication
+      case '/signIn':
+        return PageTransition(
+            child: const SignIn(), type: PageTransitionType.leftToRight);
       case '/otp':
         return PageTransition(
             child: Otp(otpModel: settings.arguments as OtpModel),
@@ -81,14 +84,17 @@ class MyApp extends StatelessWidget {
             ),
             type: PageTransitionType.leftToRight);
       case '/optionsAddPlayers':
-        return PageTransition(    
+        return PageTransition(
             child: OptionsAddPlayers(
               teamModel: settings.arguments as AddTeamModel,
             ),
             type: PageTransitionType.leftToRight);
       case '/addMatches':
         return PageTransition(
-            child: const AddMatches(), type: PageTransitionType.leftToRight);
+            child: AddMatches(
+              tournamentModel: settings.arguments as AddTournamentModel,
+            ),
+            type: PageTransitionType.leftToRight);
       default:
         return PageTransition(
             child: const SignIn(), type: PageTransitionType.leftToRight);

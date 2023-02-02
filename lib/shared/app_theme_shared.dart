@@ -92,6 +92,7 @@ class AppThemeShared {
       bool autoFocus = false,
       bool readonly = false,
       bool expands = false,
+      bool enabled = false,
 
       //
       int? maxLines,
@@ -122,6 +123,7 @@ class AppThemeShared {
         autofocus: autoFocus,
         readOnly: readonly,
         expands: expands,
+        enabled: true,
         maxLines: maxLines,
         minLines: minLines,
         autovalidateMode: autovalidateMode,
@@ -133,6 +135,7 @@ class AppThemeShared {
         inputFormatters: inputFormatters,
         style: Theme.of(context).textTheme.headline3?.copyWith(fontSize: 18),
         decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
           hintStyle: Theme.of(context)
@@ -193,34 +196,58 @@ class AppThemeShared {
     );
   }
 
-  static sharedDropDown(
-      {required BuildContext context,
-      required List<String> items,
-      required void Function(String?) onChanged,
-      double? width = 200,
-      double widthPercent = 0.85,
-      bool widthPixel = false,
-      String? hint,
-      String? value,
-      Color hintColor = const Color(0xff439A97),
-      Color borderColor = const Color(0xff439A97)}) {
+  static sharedDropDown({
+    required BuildContext context,
+    required List<String> items,
+    required void Function(String?) onChanged,
+    double? width = 200,
+    double widthPercent = 0.85,
+    bool widthPixel = false,
+    Widget? hint,
+    String? value,
+    String? labelText,
+    Color hintColor = const Color(0xff439A97),
+    Color borderColor = const Color(0xff439A97),
+
+    //
+    double borderRadius = 0,
+    double enabledBorderWidth = 2,
+    //
+    Color enabledBorderColor = Colors.cyan,
+    Color focusedBorderColor = const Color(0xff439A97),
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       width:
           widthPixel ? width : MediaQuery.of(context).size.width * widthPercent,
-      decoration: BoxDecoration(
-          border: Border.all(color: AppThemeShared.secondaryColor, width: 2)),
-      child: DropdownButton(
-          // dropdownColor: AppThemeShared.secondaryColor,
-          hint: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              hint!,
-              style:
-                  TextStyle(fontSize: 18, color: AppThemeShared.secondaryColor),
-            ),
+      // decoration: BoxDecoration(
+      //     border: Border.all(color: AppThemeShared.secondaryColor, width: 2)),
+      child: DropdownButtonFormField(
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle: Theme.of(context)
+                .textTheme
+                .headline3
+                ?.copyWith(fontSize: 16, color: AppThemeShared.primaryColor),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                    color: AppThemeShared.secondaryColor,
+                    width: enabledBorderWidth)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                    color: AppThemeShared.secondaryColor,
+                    width: enabledBorderWidth)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                    color: focusedBorderColor, width: enabledBorderWidth)),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: const BorderSide(color: Colors.black)),
           ),
-          underline: const Offstage(),
+          hint: hint,
           isExpanded: true,
           value: value,
           items: items.map((String item) {

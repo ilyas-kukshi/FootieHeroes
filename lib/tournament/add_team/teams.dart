@@ -60,6 +60,7 @@ class _TeamsState extends ConsumerState<Teams> {
                                 child: Text(
                                   teams[index].name,
                                   overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,

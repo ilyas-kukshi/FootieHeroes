@@ -108,9 +108,12 @@ final currTournamentTeamsProvider =
     return stream.map((snapshot) {
       List<AddTeamModel> teams = [];
 
-      for (var team in AddTournamentModel.fromDocument(snapshot).teams!) {
-        teams.add(AddTeamModel.fromJson(team));
+      if (AddTournamentModel.fromDocument(snapshot).teams != null) {
+        for (var team in AddTournamentModel.fromDocument(snapshot).teams!) {
+          teams.add(AddTeamModel.fromJson(team));
+        }
       }
+
       return teams;
     });
   },

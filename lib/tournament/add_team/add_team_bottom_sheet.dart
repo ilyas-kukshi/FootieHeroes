@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
@@ -253,7 +254,7 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
 
     fileUpload = await FirebaseStorage.instance
         .ref()
-        .child("/Tournaments/Teams/Logo")
+        .child("/Tournaments/${nameController.text}/Logo")
         .putFile(File(imagePath!));
 
     if (fileUpload.state == TaskState.success) {
@@ -263,6 +264,7 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
   }
 
   saveTeam(String? logoUrl) async {
+    DialogShared.loadingDialog(context, "Adding Team");
     await FirebaseFirestore.instance
         .collection("Tournaments")
         .doc(widget.tournamentModel.id)
@@ -277,6 +279,7 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
             .toJson()
       ])
     }).then((value) {
+      Navigator.pop(context);
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());

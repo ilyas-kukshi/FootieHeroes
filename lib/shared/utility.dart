@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
@@ -125,6 +126,15 @@ class Utility {
   static String getInitials(String fullName) => fullName.isNotEmpty
       ? fullName.trim().split(' ').map((l) => l[0]).take(2).join().toUpperCase()
       : '';
+
+  Future<DateTime?> selectDate(BuildContext context, DateTime initalDate,
+      DateTime firstDate, DateTime lastDate) async {
+    return await showDatePicker(
+        context: context,
+        initialDate: initalDate,
+        firstDate: firstDate,
+        lastDate: lastDate);
+  }
 
 ////SharedPreferences
   setUserProfileSP(PlayerPersonalInfo personalInfo) async {
