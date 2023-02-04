@@ -24,6 +24,7 @@ class AddMatches extends ConsumerStatefulWidget {
 }
 
 class _AddMatchesState extends ConsumerState<AddMatches> {
+  List<AddTeamModel> teams = [];
   Queue<AddTeamModel> selectedTeams = Queue<AddTeamModel>();
 
   GlobalKey<FormState> formKey = GlobalKey();
@@ -55,15 +56,16 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
 
   @override
   Widget build(BuildContext context) {
-    final teams =
-        ref.watch(currTournamentTeamsProvider(widget.tournamentModel));
+    final tournamentDoc =
+        ref.watch(currTournamentProvider(widget.tournamentModel));
 
-    return teams.when(
+    return tournamentDoc.when(
       loading: () => const CircularProgressIndicator(),
       error: (Object error, StackTrace stackTrace) {
         return Text(error.toString());
       },
-      data: (teams) {
+      data: (tournamentModel) {
+        teams = Utility().tournamentDocToTeamsList(tournamentModel);
         return Scaffold(
           appBar: AppThemeShared.appBar(
               title: "Schedule Matches", context: context),
@@ -279,7 +281,9 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
 
   addMatch() async {
     AddMatchModel matchModel = AddMatchModel(
+        tournamentId: widget.tournamentModel.id!,
         matchType: matchType,
+        matchStatus: "Upcoming",
         homeTeam: selectedTeams.first,
         awayTeam: selectedTeams.last,
         noOfHalfs: int.parse(noOfHalfs),
@@ -297,6 +301,7 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
         .add(matchModel.toJson())
         .then((value) {
       Fluttertoast.showToast(msg: value.toString());
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());
     });

@@ -22,19 +22,20 @@ class Teams extends ConsumerStatefulWidget {
 }
 
 class _TeamsState extends ConsumerState<Teams> {
-  // List<AddTeamModel> teams = [];
+  List<AddTeamModel> teams = [];
 
   @override
   Widget build(BuildContext context) {
-    final teams =
-        ref.watch(currTournamentTeamsProvider(widget.tournamentModel));
+    final tournamentDoc =
+        ref.watch(currTournamentProvider(widget.tournamentModel));
 
-    return teams.when(
+    return tournamentDoc.when(
       loading: () => const CircularProgressIndicator(),
       error: (Object error, StackTrace stackTrace) {
         return Text(error.toString());
       },
-      data: (teams) {
+      data: (tournamentModel) {
+        teams = Utility().tournamentDocToTeamsList(tournamentModel);
         return Scaffold(
             body: Padding(
                 padding:

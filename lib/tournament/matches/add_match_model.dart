@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,7 +12,9 @@ abstract class AddMatchModel implements _$AddMatchModel {
 
   factory AddMatchModel({
     String? id,
+    required String tournamentId,
     required String matchType,
+    required String matchStatus,
     required AddTeamModel homeTeam,
     required AddTeamModel awayTeam,
     required int noOfHalfs,

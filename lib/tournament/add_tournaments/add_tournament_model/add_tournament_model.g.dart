@@ -19,6 +19,7 @@ _$_AddTournamentModel _$$_AddTournamentModelFromJson(
       minsEachHalf: json['minsEachHalf'] as int,
       logoUri: json['logoUri'] as String,
       bannerUri: json['bannerUri'] as String,
+      scorers: json['scorers'] as List<dynamic>,
       teams: json['teams'] as List<dynamic>?,
     );
 
@@ -34,5 +35,6 @@ Map<String, dynamic> _$$_AddTournamentModelToJson(
       'minsEachHalf': instance.minsEachHalf,
       'logoUri': instance.logoUri,
       'bannerUri': instance.bannerUri,
+      'scorers': instance.scorers,
       'teams': instance.teams,
     };

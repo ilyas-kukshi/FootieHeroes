@@ -375,7 +375,8 @@ class _AddTournamentState extends State<AddTournament> {
         bannerUri: bannerUri!,
         logoUri: logoUri!,
         minsEachHalf: int.parse(minsEachHalfController.text),
-        noOfHalfs: int.parse(noOfHalfs));
+        noOfHalfs: int.parse(noOfHalfs),
+        scorers: [widget.playerPersonalInfo.id]);
 
     await FirebaseFirestore.instance
         .collection("Tournaments")

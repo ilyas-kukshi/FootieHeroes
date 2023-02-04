@@ -11,6 +11,8 @@ import 'package:footie_heroes/player_profile/player_personal_info_model/player_p
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/match_dashboard/match_main.dart';
+import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/matches/add_matches.dart';
 import 'package:footie_heroes/tournament/players/options_add_players.dart';
 import 'package:footie_heroes/tournament/players/players.dart';
@@ -95,6 +97,13 @@ class MyApp extends StatelessWidget {
               tournamentModel: settings.arguments as AddTournamentModel,
             ),
             type: PageTransitionType.leftToRight);
+      case '/matchMain':
+        return PageTransition(
+            child: MatchMain(
+              matchModel: settings.arguments as AddMatchModel,
+            ),
+            type: PageTransitionType.leftToRight);
+
       default:
         return PageTransition(
             child: const SignIn(), type: PageTransitionType.leftToRight);

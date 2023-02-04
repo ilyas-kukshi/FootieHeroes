@@ -7,6 +7,7 @@ import 'package:footie_heroes/tournament/about.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_team/teams.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/matches/matches.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_app_bar_tournament_main.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
@@ -88,17 +89,8 @@ class _TournamentMainState extends State<TournamentMain>
   }
 }
 
-class TournamentTeamsState extends StateNotifier<List<AddTeamModel>> {
-  final AddTournamentModel tournamentModel;
-  TournamentTeamsState(this.tournamentModel) : super(<AddTeamModel>[]) {
-    getTeams();
-  }
-
-  getTeams() {}
-}
-
-final currTournamentTeamsProvider =
-    StreamProvider.autoDispose.family<List<AddTeamModel>, AddTournamentModel>(
+final currTournamentProvider =
+    StreamProvider.autoDispose.family<AddTournamentModel, AddTournamentModel>(
   (ref, arg) {
     final stream = FirebaseFirestore.instance
         .collection("Tournaments")
@@ -106,18 +98,33 @@ final currTournamentTeamsProvider =
         .snapshots();
 
     return stream.map((snapshot) {
-      List<AddTeamModel> teams = [];
-
-      if (AddTournamentModel.fromDocument(snapshot).teams != null) {
-        for (var team in AddTournamentModel.fromDocument(snapshot).teams!) {
-          teams.add(AddTeamModel.fromJson(team));
-        }
-      }
-
-      return teams;
+      return AddTournamentModel.fromDocument(snapshot);
     });
   },
 );
+
+final currTournamentMatchesProvider =
+    StreamProvider.autoDispose.family<List<AddMatchModel>, AddTournamentModel>(
+  (ref, arg) {
+    final stream = FirebaseFirestore.instance
+        .collection("Tournaments")
+        .doc(arg.id)
+        .collection("Matches")
+        .orderBy("matchDate")
+        .snapshots();
+
+    return stream.map((querySnap) {
+      List<AddMatchModel> matches = [];
+
+      for (var element in querySnap.docs) {
+        matches.add(AddMatchModel.fromDocument(element));
+      }
+      return matches;
+    });
+  },
+);
+
+
 
 // final currTournamentTeamsProvider =
 //     StateProvider.autoDispose.family<List<AddTeamModel>, AddTournamentModel>(

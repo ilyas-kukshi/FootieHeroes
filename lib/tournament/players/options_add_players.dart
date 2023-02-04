@@ -22,8 +22,6 @@ class OptionsAddPlayers extends StatefulWidget {
 }
 
 class _OptionsAddPlayersState extends State<OptionsAddPlayers> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

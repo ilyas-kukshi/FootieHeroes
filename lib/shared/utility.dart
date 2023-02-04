@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
@@ -134,6 +133,18 @@ class Utility {
         initialDate: initalDate,
         firstDate: firstDate,
         lastDate: lastDate);
+  }
+
+  List<AddTeamModel> tournamentDocToTeamsList(
+      AddTournamentModel tournamentModel) {
+    List<AddTeamModel> teams = [];
+
+    if (tournamentModel.teams != null) {
+      for (var element in tournamentModel.teams!) {
+        teams.add(AddTeamModel.fromJson(element));
+      }
+    }
+    return teams;
   }
 
 ////SharedPreferences

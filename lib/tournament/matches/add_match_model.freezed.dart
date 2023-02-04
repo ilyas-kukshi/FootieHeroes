@@ -21,7 +21,9 @@ AddMatchModel _$AddMatchModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AddMatchModel {
   String? get id => throw _privateConstructorUsedError;
+  String get tournamentId => throw _privateConstructorUsedError;
   String get matchType => throw _privateConstructorUsedError;
+  String get matchStatus => throw _privateConstructorUsedError;
   AddTeamModel get homeTeam => throw _privateConstructorUsedError;
   AddTeamModel get awayTeam => throw _privateConstructorUsedError;
   int get noOfHalfs => throw _privateConstructorUsedError;
@@ -45,7 +47,9 @@ abstract class $AddMatchModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      String tournamentId,
       String matchType,
+      String matchStatus,
       AddTeamModel homeTeam,
       AddTeamModel awayTeam,
       int noOfHalfs,
@@ -73,7 +77,9 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? tournamentId = null,
     Object? matchType = null,
+    Object? matchStatus = null,
     Object? homeTeam = null,
     Object? awayTeam = null,
     Object? noOfHalfs = null,
@@ -88,9 +94,17 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      tournamentId: null == tournamentId
+          ? _value.tournamentId
+          : tournamentId // ignore: cast_nullable_to_non_nullable
+              as String,
       matchType: null == matchType
           ? _value.matchType
           : matchType // ignore: cast_nullable_to_non_nullable
+              as String,
+      matchStatus: null == matchStatus
+          ? _value.matchStatus
+          : matchStatus // ignore: cast_nullable_to_non_nullable
               as String,
       homeTeam: null == homeTeam
           ? _value.homeTeam
@@ -154,7 +168,9 @@ abstract class _$$_AddMatchModelCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
+      String tournamentId,
       String matchType,
+      String matchStatus,
       AddTeamModel homeTeam,
       AddTeamModel awayTeam,
       int noOfHalfs,
@@ -182,7 +198,9 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? tournamentId = null,
     Object? matchType = null,
+    Object? matchStatus = null,
     Object? homeTeam = null,
     Object? awayTeam = null,
     Object? noOfHalfs = null,
@@ -197,9 +215,17 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      tournamentId: null == tournamentId
+          ? _value.tournamentId
+          : tournamentId // ignore: cast_nullable_to_non_nullable
+              as String,
       matchType: null == matchType
           ? _value.matchType
           : matchType // ignore: cast_nullable_to_non_nullable
+              as String,
+      matchStatus: null == matchStatus
+          ? _value.matchStatus
+          : matchStatus // ignore: cast_nullable_to_non_nullable
               as String,
       homeTeam: null == homeTeam
           ? _value.homeTeam
@@ -242,7 +268,9 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
 class _$_AddMatchModel extends _AddMatchModel {
   _$_AddMatchModel(
       {this.id,
+      required this.tournamentId,
       required this.matchType,
+      required this.matchStatus,
       required this.homeTeam,
       required this.awayTeam,
       required this.noOfHalfs,
@@ -259,7 +287,11 @@ class _$_AddMatchModel extends _AddMatchModel {
   @override
   final String? id;
   @override
+  final String tournamentId;
+  @override
   final String matchType;
+  @override
+  final String matchStatus;
   @override
   final AddTeamModel homeTeam;
   @override
@@ -279,7 +311,7 @@ class _$_AddMatchModel extends _AddMatchModel {
 
   @override
   String toString() {
-    return 'AddMatchModel(id: $id, matchType: $matchType, homeTeam: $homeTeam, awayTeam: $awayTeam, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate)';
+    return 'AddMatchModel(id: $id, tournamentId: $tournamentId, matchType: $matchType, matchStatus: $matchStatus, homeTeam: $homeTeam, awayTeam: $awayTeam, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate)';
   }
 
   @override
@@ -288,8 +320,12 @@ class _$_AddMatchModel extends _AddMatchModel {
         (other.runtimeType == runtimeType &&
             other is _$_AddMatchModel &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.tournamentId, tournamentId) ||
+                other.tournamentId == tournamentId) &&
             (identical(other.matchType, matchType) ||
                 other.matchType == matchType) &&
+            (identical(other.matchStatus, matchStatus) ||
+                other.matchStatus == matchStatus) &&
             (identical(other.homeTeam, homeTeam) ||
                 other.homeTeam == homeTeam) &&
             (identical(other.awayTeam, awayTeam) ||
@@ -313,7 +349,9 @@ class _$_AddMatchModel extends _AddMatchModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      tournamentId,
       matchType,
+      matchStatus,
       homeTeam,
       awayTeam,
       noOfHalfs,
@@ -340,7 +378,9 @@ class _$_AddMatchModel extends _AddMatchModel {
 abstract class _AddMatchModel extends AddMatchModel {
   factory _AddMatchModel(
       {final String? id,
+      required final String tournamentId,
       required final String matchType,
+      required final String matchStatus,
       required final AddTeamModel homeTeam,
       required final AddTeamModel awayTeam,
       required final int noOfHalfs,
@@ -357,7 +397,11 @@ abstract class _AddMatchModel extends AddMatchModel {
   @override
   String? get id;
   @override
+  String get tournamentId;
+  @override
   String get matchType;
+  @override
+  String get matchStatus;
   @override
   AddTeamModel get homeTeam;
   @override

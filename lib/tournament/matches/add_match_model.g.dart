@@ -9,7 +9,9 @@ part of 'add_match_model.dart';
 _$_AddMatchModel _$$_AddMatchModelFromJson(Map<String, dynamic> json) =>
     _$_AddMatchModel(
       id: json['id'] as String?,
+      tournamentId: json['tournamentId'] as String,
       matchType: json['matchType'] as String,
+      matchStatus: json['matchStatus'] as String,
       homeTeam: AddTeamModel.fromJson(json['homeTeam'] as Map<String, dynamic>),
       awayTeam: AddTeamModel.fromJson(json['awayTeam'] as Map<String, dynamic>),
       noOfHalfs: json['noOfHalfs'] as int,
@@ -23,7 +25,9 @@ _$_AddMatchModel _$$_AddMatchModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_AddMatchModelToJson(_$_AddMatchModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'tournamentId': instance.tournamentId,
       'matchType': instance.matchType,
+      'matchStatus': instance.matchStatus,
       'homeTeam': instance.homeTeam.toJson(),
       'awayTeam': instance.awayTeam.toJson(),
       'noOfHalfs': instance.noOfHalfs,

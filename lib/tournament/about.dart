@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class About extends StatefulWidget {
   AddTournamentModel tournamentModel;
   About({Key? key, required this.tournamentModel}) : super(key: key);

@@ -19,6 +19,7 @@ class AddTournamentModel with _$AddTournamentModel {
     required int minsEachHalf,
     required String logoUri,
     required String bannerUri,
+    required List scorers,
     List? teams,
   }) = _AddTournamentModel;
 
