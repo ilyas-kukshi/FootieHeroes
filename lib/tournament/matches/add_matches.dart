@@ -24,7 +24,6 @@ class AddMatches extends ConsumerStatefulWidget {
 }
 
 class _AddMatchesState extends ConsumerState<AddMatches> {
-  List<AddTeamModel> teams = [];
   Queue<AddTeamModel> selectedTeams = Queue<AddTeamModel>();
 
   GlobalKey<FormState> formKey = GlobalKey();
@@ -57,15 +56,14 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
   @override
   Widget build(BuildContext context) {
     final tournamentDoc =
-        ref.watch(currTournamentProvider(widget.tournamentModel));
+        ref.watch(currTournamentTeamsProvider(widget.tournamentModel));
 
     return tournamentDoc.when(
       loading: () => const CircularProgressIndicator(),
       error: (Object error, StackTrace stackTrace) {
         return Text(error.toString());
       },
-      data: (tournamentModel) {
-        teams = Utility().tournamentDocToTeamsList(tournamentModel);
+      data: (teams) {
         return Scaffold(
           appBar: AppThemeShared.appBar(
               title: "Schedule Matches", context: context),
@@ -259,6 +257,7 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
@@ -284,8 +283,8 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
         tournamentId: widget.tournamentModel.id!,
         matchType: matchType,
         matchStatus: "Upcoming",
-        homeTeam: selectedTeams.first,
-        awayTeam: selectedTeams.last,
+        homeTeamId: selectedTeams.first.id!,
+        awayTeamId: selectedTeams.last.id!,
         noOfHalfs: int.parse(noOfHalfs),
         minsEachHalf: int.parse(minsEachHalfController.text),
         startingPlayers: int.parse(startingPlayers),
@@ -295,8 +294,6 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
             startTime!.hour, startTime!.minute));
 
     await FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(widget.tournamentModel.id)
         .collection("Matches")
         .add(matchModel.toJson())
         .then((value) {

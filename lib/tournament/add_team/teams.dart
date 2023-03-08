@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,20 +23,19 @@ class Teams extends ConsumerStatefulWidget {
 }
 
 class _TeamsState extends ConsumerState<Teams> {
-  List<AddTeamModel> teams = [];
-
   @override
   Widget build(BuildContext context) {
-    final tournamentDoc =
-        ref.watch(currTournamentProvider(widget.tournamentModel));
+    final allTeams =
+        ref.watch(currTournamentTeamsProvider(widget.tournamentModel));
+    final isOrganizer =
+        ref.read(isOrganizerProvider(FirebaseAuth.instance.currentUser!.uid));
 
-    return tournamentDoc.when(
+    return allTeams.when(
       loading: () => const CircularProgressIndicator(),
       error: (Object error, StackTrace stackTrace) {
         return Text(error.toString());
       },
-      data: (tournamentModel) {
-        teams = Utility().tournamentDocToTeamsList(tournamentModel);
+      data: (teams) {
         return Scaffold(
             body: Padding(
                 padding:
@@ -80,25 +80,31 @@ class _TeamsState extends ConsumerState<Teams> {
                     );
                   },
                 )),
-            bottomNavigationBar: widget.organizer
-                ? AppThemeShared.sharedButton(
-                    context: context,
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    buttonText: "Add Team",
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (context) => AddTeamBottomSheet(
-                                tournamentModel: widget.tournamentModel,
-                              ),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12))));
-                    })
-                : const Offstage());
+            bottomNavigationBar: isOrganizer.when(
+              data: (data) {
+                return data
+                    ? AppThemeShared.sharedButton(
+                        context: context,
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        buttonText: "Add Team",
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => AddTeamBottomSheet(
+                                    tournamentModel: widget.tournamentModel,
+                                  ),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12))));
+                        })
+                    : const Offstage();
+              },
+              error: (error, stackTrace) => Text(error.toString()),
+              loading: () => const CircularProgressIndicator(),
+            ));
       },
     );
   }
@@ -108,10 +114,10 @@ class _TeamsState extends ConsumerState<Teams> {
         "Are you sure you want to remove this team from the tournament.",
         () async {
       await FirebaseFirestore.instance
-          .collection("Tournaments")
-          .doc(widget.tournamentModel.id)
+          .collection("Teams")
+          .doc(removeTeam.id)
           .update({
-        "teams": FieldValue.arrayRemove([removeTeam.toJson()])
+        "tournamentId": FieldValue.arrayRemove([widget.tournamentModel.id])
       }).then((value) {
         Fluttertoast.showToast(msg: "Team Removed");
         Navigator.pop(context);

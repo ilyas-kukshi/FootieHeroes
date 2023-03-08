@@ -11,7 +11,6 @@ import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 
-
 class Otp extends StatefulWidget {
   final OtpModel otpModel;
   const Otp({Key? key, required this.otpModel}) : super(key: key);

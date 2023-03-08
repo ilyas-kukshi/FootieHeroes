@@ -5,10 +5,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
-import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -66,7 +64,7 @@ class _OptionsAddPlayersState extends State<OptionsAddPlayers> {
             .get()
             .then((value) {
           if (value.size > 0) {
-            addPlayer(value.docs.first);
+            addPlayer(value.docs.first.id);
           } else {
             Fluttertoast.showToast(msg: "Ask user to create an account.");
           }
@@ -82,18 +80,13 @@ class _OptionsAddPlayersState extends State<OptionsAddPlayers> {
     }
   }
 
-  addPlayer(DocumentSnapshot documentSnapshot) async {
-    PlayerPersonalInfo playerInfo =
-        PlayerPersonalInfo.fromDocument(documentSnapshot);
+  addPlayer(String id) async {
     await FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(widget.teamModel.tournamentId)
-        .collection("Players")
-        .doc(playerInfo.id)
-        .set(PlayersTournamentModel(
-                teamModel: widget.teamModel, playerPersonalInfo: playerInfo)
-            .toJson())
-        .then((value) {
+        .collection("Teams")
+        .doc(widget.teamModel.id)
+        .update({
+      "playersId": FieldValue.arrayUnion([id])
+    }).then((value) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Player Added");
     }).onError((error, stackTrace) {

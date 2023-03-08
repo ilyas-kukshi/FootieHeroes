@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
@@ -113,6 +114,8 @@ class _MyTournamentsState extends State<MyTournaments> {
     List<AddTournamentModel> tournament = [];
     await FirebaseFirestore.instance
         .collection("Tournaments")
+        .where("followersId",
+            arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
       for (var element in value.docs) {

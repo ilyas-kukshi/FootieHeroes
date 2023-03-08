@@ -47,21 +47,23 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
                 title: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: collapsed ? 8 : 0,
+                        left: collapsed ? 16 : 0,
                         top: collapsed ? 8 : kToolbarHeight),
                     child: SafeArea(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           collapsed
-                              ? homeTeamRow(match)
-                              : homeTeamColumn(match),
+                              ? homeTeamRow(widget.matchModel)
+                              : homeTeamColumn(widget.matchModel),
                           match.matchStatus == MatchStatus.Upcoming.name
-                              ? timeAndDateColumn(match)
+                              ? timeAndDateColumn(widget.matchModel)
                               : match.matchStatus == MatchStatus.Live.name
                                   ? Container()
                                   : const Offstage(),
-                          collapsed ? awayTeamRow(match) : awayTeamColumn(match)
+                          collapsed
+                              ? awayTeamRow(widget.matchModel)
+                              : awayTeamColumn(widget.matchModel)
                         ],
                       ),
                     ),
@@ -102,12 +104,12 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        logoWidget(match.awayTeam),
+        logoWidget(widget.matchModel.awayTeamModel!),
         const SizedBox(height: 8),
         collapsed
             ? const Offstage()
             : Text(
-                match.awayTeam.name,
+                match.awayTeamModel!.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     fontSize: 12,
@@ -121,10 +123,10 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
   Row awayTeamRow(AddMatchModel match) {
     return Row(
       children: [
-        logoWidget(match.awayTeam),
+        logoWidget(match.awayTeamModel!),
         const SizedBox(width: 6),
         Text(
-          match.awayTeam.name,
+          match.awayTeamModel!.name,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
               fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
@@ -137,12 +139,12 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        logoWidget(match.homeTeam),
+        logoWidget(match.homeTeamModel!),
         const SizedBox(height: 8),
         collapsed
             ? const Offstage()
             : Text(
-                match.homeTeam.name,
+                match.homeTeamModel!.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     fontSize: 12,
@@ -156,10 +158,10 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
   Row homeTeamRow(AddMatchModel match) {
     return Row(
       children: [
-        logoWidget(match.homeTeam),
+        logoWidget(match.homeTeamModel!),
         const SizedBox(width: 6),
         Text(
-          match.homeTeam.name,
+          match.homeTeamModel!.name,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
               fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),

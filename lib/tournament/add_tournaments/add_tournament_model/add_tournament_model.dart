@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_tournament_model.freezed.dart';
@@ -12,7 +11,7 @@ class AddTournamentModel with _$AddTournamentModel {
   factory AddTournamentModel({
     String? id,
     required String name,
-    required PlayerPersonalInfo organizer,
+    required String organizerId,
     required DateTime startDate,
     required DateTime endDate,
     required int noOfHalfs,
@@ -20,7 +19,8 @@ class AddTournamentModel with _$AddTournamentModel {
     required String logoUri,
     required String bannerUri,
     required List scorers,
-    List? teams,
+    required List<String> followersId,
+    List<String>? teams,
   }) = _AddTournamentModel;
 
   factory AddTournamentModel.fromJson(Map<String, dynamic> json) =>

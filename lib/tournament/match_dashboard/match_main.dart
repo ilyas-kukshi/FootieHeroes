@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,9 +6,9 @@ import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
+import 'package:footie_heroes/tournament/match_dashboard/line_ups/display_lineups.dart';
 import 'package:footie_heroes/tournament/match_dashboard/sliver_app_bar_match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
-import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
 
 // ignore: must_be_immutable
@@ -24,91 +23,133 @@ class MatchMain extends ConsumerStatefulWidget {
 class _MatchMainState extends ConsumerState<MatchMain>
     with TickerProviderStateMixin {
   late TabController tabController;
-
+  List<Widget> matchNotStartedTabs = [];
+  List<Widget> matchNotStartedViews = [];
+  List<Widget> lineupAnnouncedTabs = [];
+  List<Widget> lineupAnnouncedViews = [];
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(
+        length: widget.matchModel.awayLineup == null ? 2 : 3, vsync: this);
+    matchNotStartedTabs = const [
+      Tab(
+        text: "Squads",
+        height: 50,
+      ),
+      Tab(
+        text: "About",
+        height: 50,
+      ),
+    ];
+    matchNotStartedViews = [
+      DisplaySquads(matchModel: widget.matchModel),
+      Container()
+    ];
+    lineupAnnouncedTabs = const [
+      Tab(
+        text: "Squads",
+        height: 50,
+      ),
+      Tab(
+        text: "Lineups",
+      ),
+      Tab(
+        text: "About",
+        height: 50,
+      ),
+    ];
+    lineupAnnouncedViews = [
+      DisplaySquads(matchModel: widget.matchModel),
+      DisplayLineUps(matchModel: widget.matchModel),
+      Container()
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         body: NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          SliverAppBarMatchMain(matchModel: widget.matchModel),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: SliverPersistentHeaderDelegateTournamentMain(
-              color: AppThemeShared.primaryColor,
-              tabBar: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  controller: tabController,
-                  tabs: const [
-                    Tab(
-                      text: "Squads",
-                      height: 50,
-                    ),
-
-                    
-                    Text("About"),
-                  ]),
-            ),
-          ),
-        ];
-      },
-      body: TabBarView(controller: tabController, children: [
-        DisplaySquads(matchModel: widget.matchModel),
-        Container()
-      ]),
-
-      // bottomNavigationBar: ,
-    ));
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBarMatchMain(matchModel: widget.matchModel),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverPersistentHeaderDelegateTournamentMain(
+                  color: AppThemeShared.primaryColor,
+                  tabBar: TabBar(
+                      // isScrollable: true,
+                      indicatorColor: Colors.white,
+                      controller: tabController,
+                      tabs: widget.matchModel.awayLineup == null
+                          ? matchNotStartedTabs
+                          : lineupAnnouncedTabs),
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+              controller: tabController,
+              children: widget.matchModel.awayLineup == null
+                  ? matchNotStartedViews
+                  : lineupAnnouncedViews),
+        ),
+      ),
+    );
   }
 }
 
-final currHomeTeamPlayersProvider = StreamProvider.autoDispose
-    .family<List<PlayersTournamentModel>, AddTeamModel>(
-  (ref, arg) {
-    final stream = FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(arg.tournamentId)
-        .collection("Players")
-        .where("teamModel", isEqualTo: arg.toJson())
-        .snapshots();
+final currHomeTeamPlayersProvider =
+    FutureProvider.autoDispose.family<List<PlayerPersonalInfo>, AddTeamModel>(
+  (ref, arg) async {
+    List<PlayerPersonalInfo> players = [];
+    await FirebaseFirestore.instance
+        .collection("Teams")
+        .doc(arg.id)
+        .get()
+        .then((value) async {
+      AddTeamModel team = AddTeamModel.fromDocument(value);
 
-    return stream.map((event) {
-      List<PlayersTournamentModel> homeTeamPlayers = [];
-      if (event.size > 0) {
-        for (var element in event.docs) {
-          homeTeamPlayers.add(PlayersTournamentModel.fromDocument(element));
+      if (team.playersId != null) {
+        for (var id in team.playersId!) {
+          players.add(await Utility().getPlayerById(id));
         }
       }
-      return homeTeamPlayers;
     });
+
+    return players;
   },
 );
-final currAwayTeamPlayersProvider = StreamProvider.autoDispose
-    .family<List<PlayersTournamentModel>, AddTeamModel>(
-  (ref, arg) {
-    final stream = FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(arg.tournamentId)
-        .collection("Players")
-        .where("teamModel", isEqualTo: arg.toJson())
-        .snapshots();
+final currAwayTeamPlayersProvider =
+    FutureProvider.autoDispose.family<List<PlayerPersonalInfo>, AddTeamModel>(
+  (ref, arg) async {
+    List<PlayerPersonalInfo> players = [];
+    await FirebaseFirestore.instance
+        .collection("Teams")
+        .doc(arg.id)
+        .get()
+        .then((value) async {
+      AddTeamModel team = AddTeamModel.fromDocument(value);
 
-    return stream.map((event) {
-      List<PlayersTournamentModel> homeTeamPlayers = [];
-      if (event.size > 0) {
-        for (var element in event.docs) {
-          homeTeamPlayers.add(PlayersTournamentModel.fromDocument(element));
+      if (team.playersId != null) {
+        for (var id in team.playersId!) {
+          players.add(await Utility().getPlayerById(id));
         }
       }
-      return homeTeamPlayers;
     });
+
+    return players;
+
+    // return stream.map((event) {
+    //   AddTeamModel team = AddTeamModel.fromDocument(event);
+    //   List<PlayerPersonalInfo> players = [];
+    //   if (team.playersId != null)  {
+    //     for (var element in team.playersId!) {
+    //       players.add(await Utility().getPlayerById(element));
+    //     }
+    //   }
+    // });
   },
 );
 
@@ -116,8 +157,6 @@ final currMatchProvider =
     StreamProvider.autoDispose.family<AddMatchModel, AddMatchModel>(
   (ref, arg) {
     final stream = FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(arg.tournamentId)
         .collection("Matches")
         .doc(arg.id)
         .snapshots();

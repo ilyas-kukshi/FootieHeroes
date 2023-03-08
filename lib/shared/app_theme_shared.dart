@@ -200,6 +200,7 @@ class AppThemeShared {
     required BuildContext context,
     required List<String> items,
     required void Function(String?) onChanged,
+    double? height = 50,
     double? width = 200,
     double widthPercent = 0.85,
     bool widthPixel = false,
@@ -218,6 +219,7 @@ class AppThemeShared {
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
       width:
           widthPixel ? width : MediaQuery.of(context).size.width * widthPercent,
       // decoration: BoxDecoration(

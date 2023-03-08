@@ -135,16 +135,48 @@ class Utility {
         lastDate: lastDate);
   }
 
-  List<AddTeamModel> tournamentDocToTeamsList(
-      AddTournamentModel tournamentModel) {
+  Future<List<AddTeamModel>> tournamentDocToTeamsList(
+      AddTournamentModel tournamentModel) async {
     List<AddTeamModel> teams = [];
 
     if (tournamentModel.teams != null) {
       for (var element in tournamentModel.teams!) {
-        teams.add(AddTeamModel.fromJson(element));
+        await FirebaseFirestore.instance
+            .collection("Teams")
+            .doc(element)
+            .get()
+            .then((value) {
+          teams.add(AddTeamModel.fromDocument(value));
+        }).onError((error, stackTrace) {
+          Fluttertoast.showToast(msg: error.toString());
+        });
       }
     }
     return teams;
+  }
+
+  Future<AddTeamModel> getTeamById(String id) async {
+    AddTeamModel? teamModel;
+    await FirebaseFirestore.instance
+        .collection("Teams")
+        .doc(id)
+        .get()
+        .then((value) {
+      teamModel = AddTeamModel.fromDocument(value);
+    });
+    return teamModel!;
+  }
+
+  Future<PlayerPersonalInfo> getPlayerById(String id) async {
+    PlayerPersonalInfo? player;
+    await FirebaseFirestore.instance
+        .collection("Players")
+        .doc(id)
+        .get()
+        .then((value) {
+      player = PlayerPersonalInfo.fromDocument(value);
+    });
+    return player!;
   }
 
 ////SharedPreferences

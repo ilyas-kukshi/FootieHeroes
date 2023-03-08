@@ -20,6 +20,6 @@ Map<String, dynamic> _$$_PlayersTournamentModelToJson(
         _$_PlayersTournamentModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'teamModel': instance.teamModel.toJson(),
-      'playerPersonalInfo': instance.playerPersonalInfo.toJson(),
+      'teamModel': instance.teamModel,
+      'playerPersonalInfo': instance.playerPersonalInfo,
     };

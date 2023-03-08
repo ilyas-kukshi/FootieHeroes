@@ -10,20 +10,25 @@ part 'add_match_model.g.dart';
 abstract class AddMatchModel implements _$AddMatchModel {
   const AddMatchModel._();
 
-  factory AddMatchModel({
-    String? id,
-    required String tournamentId,
-    required String matchType,
-    required String matchStatus,
-    required AddTeamModel homeTeam,
-    required AddTeamModel awayTeam,
-    required int noOfHalfs,
-    required int minsEachHalf,
-    required int startingPlayers,
-    required int noOfSubs,
-    required String substitutionType,
-    required DateTime matchDate,
-  }) = _AddMatchModel;
+  factory AddMatchModel(
+      {String? id,
+      required String tournamentId,
+      required String matchType,
+      required String matchStatus,
+      required String homeTeamId,
+      required String awayTeamId,
+      required int noOfHalfs,
+      required int minsEachHalf,
+      required int startingPlayers,
+      required int noOfSubs,
+      required String substitutionType,
+      required DateTime matchDate,
+      Map<String, String>? homeLineup,
+      List<String>? homeSubstitutes,
+      Map<String, String>? awayLineup,
+      List<String>? awaySubstitutes,
+      AddTeamModel? homeTeamModel,
+      AddTeamModel? awayTeamModel}) = _AddMatchModel;
 
   factory AddMatchModel.fromJson(Map<String, dynamic> json) =>
       _$AddMatchModelFromJson(json);

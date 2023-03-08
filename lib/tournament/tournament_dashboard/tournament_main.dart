@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/about.dart';
@@ -13,15 +15,15 @@ import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_app
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
 
 // ignore: must_be_immutable
-class TournamentMain extends StatefulWidget {
+class TournamentMain extends ConsumerStatefulWidget {
   AddTournamentModel tournamentAbout;
   TournamentMain({Key? key, required this.tournamentAbout}) : super(key: key);
 
   @override
-  State<TournamentMain> createState() => _TournamentMainState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TournamentMainState();
 }
 
-class _TournamentMainState extends State<TournamentMain>
+class _TournamentMainState extends ConsumerState<TournamentMain>
     with TickerProviderStateMixin {
   late TabController tabController;
   bool isOrganizer = false;
@@ -31,11 +33,13 @@ class _TournamentMainState extends State<TournamentMain>
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
-    setOrganzierVariable();
+    // setOrganzierVariable();
   }
 
   @override
   Widget build(BuildContext context) {
+    final org =
+        ref.watch(isOrganizerProvider(FirebaseAuth.instance.currentUser!.uid));
     return Scaffold(
         body: NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -68,37 +72,65 @@ class _TournamentMainState extends State<TournamentMain>
           ),
         ];
       },
-      body: TabBarView(controller: tabController, children: [
-        Matches(
-            tournamentModel: widget.tournamentAbout, organizer: isOrganizer),
-        Container(),
-        Container(),
-        Teams(tournamentModel: widget.tournamentAbout, organizer: isOrganizer),
-        About(
-          tournamentModel: widget.tournamentAbout,
-        )
-      ]),
+      body: org.when(
+        data: (data) => TabBarView(controller: tabController, children: [
+          Matches(tournamentModel: widget.tournamentAbout),
+          Container(),
+          Container(),
+          Teams(tournamentModel: widget.tournamentAbout, organizer: data),
+          About(
+            tournamentModel: widget.tournamentAbout,
+          )
+        ]),
+        error: (error, stackTrace) => Text(error.toString()),
+        loading: () => const CircularProgressIndicator(),
+      ),
     ));
   }
 
-  setOrganzierVariable() async {
-    if (await Utility().getProfile() == widget.tournamentAbout.organizer) {
-      isOrganizer = true;
-      setState(() {});
-    }
-  }
+  // setOrganzierVariable() async {
+  //   if (await Utility().getProfile() == widget.tournamentAbout.organizer) {
+  //     isOrganizer = true;
+  //     setState(() {});
+  //   }
+  // }
 }
 
+final isOrganizerProvider =
+    FutureProvider.autoDispose.family<bool, String>((ref, id) async {
+  PlayerPersonalInfo user = await Utility().getUserProfileSP();
+  return user.id == id;
+});
+
 final currTournamentProvider =
-    StreamProvider.autoDispose.family<AddTournamentModel, AddTournamentModel>(
-  (ref, arg) {
+    StreamProvider.autoDispose.family<AddTournamentModel, String>(
+  (ref, tournamentId) {
     final stream = FirebaseFirestore.instance
         .collection("Tournaments")
-        .doc(arg.id)
+        .doc(tournamentId)
         .snapshots();
 
     return stream.map((snapshot) {
       return AddTournamentModel.fromDocument(snapshot);
+    });
+  },
+);
+final currTournamentTeamsProvider =
+    StreamProvider.autoDispose.family<List<AddTeamModel>, AddTournamentModel>(
+  (ref, arg) {
+    final stream = FirebaseFirestore.instance
+        .collection("Teams")
+        .where("tournamentId", arrayContains: arg.id)
+        .snapshots();
+
+    return stream.map((querySnap) {
+      List<AddTeamModel> teams = [];
+
+      for (var element in querySnap.docs) {
+        teams.add(AddTeamModel.fromDocument(element)
+            .copyWith(currTournamentId: arg.id));
+      }
+      return teams;
     });
   },
 );
@@ -107,8 +139,6 @@ final currTournamentMatchesProvider =
     StreamProvider.autoDispose.family<List<AddMatchModel>, AddTournamentModel>(
   (ref, arg) {
     final stream = FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(arg.id)
         .collection("Matches")
         .orderBy("matchDate")
         .snapshots();
@@ -120,6 +150,18 @@ final currTournamentMatchesProvider =
         matches.add(AddMatchModel.fromDocument(element));
       }
       return matches;
+    });
+  },
+);
+
+final currTeamPlayersProvider =
+    StreamProvider.autoDispose.family<AddTeamModel, AddTeamModel>(
+  (ref, arg) {
+    final stream =
+        FirebaseFirestore.instance.collection("Teams").doc(arg.id).snapshots();
+
+    return stream.map((event) {
+      return AddTeamModel.fromDocument(event);
     });
   },
 );

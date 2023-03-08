@@ -11,8 +11,7 @@ _$_AddTournamentModel _$$_AddTournamentModelFromJson(
     _$_AddTournamentModel(
       id: json['id'] as String?,
       name: json['name'] as String,
-      organizer: PlayerPersonalInfo.fromJson(
-          json['organizer'] as Map<String, dynamic>),
+      organizerId: json['organizerId'] as String,
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
       noOfHalfs: json['noOfHalfs'] as int,
@@ -20,7 +19,11 @@ _$_AddTournamentModel _$$_AddTournamentModelFromJson(
       logoUri: json['logoUri'] as String,
       bannerUri: json['bannerUri'] as String,
       scorers: json['scorers'] as List<dynamic>,
-      teams: json['teams'] as List<dynamic>?,
+      followersId: (json['followersId'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      teams:
+          (json['teams'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_AddTournamentModelToJson(
@@ -28,7 +31,7 @@ Map<String, dynamic> _$$_AddTournamentModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'organizer': instance.organizer.toJson(),
+      'organizerId': instance.organizerId,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'noOfHalfs': instance.noOfHalfs,
@@ -36,5 +39,6 @@ Map<String, dynamic> _$$_AddTournamentModelToJson(
       'logoUri': instance.logoUri,
       'bannerUri': instance.bannerUri,
       'scorers': instance.scorers,
+      'followersId': instance.followersId,
       'teams': instance.teams,
     };

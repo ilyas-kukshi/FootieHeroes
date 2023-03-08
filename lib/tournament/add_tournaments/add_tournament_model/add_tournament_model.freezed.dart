@@ -22,7 +22,7 @@ AddTournamentModel _$AddTournamentModelFromJson(Map<String, dynamic> json) {
 mixin _$AddTournamentModel {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  PlayerPersonalInfo get organizer => throw _privateConstructorUsedError;
+  String get organizerId => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
   int get noOfHalfs => throw _privateConstructorUsedError;
@@ -30,7 +30,8 @@ mixin _$AddTournamentModel {
   String get logoUri => throw _privateConstructorUsedError;
   String get bannerUri => throw _privateConstructorUsedError;
   List<dynamic> get scorers => throw _privateConstructorUsedError;
-  List<dynamic>? get teams => throw _privateConstructorUsedError;
+  List<String> get followersId => throw _privateConstructorUsedError;
+  List<String>? get teams => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,7 @@ abstract class $AddTournamentModelCopyWith<$Res> {
   $Res call(
       {String? id,
       String name,
-      PlayerPersonalInfo organizer,
+      String organizerId,
       DateTime startDate,
       DateTime endDate,
       int noOfHalfs,
@@ -55,9 +56,8 @@ abstract class $AddTournamentModelCopyWith<$Res> {
       String logoUri,
       String bannerUri,
       List<dynamic> scorers,
-      List<dynamic>? teams});
-
-  $PlayerPersonalInfoCopyWith<$Res> get organizer;
+      List<String> followersId,
+      List<String>? teams});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? organizer = null,
+    Object? organizerId = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? noOfHalfs = null,
@@ -83,6 +83,7 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
     Object? logoUri = null,
     Object? bannerUri = null,
     Object? scorers = null,
+    Object? followersId = null,
     Object? teams = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,10 +95,10 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      organizer: null == organizer
-          ? _value.organizer
-          : organizer // ignore: cast_nullable_to_non_nullable
-              as PlayerPersonalInfo,
+      organizerId: null == organizerId
+          ? _value.organizerId
+          : organizerId // ignore: cast_nullable_to_non_nullable
+              as String,
       startDate: null == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -126,19 +127,15 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
           ? _value.scorers
           : scorers // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      followersId: null == followersId
+          ? _value.followersId
+          : followersId // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       teams: freezed == teams
           ? _value.teams
           : teams // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PlayerPersonalInfoCopyWith<$Res> get organizer {
-    return $PlayerPersonalInfoCopyWith<$Res>(_value.organizer, (value) {
-      return _then(_value.copyWith(organizer: value) as $Val);
-    });
   }
 }
 
@@ -153,7 +150,7 @@ abstract class _$$_AddTournamentModelCopyWith<$Res>
   $Res call(
       {String? id,
       String name,
-      PlayerPersonalInfo organizer,
+      String organizerId,
       DateTime startDate,
       DateTime endDate,
       int noOfHalfs,
@@ -161,10 +158,8 @@ abstract class _$$_AddTournamentModelCopyWith<$Res>
       String logoUri,
       String bannerUri,
       List<dynamic> scorers,
-      List<dynamic>? teams});
-
-  @override
-  $PlayerPersonalInfoCopyWith<$Res> get organizer;
+      List<String> followersId,
+      List<String>? teams});
 }
 
 /// @nodoc
@@ -180,7 +175,7 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? organizer = null,
+    Object? organizerId = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? noOfHalfs = null,
@@ -188,6 +183,7 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
     Object? logoUri = null,
     Object? bannerUri = null,
     Object? scorers = null,
+    Object? followersId = null,
     Object? teams = freezed,
   }) {
     return _then(_$_AddTournamentModel(
@@ -199,10 +195,10 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      organizer: null == organizer
-          ? _value.organizer
-          : organizer // ignore: cast_nullable_to_non_nullable
-              as PlayerPersonalInfo,
+      organizerId: null == organizerId
+          ? _value.organizerId
+          : organizerId // ignore: cast_nullable_to_non_nullable
+              as String,
       startDate: null == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -231,10 +227,14 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
           ? _value._scorers
           : scorers // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      followersId: null == followersId
+          ? _value._followersId
+          : followersId // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       teams: freezed == teams
           ? _value._teams
           : teams // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
     ));
   }
 }
@@ -245,7 +245,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
   _$_AddTournamentModel(
       {this.id,
       required this.name,
-      required this.organizer,
+      required this.organizerId,
       required this.startDate,
       required this.endDate,
       required this.noOfHalfs,
@@ -253,8 +253,10 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       required this.logoUri,
       required this.bannerUri,
       required final List<dynamic> scorers,
-      final List<dynamic>? teams})
+      required final List<String> followersId,
+      final List<String>? teams})
       : _scorers = scorers,
+        _followersId = followersId,
         _teams = teams,
         super._();
 
@@ -266,7 +268,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
   @override
   final String name;
   @override
-  final PlayerPersonalInfo organizer;
+  final String organizerId;
   @override
   final DateTime startDate;
   @override
@@ -287,9 +289,17 @@ class _$_AddTournamentModel extends _AddTournamentModel {
     return EqualUnmodifiableListView(_scorers);
   }
 
-  final List<dynamic>? _teams;
+  final List<String> _followersId;
   @override
-  List<dynamic>? get teams {
+  List<String> get followersId {
+    if (_followersId is EqualUnmodifiableListView) return _followersId;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_followersId);
+  }
+
+  final List<String>? _teams;
+  @override
+  List<String>? get teams {
     final value = _teams;
     if (value == null) return null;
     if (_teams is EqualUnmodifiableListView) return _teams;
@@ -299,7 +309,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
 
   @override
   String toString() {
-    return 'AddTournamentModel(id: $id, name: $name, organizer: $organizer, startDate: $startDate, endDate: $endDate, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, logoUri: $logoUri, bannerUri: $bannerUri, scorers: $scorers, teams: $teams)';
+    return 'AddTournamentModel(id: $id, name: $name, organizerId: $organizerId, startDate: $startDate, endDate: $endDate, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, logoUri: $logoUri, bannerUri: $bannerUri, scorers: $scorers, followersId: $followersId, teams: $teams)';
   }
 
   @override
@@ -309,8 +319,8 @@ class _$_AddTournamentModel extends _AddTournamentModel {
             other is _$_AddTournamentModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.organizer, organizer) ||
-                other.organizer == organizer) &&
+            (identical(other.organizerId, organizerId) ||
+                other.organizerId == organizerId) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
@@ -322,6 +332,8 @@ class _$_AddTournamentModel extends _AddTournamentModel {
             (identical(other.bannerUri, bannerUri) ||
                 other.bannerUri == bannerUri) &&
             const DeepCollectionEquality().equals(other._scorers, _scorers) &&
+            const DeepCollectionEquality()
+                .equals(other._followersId, _followersId) &&
             const DeepCollectionEquality().equals(other._teams, _teams));
   }
 
@@ -331,7 +343,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       runtimeType,
       id,
       name,
-      organizer,
+      organizerId,
       startDate,
       endDate,
       noOfHalfs,
@@ -339,6 +351,7 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       logoUri,
       bannerUri,
       const DeepCollectionEquality().hash(_scorers),
+      const DeepCollectionEquality().hash(_followersId),
       const DeepCollectionEquality().hash(_teams));
 
   @JsonKey(ignore: true)
@@ -360,7 +373,7 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   factory _AddTournamentModel(
       {final String? id,
       required final String name,
-      required final PlayerPersonalInfo organizer,
+      required final String organizerId,
       required final DateTime startDate,
       required final DateTime endDate,
       required final int noOfHalfs,
@@ -368,7 +381,8 @@ abstract class _AddTournamentModel extends AddTournamentModel {
       required final String logoUri,
       required final String bannerUri,
       required final List<dynamic> scorers,
-      final List<dynamic>? teams}) = _$_AddTournamentModel;
+      required final List<String> followersId,
+      final List<String>? teams}) = _$_AddTournamentModel;
   _AddTournamentModel._() : super._();
 
   factory _AddTournamentModel.fromJson(Map<String, dynamic> json) =
@@ -379,7 +393,7 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   @override
   String get name;
   @override
-  PlayerPersonalInfo get organizer;
+  String get organizerId;
   @override
   DateTime get startDate;
   @override
@@ -395,7 +409,9 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   @override
   List<dynamic> get scorers;
   @override
-  List<dynamic>? get teams;
+  List<String> get followersId;
+  @override
+  List<String>? get teams;
   @override
   @JsonKey(ignore: true)
   _$$_AddTournamentModelCopyWith<_$_AddTournamentModel> get copyWith =>

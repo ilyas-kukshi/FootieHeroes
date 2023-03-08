@@ -24,14 +24,20 @@ mixin _$AddMatchModel {
   String get tournamentId => throw _privateConstructorUsedError;
   String get matchType => throw _privateConstructorUsedError;
   String get matchStatus => throw _privateConstructorUsedError;
-  AddTeamModel get homeTeam => throw _privateConstructorUsedError;
-  AddTeamModel get awayTeam => throw _privateConstructorUsedError;
+  String get homeTeamId => throw _privateConstructorUsedError;
+  String get awayTeamId => throw _privateConstructorUsedError;
   int get noOfHalfs => throw _privateConstructorUsedError;
   int get minsEachHalf => throw _privateConstructorUsedError;
   int get startingPlayers => throw _privateConstructorUsedError;
   int get noOfSubs => throw _privateConstructorUsedError;
   String get substitutionType => throw _privateConstructorUsedError;
   DateTime get matchDate => throw _privateConstructorUsedError;
+  Map<String, String>? get homeLineup => throw _privateConstructorUsedError;
+  List<String>? get homeSubstitutes => throw _privateConstructorUsedError;
+  Map<String, String>? get awayLineup => throw _privateConstructorUsedError;
+  List<String>? get awaySubstitutes => throw _privateConstructorUsedError;
+  AddTeamModel? get homeTeamModel => throw _privateConstructorUsedError;
+  AddTeamModel? get awayTeamModel => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,17 +56,23 @@ abstract class $AddMatchModelCopyWith<$Res> {
       String tournamentId,
       String matchType,
       String matchStatus,
-      AddTeamModel homeTeam,
-      AddTeamModel awayTeam,
+      String homeTeamId,
+      String awayTeamId,
       int noOfHalfs,
       int minsEachHalf,
       int startingPlayers,
       int noOfSubs,
       String substitutionType,
-      DateTime matchDate});
+      DateTime matchDate,
+      Map<String, String>? homeLineup,
+      List<String>? homeSubstitutes,
+      Map<String, String>? awayLineup,
+      List<String>? awaySubstitutes,
+      AddTeamModel? homeTeamModel,
+      AddTeamModel? awayTeamModel});
 
-  $AddTeamModelCopyWith<$Res> get homeTeam;
-  $AddTeamModelCopyWith<$Res> get awayTeam;
+  $AddTeamModelCopyWith<$Res>? get homeTeamModel;
+  $AddTeamModelCopyWith<$Res>? get awayTeamModel;
 }
 
 /// @nodoc
@@ -80,14 +92,20 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
     Object? tournamentId = null,
     Object? matchType = null,
     Object? matchStatus = null,
-    Object? homeTeam = null,
-    Object? awayTeam = null,
+    Object? homeTeamId = null,
+    Object? awayTeamId = null,
     Object? noOfHalfs = null,
     Object? minsEachHalf = null,
     Object? startingPlayers = null,
     Object? noOfSubs = null,
     Object? substitutionType = null,
     Object? matchDate = null,
+    Object? homeLineup = freezed,
+    Object? homeSubstitutes = freezed,
+    Object? awayLineup = freezed,
+    Object? awaySubstitutes = freezed,
+    Object? homeTeamModel = freezed,
+    Object? awayTeamModel = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -106,14 +124,14 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
           ? _value.matchStatus
           : matchStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      homeTeam: null == homeTeam
-          ? _value.homeTeam
-          : homeTeam // ignore: cast_nullable_to_non_nullable
-              as AddTeamModel,
-      awayTeam: null == awayTeam
-          ? _value.awayTeam
-          : awayTeam // ignore: cast_nullable_to_non_nullable
-              as AddTeamModel,
+      homeTeamId: null == homeTeamId
+          ? _value.homeTeamId
+          : homeTeamId // ignore: cast_nullable_to_non_nullable
+              as String,
+      awayTeamId: null == awayTeamId
+          ? _value.awayTeamId
+          : awayTeamId // ignore: cast_nullable_to_non_nullable
+              as String,
       noOfHalfs: null == noOfHalfs
           ? _value.noOfHalfs
           : noOfHalfs // ignore: cast_nullable_to_non_nullable
@@ -138,22 +156,54 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
           ? _value.matchDate
           : matchDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      homeLineup: freezed == homeLineup
+          ? _value.homeLineup
+          : homeLineup // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      homeSubstitutes: freezed == homeSubstitutes
+          ? _value.homeSubstitutes
+          : homeSubstitutes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      awayLineup: freezed == awayLineup
+          ? _value.awayLineup
+          : awayLineup // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      awaySubstitutes: freezed == awaySubstitutes
+          ? _value.awaySubstitutes
+          : awaySubstitutes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      homeTeamModel: freezed == homeTeamModel
+          ? _value.homeTeamModel
+          : homeTeamModel // ignore: cast_nullable_to_non_nullable
+              as AddTeamModel?,
+      awayTeamModel: freezed == awayTeamModel
+          ? _value.awayTeamModel
+          : awayTeamModel // ignore: cast_nullable_to_non_nullable
+              as AddTeamModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AddTeamModelCopyWith<$Res> get homeTeam {
-    return $AddTeamModelCopyWith<$Res>(_value.homeTeam, (value) {
-      return _then(_value.copyWith(homeTeam: value) as $Val);
+  $AddTeamModelCopyWith<$Res>? get homeTeamModel {
+    if (_value.homeTeamModel == null) {
+      return null;
+    }
+
+    return $AddTeamModelCopyWith<$Res>(_value.homeTeamModel!, (value) {
+      return _then(_value.copyWith(homeTeamModel: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AddTeamModelCopyWith<$Res> get awayTeam {
-    return $AddTeamModelCopyWith<$Res>(_value.awayTeam, (value) {
-      return _then(_value.copyWith(awayTeam: value) as $Val);
+  $AddTeamModelCopyWith<$Res>? get awayTeamModel {
+    if (_value.awayTeamModel == null) {
+      return null;
+    }
+
+    return $AddTeamModelCopyWith<$Res>(_value.awayTeamModel!, (value) {
+      return _then(_value.copyWith(awayTeamModel: value) as $Val);
     });
   }
 }
@@ -171,19 +221,25 @@ abstract class _$$_AddMatchModelCopyWith<$Res>
       String tournamentId,
       String matchType,
       String matchStatus,
-      AddTeamModel homeTeam,
-      AddTeamModel awayTeam,
+      String homeTeamId,
+      String awayTeamId,
       int noOfHalfs,
       int minsEachHalf,
       int startingPlayers,
       int noOfSubs,
       String substitutionType,
-      DateTime matchDate});
+      DateTime matchDate,
+      Map<String, String>? homeLineup,
+      List<String>? homeSubstitutes,
+      Map<String, String>? awayLineup,
+      List<String>? awaySubstitutes,
+      AddTeamModel? homeTeamModel,
+      AddTeamModel? awayTeamModel});
 
   @override
-  $AddTeamModelCopyWith<$Res> get homeTeam;
+  $AddTeamModelCopyWith<$Res>? get homeTeamModel;
   @override
-  $AddTeamModelCopyWith<$Res> get awayTeam;
+  $AddTeamModelCopyWith<$Res>? get awayTeamModel;
 }
 
 /// @nodoc
@@ -201,14 +257,20 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
     Object? tournamentId = null,
     Object? matchType = null,
     Object? matchStatus = null,
-    Object? homeTeam = null,
-    Object? awayTeam = null,
+    Object? homeTeamId = null,
+    Object? awayTeamId = null,
     Object? noOfHalfs = null,
     Object? minsEachHalf = null,
     Object? startingPlayers = null,
     Object? noOfSubs = null,
     Object? substitutionType = null,
     Object? matchDate = null,
+    Object? homeLineup = freezed,
+    Object? homeSubstitutes = freezed,
+    Object? awayLineup = freezed,
+    Object? awaySubstitutes = freezed,
+    Object? homeTeamModel = freezed,
+    Object? awayTeamModel = freezed,
   }) {
     return _then(_$_AddMatchModel(
       id: freezed == id
@@ -227,14 +289,14 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
           ? _value.matchStatus
           : matchStatus // ignore: cast_nullable_to_non_nullable
               as String,
-      homeTeam: null == homeTeam
-          ? _value.homeTeam
-          : homeTeam // ignore: cast_nullable_to_non_nullable
-              as AddTeamModel,
-      awayTeam: null == awayTeam
-          ? _value.awayTeam
-          : awayTeam // ignore: cast_nullable_to_non_nullable
-              as AddTeamModel,
+      homeTeamId: null == homeTeamId
+          ? _value.homeTeamId
+          : homeTeamId // ignore: cast_nullable_to_non_nullable
+              as String,
+      awayTeamId: null == awayTeamId
+          ? _value.awayTeamId
+          : awayTeamId // ignore: cast_nullable_to_non_nullable
+              as String,
       noOfHalfs: null == noOfHalfs
           ? _value.noOfHalfs
           : noOfHalfs // ignore: cast_nullable_to_non_nullable
@@ -259,6 +321,30 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
           ? _value.matchDate
           : matchDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      homeLineup: freezed == homeLineup
+          ? _value._homeLineup
+          : homeLineup // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      homeSubstitutes: freezed == homeSubstitutes
+          ? _value._homeSubstitutes
+          : homeSubstitutes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      awayLineup: freezed == awayLineup
+          ? _value._awayLineup
+          : awayLineup // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      awaySubstitutes: freezed == awaySubstitutes
+          ? _value._awaySubstitutes
+          : awaySubstitutes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      homeTeamModel: freezed == homeTeamModel
+          ? _value.homeTeamModel
+          : homeTeamModel // ignore: cast_nullable_to_non_nullable
+              as AddTeamModel?,
+      awayTeamModel: freezed == awayTeamModel
+          ? _value.awayTeamModel
+          : awayTeamModel // ignore: cast_nullable_to_non_nullable
+              as AddTeamModel?,
     ));
   }
 }
@@ -271,15 +357,25 @@ class _$_AddMatchModel extends _AddMatchModel {
       required this.tournamentId,
       required this.matchType,
       required this.matchStatus,
-      required this.homeTeam,
-      required this.awayTeam,
+      required this.homeTeamId,
+      required this.awayTeamId,
       required this.noOfHalfs,
       required this.minsEachHalf,
       required this.startingPlayers,
       required this.noOfSubs,
       required this.substitutionType,
-      required this.matchDate})
-      : super._();
+      required this.matchDate,
+      final Map<String, String>? homeLineup,
+      final List<String>? homeSubstitutes,
+      final Map<String, String>? awayLineup,
+      final List<String>? awaySubstitutes,
+      this.homeTeamModel,
+      this.awayTeamModel})
+      : _homeLineup = homeLineup,
+        _homeSubstitutes = homeSubstitutes,
+        _awayLineup = awayLineup,
+        _awaySubstitutes = awaySubstitutes,
+        super._();
 
   factory _$_AddMatchModel.fromJson(Map<String, dynamic> json) =>
       _$$_AddMatchModelFromJson(json);
@@ -293,9 +389,9 @@ class _$_AddMatchModel extends _AddMatchModel {
   @override
   final String matchStatus;
   @override
-  final AddTeamModel homeTeam;
+  final String homeTeamId;
   @override
-  final AddTeamModel awayTeam;
+  final String awayTeamId;
   @override
   final int noOfHalfs;
   @override
@@ -308,10 +404,54 @@ class _$_AddMatchModel extends _AddMatchModel {
   final String substitutionType;
   @override
   final DateTime matchDate;
+  final Map<String, String>? _homeLineup;
+  @override
+  Map<String, String>? get homeLineup {
+    final value = _homeLineup;
+    if (value == null) return null;
+    if (_homeLineup is EqualUnmodifiableMapView) return _homeLineup;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  final List<String>? _homeSubstitutes;
+  @override
+  List<String>? get homeSubstitutes {
+    final value = _homeSubstitutes;
+    if (value == null) return null;
+    if (_homeSubstitutes is EqualUnmodifiableListView) return _homeSubstitutes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final Map<String, String>? _awayLineup;
+  @override
+  Map<String, String>? get awayLineup {
+    final value = _awayLineup;
+    if (value == null) return null;
+    if (_awayLineup is EqualUnmodifiableMapView) return _awayLineup;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  final List<String>? _awaySubstitutes;
+  @override
+  List<String>? get awaySubstitutes {
+    final value = _awaySubstitutes;
+    if (value == null) return null;
+    if (_awaySubstitutes is EqualUnmodifiableListView) return _awaySubstitutes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final AddTeamModel? homeTeamModel;
+  @override
+  final AddTeamModel? awayTeamModel;
 
   @override
   String toString() {
-    return 'AddMatchModel(id: $id, tournamentId: $tournamentId, matchType: $matchType, matchStatus: $matchStatus, homeTeam: $homeTeam, awayTeam: $awayTeam, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate)';
+    return 'AddMatchModel(id: $id, tournamentId: $tournamentId, matchType: $matchType, matchStatus: $matchStatus, homeTeamId: $homeTeamId, awayTeamId: $awayTeamId, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate, homeLineup: $homeLineup, homeSubstitutes: $homeSubstitutes, awayLineup: $awayLineup, awaySubstitutes: $awaySubstitutes, homeTeamModel: $homeTeamModel, awayTeamModel: $awayTeamModel)';
   }
 
   @override
@@ -326,10 +466,10 @@ class _$_AddMatchModel extends _AddMatchModel {
                 other.matchType == matchType) &&
             (identical(other.matchStatus, matchStatus) ||
                 other.matchStatus == matchStatus) &&
-            (identical(other.homeTeam, homeTeam) ||
-                other.homeTeam == homeTeam) &&
-            (identical(other.awayTeam, awayTeam) ||
-                other.awayTeam == awayTeam) &&
+            (identical(other.homeTeamId, homeTeamId) ||
+                other.homeTeamId == homeTeamId) &&
+            (identical(other.awayTeamId, awayTeamId) ||
+                other.awayTeamId == awayTeamId) &&
             (identical(other.noOfHalfs, noOfHalfs) ||
                 other.noOfHalfs == noOfHalfs) &&
             (identical(other.minsEachHalf, minsEachHalf) ||
@@ -341,7 +481,19 @@ class _$_AddMatchModel extends _AddMatchModel {
             (identical(other.substitutionType, substitutionType) ||
                 other.substitutionType == substitutionType) &&
             (identical(other.matchDate, matchDate) ||
-                other.matchDate == matchDate));
+                other.matchDate == matchDate) &&
+            const DeepCollectionEquality()
+                .equals(other._homeLineup, _homeLineup) &&
+            const DeepCollectionEquality()
+                .equals(other._homeSubstitutes, _homeSubstitutes) &&
+            const DeepCollectionEquality()
+                .equals(other._awayLineup, _awayLineup) &&
+            const DeepCollectionEquality()
+                .equals(other._awaySubstitutes, _awaySubstitutes) &&
+            (identical(other.homeTeamModel, homeTeamModel) ||
+                other.homeTeamModel == homeTeamModel) &&
+            (identical(other.awayTeamModel, awayTeamModel) ||
+                other.awayTeamModel == awayTeamModel));
   }
 
   @JsonKey(ignore: true)
@@ -352,14 +504,20 @@ class _$_AddMatchModel extends _AddMatchModel {
       tournamentId,
       matchType,
       matchStatus,
-      homeTeam,
-      awayTeam,
+      homeTeamId,
+      awayTeamId,
       noOfHalfs,
       minsEachHalf,
       startingPlayers,
       noOfSubs,
       substitutionType,
-      matchDate);
+      matchDate,
+      const DeepCollectionEquality().hash(_homeLineup),
+      const DeepCollectionEquality().hash(_homeSubstitutes),
+      const DeepCollectionEquality().hash(_awayLineup),
+      const DeepCollectionEquality().hash(_awaySubstitutes),
+      homeTeamModel,
+      awayTeamModel);
 
   @JsonKey(ignore: true)
   @override
@@ -381,14 +539,20 @@ abstract class _AddMatchModel extends AddMatchModel {
       required final String tournamentId,
       required final String matchType,
       required final String matchStatus,
-      required final AddTeamModel homeTeam,
-      required final AddTeamModel awayTeam,
+      required final String homeTeamId,
+      required final String awayTeamId,
       required final int noOfHalfs,
       required final int minsEachHalf,
       required final int startingPlayers,
       required final int noOfSubs,
       required final String substitutionType,
-      required final DateTime matchDate}) = _$_AddMatchModel;
+      required final DateTime matchDate,
+      final Map<String, String>? homeLineup,
+      final List<String>? homeSubstitutes,
+      final Map<String, String>? awayLineup,
+      final List<String>? awaySubstitutes,
+      final AddTeamModel? homeTeamModel,
+      final AddTeamModel? awayTeamModel}) = _$_AddMatchModel;
   _AddMatchModel._() : super._();
 
   factory _AddMatchModel.fromJson(Map<String, dynamic> json) =
@@ -403,9 +567,9 @@ abstract class _AddMatchModel extends AddMatchModel {
   @override
   String get matchStatus;
   @override
-  AddTeamModel get homeTeam;
+  String get homeTeamId;
   @override
-  AddTeamModel get awayTeam;
+  String get awayTeamId;
   @override
   int get noOfHalfs;
   @override
@@ -418,6 +582,18 @@ abstract class _AddMatchModel extends AddMatchModel {
   String get substitutionType;
   @override
   DateTime get matchDate;
+  @override
+  Map<String, String>? get homeLineup;
+  @override
+  List<String>? get homeSubstitutes;
+  @override
+  Map<String, String>? get awayLineup;
+  @override
+  List<String>? get awaySubstitutes;
+  @override
+  AddTeamModel? get homeTeamModel;
+  @override
+  AddTeamModel? get awayTeamModel;
   @override
   @JsonKey(ignore: true)
   _$$_AddMatchModelCopyWith<_$_AddMatchModel> get copyWith =>

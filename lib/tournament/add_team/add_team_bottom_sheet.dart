@@ -266,19 +266,15 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
   saveTeam(String? logoUrl) async {
     DialogShared.loadingDialog(context, "Adding Team");
     await FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(widget.tournamentModel.id)
-        .update({
-      "teams": FieldValue.arrayUnion([
-        AddTeamModel(
+        .collection("Teams")
+        .add(AddTeamModel(
                 name: nameController.text,
                 townName: townController.text,
                 logoUri: logoUrl,
-                tournamentId: widget.tournamentModel.id!,
+                tournamentId: [widget.tournamentModel.id!],
                 isGrouped: false)
-            .toJson()
-      ])
-    }).then((value) {
+            .toJson())
+        .then((value) {
       Navigator.pop(context);
       Navigator.pop(context);
     }).onError((error, stackTrace) {

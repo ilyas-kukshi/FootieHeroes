@@ -8,14 +8,17 @@ part 'add_team_model.g.dart';
 abstract class AddTeamModel implements _$AddTeamModel {
   const AddTeamModel._();
 
-  factory AddTeamModel(
-      {String? id,
-      String? logoUri,
-      required String name,
-      required String townName,
-      required String tournamentId,
-      required bool isGrouped,
-      String? groupName}) = _AddTeamModel;
+  factory AddTeamModel({
+    String? id,
+    String? logoUri,
+    required String name,
+    required String townName,
+    required bool isGrouped,
+    String? groupName,
+    List<String>? tournamentId,
+    List<String>? playersId,
+    String? currTournamentId
+  }) = _AddTeamModel;
 
   factory AddTeamModel.fromJson(Map<String, dynamic> json) =>
       _$AddTeamModelFromJson(json);

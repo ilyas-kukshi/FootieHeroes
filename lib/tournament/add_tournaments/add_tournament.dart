@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -340,7 +341,7 @@ class _AddTournamentState extends State<AddTournament> {
     }
   }
 
-  Future<String?> uploadFile(String path) async {
+  Future<String?> uploadFile(String path, String image) async {
     TaskSnapshot? fileUpload;
     try {
       fileUpload = await FirebaseStorage.instance
@@ -365,35 +366,30 @@ class _AddTournamentState extends State<AddTournament> {
   }
 
   createTournament() async {
-    String? bannerUri = await uploadFile(bannerUriPath!);
-    String? logoUri = await uploadFile(logoUriPath!);
+    DialogShared.loadingDialog(context, "Adding Tournament");
+    String? bannerUri = await uploadFile(bannerUriPath!, "banner");
+    String? logoUri = await uploadFile(logoUriPath!, "logo");
     AddTournamentModel addTournamentModel = AddTournamentModel(
         name: nameController.text,
-        organizer: widget.playerPersonalInfo,
+        organizerId: widget.playerPersonalInfo.id!,
         startDate: startDate,
         endDate: endDate,
         bannerUri: bannerUri!,
         logoUri: logoUri!,
         minsEachHalf: int.parse(minsEachHalfController.text),
         noOfHalfs: int.parse(noOfHalfs),
-        scorers: [widget.playerPersonalInfo.id]);
+        scorers: [widget.playerPersonalInfo.id],
+        followersId: [widget.playerPersonalInfo.id!]);
 
     await FirebaseFirestore.instance
         .collection("Tournaments")
         .add(addTournamentModel.toJson())
-        .then((value) async {
-      await FirebaseFirestore.instance
-          .collection("Players")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("My Tournaments")
-          .doc(value.id)
-          .set(addTournamentModel.toJson())
-          .then((value) {
-        Fluttertoast.showToast(msg: "Tournament Created");
-        Navigator.pushNamed(context, '/tournamentMain');
-      }).onError((error, stackTrace) {
-        Fluttertoast.showToast(msg: error.toString());
-      });
+      
+        .then((value) {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Tournament Created");
+      Navigator.pushNamed(context, '/tournamentMain',
+          arguments: addTournamentModel);
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());
     });
