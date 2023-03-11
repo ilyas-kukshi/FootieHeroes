@@ -10,6 +10,7 @@ import 'package:footie_heroes/tournament/match_dashboard/line_ups/lineup_utils.d
 import 'package:footie_heroes/tournament/match_dashboard/line_ups/set_lineups.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 
+// ignore: must_be_immutable
 class AwayTeamLineUp extends ConsumerStatefulWidget {
   AddMatchModel matchModel;
   List<PlayerPersonalInfo> players;

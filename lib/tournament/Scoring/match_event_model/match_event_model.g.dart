@@ -18,6 +18,8 @@ _$_MatchEventModel _$$_MatchEventModelFromJson(Map<String, dynamic> json) =>
       playerOut: json['playerOut'] as String?,
       playerIn: json['playerIn'] as String?,
       cardType: json['cardType'] as String?,
+      playerCarded: json['playerCarded'] as String?,
+      addedAt: DateTime.parse(json['addedAt'] as String),
     );
 
 Map<String, dynamic> _$$_MatchEventModelToJson(_$_MatchEventModel instance) =>
@@ -32,4 +34,6 @@ Map<String, dynamic> _$$_MatchEventModelToJson(_$_MatchEventModel instance) =>
       'playerOut': instance.playerOut,
       'playerIn': instance.playerIn,
       'cardType': instance.cardType,
+      'playerCarded': instance.playerCarded,
+      'addedAt': instance.addedAt.toIso8601String(),
     };

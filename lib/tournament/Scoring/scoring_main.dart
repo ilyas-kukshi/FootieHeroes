@@ -1,15 +1,21 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
+import 'package:footie_heroes/tournament/Scoring/cards_event_dialogs.dart';
+import 'package:footie_heroes/tournament/Scoring/match_event_model/match_event_model.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
+import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/match_dashboard/match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
+import 'package:footie_heroes/tournament/matches/matches.dart';
 import 'package:intl/intl.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -26,31 +32,109 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
   bool paused = false;
 
   StopWatchTimer stopwatch = StopWatchTimer(mode: StopWatchMode.countUp);
+  @override
+  void initState() {
+    super.initState();
+    setPlayerListProvider();
+  }
 
   @override
   Widget build(BuildContext context) {
     final matchDoc = ref.watch(currMatchProvider(widget.matchModel));
 
     return Scaffold(
-      body: SafeArea(
-        child: matchDoc.when(
-          data: (match) {
-            return SingleChildScrollView(
-                child: Column(
-              children: [teamScores(widget.matchModel), eventGrid()],
-            ));
+        body: SafeArea(
+          child: matchDoc.when(
+            data: (match) {
+              return SingleChildScrollView(
+                  child: Column(
+                children: [
+                  teamScores(widget.matchModel),
+                  match.matchStatus == MatchStatus.upcoming.name ||
+                          match.matchStatus == MatchStatus.fHalfEnd.name ||
+                          match.matchStatus == MatchStatus.sHalfEnd.name
+                      ? const Text(
+                          "Start/Resume match to update key events",
+                        )
+                      : eventGrid()
+                ],
+              ));
+            },
+            error: (error, stackTrace) => Text(error.toString()),
+            loading: () => const CircularProgressIndicator(),
+          ),
+        ),
+        bottomNavigationBar: matchDoc.when(
+          data: (data) {
+            return AppThemeShared.sharedButton(
+              context: context,
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              buttonText: data.matchStatus == MatchStatus.upcoming.name
+                  ? "Start Match"
+                  : data.noOfHalfs == 1
+                      ? "End Match"
+                      : data.matchStatus == MatchStatus.fHalfStart.name
+                          ? "End First Half"
+                          : data.matchStatus == MatchStatus.fHalfEnd.name
+                              ? "Start Second Half"
+                              : data.matchStatus == MatchStatus.sHalfStart.name
+                                  ? "End Second Half"
+                                  : "End Match",
+              onTap: () {
+                if (data.matchStatus == MatchStatus.upcoming.name) {
+                  changeMatchStatus(MatchStatus.fHalfStart.name);
+                  updateTimer(MatchStatus.fHalfStart.name);
+                } else if (data.noOfHalfs == 1) {
+                  changeMatchStatus(MatchStatus.completed.name);
+                  updateTimer(MatchStatus.completed.name);
+                } else if (data.matchStatus == MatchStatus.fHalfStart.name) {
+                  changeMatchStatus(MatchStatus.fHalfEnd.name);
+                  updateTimer(MatchStatus.fHalfEnd.name);
+                } else if (data.matchStatus == MatchStatus.fHalfEnd.name) {
+                  changeMatchStatus(MatchStatus.sHalfStart.name);
+                  updateTimer(MatchStatus.sHalfStart.name);
+                } else if (data.matchStatus == MatchStatus.sHalfStart.name) {
+                  changeMatchStatus(MatchStatus.sHalfEnd.name);
+                  updateTimer(MatchStatus.sHalfEnd.name);
+                } else {
+                  changeMatchStatus(MatchStatus.completed.name);
+                  // updateTimer(MatchStatus.completed.name);
+                }
+              },
+            );
           },
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => const CircularProgressIndicator(),
-        ),
-      ),
-    );
+        ));
   }
 
   @override
   void dispose() {
     super.dispose();
     // StopWatchTimer.
+  }
+
+  changeMatchStatus(String newMatchStatus) async {
+    await FirebaseFirestore.instance
+        .collection("Matches")
+        .doc(widget.matchModel.id)
+        .update({"matchStatus": newMatchStatus}).then((value) {
+      setState(() {});
+    });
+  }
+
+  updateTimer(String newMatchStatus) {
+    if (newMatchStatus == MatchStatus.fHalfStart.name) {
+      matchStarted = true;
+      stopwatch.onStartTimer();
+    } else if (newMatchStatus == MatchStatus.fHalfEnd.name) {
+      stopwatch.onStopTimer();
+    } else if (newMatchStatus == MatchStatus.sHalfStart.name) {
+      stopwatch.onStartTimer();
+    } else {
+      stopwatch.onStopTimer();
+    }
   }
 
   Widget logoWidget(AddTeamModel teamModel) {
@@ -151,26 +235,26 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
             DateFormat('d LLL, E').format(match.matchDate),
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
           Text(
             DateFormat('h:mm a').format(match.matchDate),
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          AppThemeShared.sharedButton(
-            context: context,
-            width: 100,
-            height: 40,
-            buttonText: "Start",
-            onTap: () {
-              matchStarted = true;
-              setState(() {});
+          // AppThemeShared.sharedButton(
+          //   context: context,
+          //   width: 100,
+          //   height: 40,
+          //   buttonText: "Start",
+          //   onTap: () {
+          //     matchStarted = true;
+          //     setState(() {});
 
-              stopwatch.onStartTimer();
-            },
-          )
+          //     stopwatch.onStartTimer();
+          //   },
+          // )
         ],
       ),
     );
@@ -185,6 +269,7 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               final value = snapshot.data;
+              print(value);
               return Text(
                 value.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 16),
@@ -232,10 +317,16 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
             ),
           ],
         ),
-        const Text(
-          "0 - 0",
-          style: TextStyle(fontSize: 30),
-        )
+        ref.watch(currMatchProvider(widget.matchModel)).when(
+              data: (data) {
+                return Text(
+                  "${data.homeTeamScore} - ${data.awayTeamScore}",
+                  style: TextStyle(fontSize: 30),
+                );
+              },
+              error: (error, stackTrace) => Text(error.toString()),
+              loading: () => const CircularProgressIndicator(),
+            )
       ],
     );
   }
@@ -246,17 +337,33 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, mainAxisExtent: 80),
       children: [
-        eventCard("Goal", Icons.sports_football, () {}),
-        eventCard("Substitution", Icons.sports_football, () {}),
-        eventCard("Yellow Card", Icons.sports_football, () {}),
-        eventCard("Red Card", Icons.sports_football, () {}),
+        eventCard("Goal", Icons.sports_football, () {
+          Navigator.pushNamed(context, '/goalEvent',
+              arguments: widget.matchModel.copyWith(
+                  currHalf: 1, currTimer: stopwatch.minuteTime.value));
+        }),
+        eventCard("Substitution", Icons.sports_football, () {
+          Navigator.pushNamed(context, '/substitutionEvent',
+              arguments: widget.matchModel.copyWith(
+                  currHalf: 1, currTimer: stopwatch.minuteTime.value));
+        }),
+        eventCard("Yellow Card", Icons.sports_football, () {
+          Navigator.pushNamed(context, '/yellowCardEvent',
+              arguments: widget.matchModel.copyWith(
+                  currHalf: 1, currTimer: stopwatch.minuteTime.value));
+        }),
+        eventCard("Red Card", Icons.sports_football, () {
+          Navigator.pushNamed(context, '/redCardEvent',
+              arguments: widget.matchModel.copyWith(
+                  currHalf: 1, currTimer: stopwatch.minuteTime.value));
+        }),
       ],
     );
   }
 
   Widget eventCard(String event, IconData icon, void Function() onClicked) {
     return GestureDetector(
-      onTap: () => onClicked,
+      onTap: onClicked,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -269,5 +376,64 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
         ),
       ),
     );
+  }
+
+  setPlayerListProvider() async {
+    if (ref.read(selectedHomeProvider).isEmpty) {
+      for (String id in widget.matchModel.homeLineup!.values) {
+        ref
+            .read(selectedHomeProvider.notifier)
+            .add(await Utility().getPlayerById(id));
+      }
+      if (widget.matchModel.homeSubstitutes != null) {
+        for (String id in widget.matchModel.homeSubstitutes!) {
+          ref
+              .read(selectedHomeProvider.notifier)
+              .add(await Utility().getPlayerById(id));
+        }
+      }
+    }
+    if (ref.read(selectedAwayProvider).isEmpty) {
+      for (String id in widget.matchModel.awayLineup!.values) {
+        ref
+            .read(selectedAwayProvider.notifier)
+            .add(await Utility().getPlayerById(id));
+      }
+      if (widget.matchModel.awaySubstitutes != null) {
+        for (String id in widget.matchModel.awaySubstitutes!) {
+          ref
+              .read(selectedAwayProvider.notifier)
+              .add(await Utility().getPlayerById(id));
+        }
+      }
+    }
+  }
+}
+
+enum MatchEvents { goal, substitution, yellowcard, redcard }
+
+enum CardType { fyellow, syellow, red }
+
+final keyEventsProvider =
+    StateNotifierProvider<KeyEventsLocal, List<MatchEventModel>>(
+  (ref) => KeyEventsLocal(),
+);
+
+class KeyEventsLocal extends StateNotifier<List<MatchEventModel>> {
+  KeyEventsLocal() : super([]);
+
+  add(MatchEventModel event) {
+    state = [...state, event];
+  }
+
+  remove(MatchEventModel event) {
+    state = [
+      for (final todo in state)
+        if (todo != event) todo,
+    ];
+  }
+
+  removeFirst() {
+    state.removeAt(0);
   }
 }

@@ -65,6 +65,7 @@ class _DisplayLineUpsState extends ConsumerState<DisplayLineUps>
       ),
       bottomNavigationBar: AppThemeShared.sharedButton(
         context: context,
+        height: 50,
         width: MediaQuery.of(context).size.width,
         buttonText: "Start Match",
         onTap: () {
@@ -185,7 +186,7 @@ class _DisplayLineUpsState extends ConsumerState<DisplayLineUps>
             shrinkWrap: true,
             padding: const EdgeInsets.all(0),
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: subsId!.length,
+            itemCount: subsId.length,
             itemBuilder: (context, index) {
               return FutureBuilder(
                 future: FirebaseFirestore.instance

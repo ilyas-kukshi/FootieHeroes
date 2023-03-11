@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -345,8 +345,8 @@ class _DisplaySquadsState extends ConsumerState<DisplaySquads> {
   }
 }
 
-final selectedHomeProvider = StateNotifierProvider.autoDispose<
-    SelectHomePlayers, List<PlayerPersonalInfo>>(
+final selectedHomeProvider =
+    StateNotifierProvider<SelectHomePlayers, List<PlayerPersonalInfo>>(
   (ref) => SelectHomePlayers(),
 );
 
@@ -354,8 +354,8 @@ final selectedHomeProvider = StateNotifierProvider.autoDispose<
 //     StateNotifierProvider<SelectHomePlayers, Queue<PlayerPersonalInfo>>((ref) {
 //   return SelectHomePlayers();
 // });
-final selectedAwayProvider = StateNotifierProvider.autoDispose<
-    SelectHomePlayers, List<PlayerPersonalInfo>>(
+final selectedAwayProvider =
+    StateNotifierProvider<SelectHomePlayers, List<PlayerPersonalInfo>>(
   (ref) => SelectHomePlayers(),
 );
 

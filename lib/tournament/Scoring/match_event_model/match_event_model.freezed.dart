@@ -30,6 +30,8 @@ mixin _$MatchEventModel {
   String? get playerOut => throw _privateConstructorUsedError;
   String? get playerIn => throw _privateConstructorUsedError;
   String? get cardType => throw _privateConstructorUsedError;
+  String? get playerCarded => throw _privateConstructorUsedError;
+  DateTime get addedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,9 @@ abstract class $MatchEventModelCopyWith<$Res> {
       bool penalty,
       String? playerOut,
       String? playerIn,
-      String? cardType});
+      String? cardType,
+      String? playerCarded,
+      DateTime addedAt});
 }
 
 /// @nodoc
@@ -79,6 +83,8 @@ class _$MatchEventModelCopyWithImpl<$Res, $Val extends MatchEventModel>
     Object? playerOut = freezed,
     Object? playerIn = freezed,
     Object? cardType = freezed,
+    Object? playerCarded = freezed,
+    Object? addedAt = null,
   }) {
     return _then(_value.copyWith(
       teamId: null == teamId
@@ -121,6 +127,14 @@ class _$MatchEventModelCopyWithImpl<$Res, $Val extends MatchEventModel>
           ? _value.cardType
           : cardType // ignore: cast_nullable_to_non_nullable
               as String?,
+      playerCarded: freezed == playerCarded
+          ? _value.playerCarded
+          : playerCarded // ignore: cast_nullable_to_non_nullable
+              as String?,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -143,7 +157,9 @@ abstract class _$$_MatchEventModelCopyWith<$Res>
       bool penalty,
       String? playerOut,
       String? playerIn,
-      String? cardType});
+      String? cardType,
+      String? playerCarded,
+      DateTime addedAt});
 }
 
 /// @nodoc
@@ -167,6 +183,8 @@ class __$$_MatchEventModelCopyWithImpl<$Res>
     Object? playerOut = freezed,
     Object? playerIn = freezed,
     Object? cardType = freezed,
+    Object? playerCarded = freezed,
+    Object? addedAt = null,
   }) {
     return _then(_$_MatchEventModel(
       teamId: null == teamId
@@ -209,6 +227,14 @@ class __$$_MatchEventModelCopyWithImpl<$Res>
           ? _value.cardType
           : cardType // ignore: cast_nullable_to_non_nullable
               as String?,
+      playerCarded: freezed == playerCarded
+          ? _value.playerCarded
+          : playerCarded // ignore: cast_nullable_to_non_nullable
+              as String?,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -226,7 +252,9 @@ class _$_MatchEventModel extends _MatchEventModel {
       required this.penalty,
       this.playerOut,
       this.playerIn,
-      this.cardType})
+      this.cardType,
+      this.playerCarded,
+      required this.addedAt})
       : super._();
 
   factory _$_MatchEventModel.fromJson(Map<String, dynamic> json) =>
@@ -252,10 +280,14 @@ class _$_MatchEventModel extends _MatchEventModel {
   final String? playerIn;
   @override
   final String? cardType;
+  @override
+  final String? playerCarded;
+  @override
+  final DateTime addedAt;
 
   @override
   String toString() {
-    return 'MatchEventModel(teamId: $teamId, minute: $minute, half: $half, event: $event, scoredBy: $scoredBy, assistedBy: $assistedBy, penalty: $penalty, playerOut: $playerOut, playerIn: $playerIn, cardType: $cardType)';
+    return 'MatchEventModel(teamId: $teamId, minute: $minute, half: $half, event: $event, scoredBy: $scoredBy, assistedBy: $assistedBy, penalty: $penalty, playerOut: $playerOut, playerIn: $playerIn, cardType: $cardType, playerCarded: $playerCarded, addedAt: $addedAt)';
   }
 
   @override
@@ -277,13 +309,28 @@ class _$_MatchEventModel extends _MatchEventModel {
             (identical(other.playerIn, playerIn) ||
                 other.playerIn == playerIn) &&
             (identical(other.cardType, cardType) ||
-                other.cardType == cardType));
+                other.cardType == cardType) &&
+            (identical(other.playerCarded, playerCarded) ||
+                other.playerCarded == playerCarded) &&
+            (identical(other.addedAt, addedAt) || other.addedAt == addedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, teamId, minute, half, event,
-      scoredBy, assistedBy, penalty, playerOut, playerIn, cardType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      teamId,
+      minute,
+      half,
+      event,
+      scoredBy,
+      assistedBy,
+      penalty,
+      playerOut,
+      playerIn,
+      cardType,
+      playerCarded,
+      addedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +357,9 @@ abstract class _MatchEventModel extends MatchEventModel {
       required final bool penalty,
       final String? playerOut,
       final String? playerIn,
-      final String? cardType}) = _$_MatchEventModel;
+      final String? cardType,
+      final String? playerCarded,
+      required final DateTime addedAt}) = _$_MatchEventModel;
   _MatchEventModel._() : super._();
 
   factory _MatchEventModel.fromJson(Map<String, dynamic> json) =
@@ -336,6 +385,10 @@ abstract class _MatchEventModel extends MatchEventModel {
   String? get playerIn;
   @override
   String? get cardType;
+  @override
+  String? get playerCarded;
+  @override
+  DateTime get addedAt;
   @override
   @JsonKey(ignore: true)
   _$$_MatchEventModelCopyWith<_$_MatchEventModel> get copyWith =>

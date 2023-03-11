@@ -38,6 +38,11 @@ mixin _$AddMatchModel {
   List<String>? get awaySubstitutes => throw _privateConstructorUsedError;
   AddTeamModel? get homeTeamModel => throw _privateConstructorUsedError;
   AddTeamModel? get awayTeamModel => throw _privateConstructorUsedError;
+  int get homeTeamScore => throw _privateConstructorUsedError;
+  int get awayTeamScore => throw _privateConstructorUsedError;
+  int? get currTimer => throw _privateConstructorUsedError;
+  int? get currHalf => throw _privateConstructorUsedError;
+  List<MatchEventModel>? get keyEvents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -69,7 +74,12 @@ abstract class $AddMatchModelCopyWith<$Res> {
       Map<String, String>? awayLineup,
       List<String>? awaySubstitutes,
       AddTeamModel? homeTeamModel,
-      AddTeamModel? awayTeamModel});
+      AddTeamModel? awayTeamModel,
+      int homeTeamScore,
+      int awayTeamScore,
+      int? currTimer,
+      int? currHalf,
+      List<MatchEventModel>? keyEvents});
 
   $AddTeamModelCopyWith<$Res>? get homeTeamModel;
   $AddTeamModelCopyWith<$Res>? get awayTeamModel;
@@ -106,6 +116,11 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
     Object? awaySubstitutes = freezed,
     Object? homeTeamModel = freezed,
     Object? awayTeamModel = freezed,
+    Object? homeTeamScore = null,
+    Object? awayTeamScore = null,
+    Object? currTimer = freezed,
+    Object? currHalf = freezed,
+    Object? keyEvents = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -180,6 +195,26 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
           ? _value.awayTeamModel
           : awayTeamModel // ignore: cast_nullable_to_non_nullable
               as AddTeamModel?,
+      homeTeamScore: null == homeTeamScore
+          ? _value.homeTeamScore
+          : homeTeamScore // ignore: cast_nullable_to_non_nullable
+              as int,
+      awayTeamScore: null == awayTeamScore
+          ? _value.awayTeamScore
+          : awayTeamScore // ignore: cast_nullable_to_non_nullable
+              as int,
+      currTimer: freezed == currTimer
+          ? _value.currTimer
+          : currTimer // ignore: cast_nullable_to_non_nullable
+              as int?,
+      currHalf: freezed == currHalf
+          ? _value.currHalf
+          : currHalf // ignore: cast_nullable_to_non_nullable
+              as int?,
+      keyEvents: freezed == keyEvents
+          ? _value.keyEvents
+          : keyEvents // ignore: cast_nullable_to_non_nullable
+              as List<MatchEventModel>?,
     ) as $Val);
   }
 
@@ -234,7 +269,12 @@ abstract class _$$_AddMatchModelCopyWith<$Res>
       Map<String, String>? awayLineup,
       List<String>? awaySubstitutes,
       AddTeamModel? homeTeamModel,
-      AddTeamModel? awayTeamModel});
+      AddTeamModel? awayTeamModel,
+      int homeTeamScore,
+      int awayTeamScore,
+      int? currTimer,
+      int? currHalf,
+      List<MatchEventModel>? keyEvents});
 
   @override
   $AddTeamModelCopyWith<$Res>? get homeTeamModel;
@@ -271,6 +311,11 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
     Object? awaySubstitutes = freezed,
     Object? homeTeamModel = freezed,
     Object? awayTeamModel = freezed,
+    Object? homeTeamScore = null,
+    Object? awayTeamScore = null,
+    Object? currTimer = freezed,
+    Object? currHalf = freezed,
+    Object? keyEvents = freezed,
   }) {
     return _then(_$_AddMatchModel(
       id: freezed == id
@@ -345,6 +390,26 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
           ? _value.awayTeamModel
           : awayTeamModel // ignore: cast_nullable_to_non_nullable
               as AddTeamModel?,
+      homeTeamScore: null == homeTeamScore
+          ? _value.homeTeamScore
+          : homeTeamScore // ignore: cast_nullable_to_non_nullable
+              as int,
+      awayTeamScore: null == awayTeamScore
+          ? _value.awayTeamScore
+          : awayTeamScore // ignore: cast_nullable_to_non_nullable
+              as int,
+      currTimer: freezed == currTimer
+          ? _value.currTimer
+          : currTimer // ignore: cast_nullable_to_non_nullable
+              as int?,
+      currHalf: freezed == currHalf
+          ? _value.currHalf
+          : currHalf // ignore: cast_nullable_to_non_nullable
+              as int?,
+      keyEvents: freezed == keyEvents
+          ? _value._keyEvents
+          : keyEvents // ignore: cast_nullable_to_non_nullable
+              as List<MatchEventModel>?,
     ));
   }
 }
@@ -370,11 +435,17 @@ class _$_AddMatchModel extends _AddMatchModel {
       final Map<String, String>? awayLineup,
       final List<String>? awaySubstitutes,
       this.homeTeamModel,
-      this.awayTeamModel})
+      this.awayTeamModel,
+      required this.homeTeamScore,
+      required this.awayTeamScore,
+      this.currTimer,
+      this.currHalf,
+      final List<MatchEventModel>? keyEvents})
       : _homeLineup = homeLineup,
         _homeSubstitutes = homeSubstitutes,
         _awayLineup = awayLineup,
         _awaySubstitutes = awaySubstitutes,
+        _keyEvents = keyEvents,
         super._();
 
   factory _$_AddMatchModel.fromJson(Map<String, dynamic> json) =>
@@ -448,10 +519,27 @@ class _$_AddMatchModel extends _AddMatchModel {
   final AddTeamModel? homeTeamModel;
   @override
   final AddTeamModel? awayTeamModel;
+  @override
+  final int homeTeamScore;
+  @override
+  final int awayTeamScore;
+  @override
+  final int? currTimer;
+  @override
+  final int? currHalf;
+  final List<MatchEventModel>? _keyEvents;
+  @override
+  List<MatchEventModel>? get keyEvents {
+    final value = _keyEvents;
+    if (value == null) return null;
+    if (_keyEvents is EqualUnmodifiableListView) return _keyEvents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'AddMatchModel(id: $id, tournamentId: $tournamentId, matchType: $matchType, matchStatus: $matchStatus, homeTeamId: $homeTeamId, awayTeamId: $awayTeamId, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate, homeLineup: $homeLineup, homeSubstitutes: $homeSubstitutes, awayLineup: $awayLineup, awaySubstitutes: $awaySubstitutes, homeTeamModel: $homeTeamModel, awayTeamModel: $awayTeamModel)';
+    return 'AddMatchModel(id: $id, tournamentId: $tournamentId, matchType: $matchType, matchStatus: $matchStatus, homeTeamId: $homeTeamId, awayTeamId: $awayTeamId, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, startingPlayers: $startingPlayers, noOfSubs: $noOfSubs, substitutionType: $substitutionType, matchDate: $matchDate, homeLineup: $homeLineup, homeSubstitutes: $homeSubstitutes, awayLineup: $awayLineup, awaySubstitutes: $awaySubstitutes, homeTeamModel: $homeTeamModel, awayTeamModel: $awayTeamModel, homeTeamScore: $homeTeamScore, awayTeamScore: $awayTeamScore, currTimer: $currTimer, currHalf: $currHalf, keyEvents: $keyEvents)';
   }
 
   @override
@@ -493,31 +581,47 @@ class _$_AddMatchModel extends _AddMatchModel {
             (identical(other.homeTeamModel, homeTeamModel) ||
                 other.homeTeamModel == homeTeamModel) &&
             (identical(other.awayTeamModel, awayTeamModel) ||
-                other.awayTeamModel == awayTeamModel));
+                other.awayTeamModel == awayTeamModel) &&
+            (identical(other.homeTeamScore, homeTeamScore) ||
+                other.homeTeamScore == homeTeamScore) &&
+            (identical(other.awayTeamScore, awayTeamScore) ||
+                other.awayTeamScore == awayTeamScore) &&
+            (identical(other.currTimer, currTimer) ||
+                other.currTimer == currTimer) &&
+            (identical(other.currHalf, currHalf) ||
+                other.currHalf == currHalf) &&
+            const DeepCollectionEquality()
+                .equals(other._keyEvents, _keyEvents));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      tournamentId,
-      matchType,
-      matchStatus,
-      homeTeamId,
-      awayTeamId,
-      noOfHalfs,
-      minsEachHalf,
-      startingPlayers,
-      noOfSubs,
-      substitutionType,
-      matchDate,
-      const DeepCollectionEquality().hash(_homeLineup),
-      const DeepCollectionEquality().hash(_homeSubstitutes),
-      const DeepCollectionEquality().hash(_awayLineup),
-      const DeepCollectionEquality().hash(_awaySubstitutes),
-      homeTeamModel,
-      awayTeamModel);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        tournamentId,
+        matchType,
+        matchStatus,
+        homeTeamId,
+        awayTeamId,
+        noOfHalfs,
+        minsEachHalf,
+        startingPlayers,
+        noOfSubs,
+        substitutionType,
+        matchDate,
+        const DeepCollectionEquality().hash(_homeLineup),
+        const DeepCollectionEquality().hash(_homeSubstitutes),
+        const DeepCollectionEquality().hash(_awayLineup),
+        const DeepCollectionEquality().hash(_awaySubstitutes),
+        homeTeamModel,
+        awayTeamModel,
+        homeTeamScore,
+        awayTeamScore,
+        currTimer,
+        currHalf,
+        const DeepCollectionEquality().hash(_keyEvents)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -552,7 +656,12 @@ abstract class _AddMatchModel extends AddMatchModel {
       final Map<String, String>? awayLineup,
       final List<String>? awaySubstitutes,
       final AddTeamModel? homeTeamModel,
-      final AddTeamModel? awayTeamModel}) = _$_AddMatchModel;
+      final AddTeamModel? awayTeamModel,
+      required final int homeTeamScore,
+      required final int awayTeamScore,
+      final int? currTimer,
+      final int? currHalf,
+      final List<MatchEventModel>? keyEvents}) = _$_AddMatchModel;
   _AddMatchModel._() : super._();
 
   factory _AddMatchModel.fromJson(Map<String, dynamic> json) =
@@ -594,6 +703,16 @@ abstract class _AddMatchModel extends AddMatchModel {
   AddTeamModel? get homeTeamModel;
   @override
   AddTeamModel? get awayTeamModel;
+  @override
+  int get homeTeamScore;
+  @override
+  int get awayTeamScore;
+  @override
+  int? get currTimer;
+  @override
+  int? get currHalf;
+  @override
+  List<MatchEventModel>? get keyEvents;
   @override
   @JsonKey(ignore: true)
   _$$_AddMatchModelCopyWith<_$_AddMatchModel> get copyWith =>

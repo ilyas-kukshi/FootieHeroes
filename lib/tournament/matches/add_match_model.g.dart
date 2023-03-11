@@ -40,6 +40,13 @@ _$_AddMatchModel _$$_AddMatchModelFromJson(Map<String, dynamic> json) =>
           ? null
           : AddTeamModel.fromJson(
               json['awayTeamModel'] as Map<String, dynamic>),
+      homeTeamScore: json['homeTeamScore'] as int,
+      awayTeamScore: json['awayTeamScore'] as int,
+      currTimer: json['currTimer'] as int?,
+      currHalf: json['currHalf'] as int?,
+      keyEvents: (json['keyEvents'] as List<dynamic>?)
+          ?.map((e) => MatchEventModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_AddMatchModelToJson(_$_AddMatchModel instance) =>
@@ -62,4 +69,9 @@ Map<String, dynamic> _$$_AddMatchModelToJson(_$_AddMatchModel instance) =>
       'awaySubstitutes': instance.awaySubstitutes,
       'homeTeamModel': instance.homeTeamModel,
       'awayTeamModel': instance.awayTeamModel,
+      'homeTeamScore': instance.homeTeamScore,
+      'awayTeamScore': instance.awayTeamScore,
+      'currTimer': instance.currTimer,
+      'currHalf': instance.currHalf,
+      'keyEvents': instance.keyEvents,
     };

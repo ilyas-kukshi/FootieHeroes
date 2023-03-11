@@ -291,7 +291,9 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
         noOfSubs: int.parse(noOfSubs),
         substitutionType: typeOfSub,
         matchDate: DateTime(matchDate!.year, matchDate!.month, matchDate!.day,
-            startTime!.hour, startTime!.minute));
+            startTime!.hour, startTime!.minute,
+            ),
+            homeTeamScore: 0,awayTeamScore: 0);
 
     await FirebaseFirestore.instance
         .collection("Matches")

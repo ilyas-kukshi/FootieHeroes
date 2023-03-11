@@ -8,7 +8,11 @@ import 'package:footie_heroes/dashboard/dashboard_main.dart';
 import 'package:footie_heroes/dashboard/my_tournaments.dart';
 import 'package:footie_heroes/player_profile/create_profile.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
+import 'package:footie_heroes/tournament/Scoring/goal_event.dart';
+import 'package:footie_heroes/tournament/Scoring/red_card_event.dart';
 import 'package:footie_heroes/tournament/Scoring/scoring_main.dart';
+import 'package:footie_heroes/tournament/Scoring/substitution_event.dart';
+import 'package:footie_heroes/tournament/Scoring/yellow_card_event.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
@@ -115,6 +119,30 @@ class MyApp extends StatelessWidget {
       case '/scoringMain':
         return PageTransition(
             child: ScoringMain(
+              matchModel: settings.arguments as AddMatchModel,
+            ),
+            type: PageTransitionType.leftToRight);
+      case '/goalEvent':
+        return PageTransition(
+            child: GoalEvent(
+              matchModel: settings.arguments as AddMatchModel,
+            ),
+            type: PageTransitionType.leftToRight);
+      case '/substitutionEvent':
+        return PageTransition(
+            child: SubstitutionEvent(
+              matchModel: settings.arguments as AddMatchModel,
+            ),
+            type: PageTransitionType.leftToRight);
+      case '/yellowCardEvent':
+        return PageTransition(
+            child: YellowCardEvent(
+              matchModel: settings.arguments as AddMatchModel,
+            ),
+            type: PageTransitionType.leftToRight);
+      case '/redCardEvent':
+        return PageTransition(
+            child: RedCardEvent(
               matchModel: settings.arguments as AddMatchModel,
             ),
             type: PageTransitionType.leftToRight);

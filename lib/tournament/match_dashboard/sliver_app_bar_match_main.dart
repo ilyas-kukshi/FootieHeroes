@@ -56,9 +56,12 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
                           collapsed
                               ? homeTeamRow(widget.matchModel)
                               : homeTeamColumn(widget.matchModel),
-                          match.matchStatus == MatchStatus.Upcoming.name
+                          match.matchStatus == MatchStatus.upcoming.name
                               ? timeAndDateColumn(widget.matchModel)
-                              : match.matchStatus == MatchStatus.Live.name
+                              : match.matchStatus !=
+                                          MatchStatus.upcoming.name ||
+                                      match.matchStatus !=
+                                          MatchStatus.completed.name
                                   ? Container()
                                   : const Offstage(),
                           collapsed

@@ -91,12 +91,15 @@ class _MatchesState extends ConsumerState<Matches> {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: matchModel.matchStatus ==
-                                MatchStatus.Upcoming.name
-                            ? Colors.orangeAccent
-                            : matchModel.matchStatus == MatchStatus.Live.name
-                                ? Colors.green
-                                : Colors.black,
+                        color:
+                            matchModel.matchStatus == MatchStatus.upcoming.name
+                                ? Colors.orangeAccent
+                                : matchModel.matchStatus !=
+                                            MatchStatus.upcoming.name ||
+                                        matchModel.matchStatus !=
+                                            MatchStatus.completed.name
+                                    ? Colors.green
+                                    : Colors.black,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -214,4 +217,11 @@ class _MatchesState extends ConsumerState<Matches> {
 }
 
 // ignore: constant_identifier_names
-enum MatchStatus { Upcoming, Live, Completed }
+enum MatchStatus {
+  upcoming,
+  fHalfStart,
+  fHalfEnd,
+  sHalfStart,
+  sHalfEnd,
+  completed
+}

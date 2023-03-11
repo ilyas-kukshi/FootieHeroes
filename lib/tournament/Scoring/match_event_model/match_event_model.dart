@@ -8,18 +8,19 @@ part 'match_event_model.g.dart';
 abstract class MatchEventModel implements _$MatchEventModel {
   const MatchEventModel._();
 
-  factory MatchEventModel({
-    required String teamId,
-    required int minute,
-    required int half,
-    required String event,
-    String? scoredBy,
-    String? assistedBy,
-    required bool penalty,
-    String? playerOut,
-    String? playerIn,
-    String? cardType,
-  }) = _MatchEventModel;
+  factory MatchEventModel(
+      {required String teamId,
+      required int minute,
+      required int half,
+      required String event,
+      String? scoredBy,
+      String? assistedBy,
+      required bool penalty,
+      String? playerOut,
+      String? playerIn,
+      String? cardType,
+      String? playerCarded,
+      required DateTime addedAt,}) = _MatchEventModel;
 
   factory MatchEventModel.fromJson(Map<String, dynamic> json) =>
       _$MatchEventModelFromJson(json);
