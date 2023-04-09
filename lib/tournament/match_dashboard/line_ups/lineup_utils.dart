@@ -67,17 +67,14 @@ class LineUpUtils {
     );
   }
 
-
-  
-
   EdgeInsetsGeometry getPadding(PositionNames pos) {
     switch (pos) {
       case PositionNames.gk:
-        return const EdgeInsets.only(bottom: 30);
+        return const EdgeInsets.only(bottom: 10);
       case PositionNames.lb:
-        return const EdgeInsets.only(bottom: 120, left: 30);
+        return const EdgeInsets.only(bottom: 70, left: 10);
       case PositionNames.rb:
-        return const EdgeInsets.only(bottom: 120, right: 30);
+        return const EdgeInsets.only(bottom: 70, right: 10);
       default:
         return const EdgeInsets.all(0);
     }

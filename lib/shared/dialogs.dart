@@ -25,10 +25,7 @@ class DialogShared {
                 const SizedBox(height: 30),
                 Text(
                   text,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      ?.copyWith(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 )
               ],
             ),
@@ -52,10 +49,7 @@ class DialogShared {
               Text(
                 text,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    ?.copyWith(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 30),
               Row(
@@ -102,10 +96,7 @@ class DialogShared {
               Text(
                 text,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    ?.copyWith(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 30),
               AppThemeShared.sharedRaisedButton(

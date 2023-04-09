@@ -117,18 +117,25 @@ class _SignInState extends State<SignIn> {
   checkLogin() async {
     if (await Utility().userLoggedIn()) {
       if (await Utility().userProfileComplete()) {
-        Navigator.pushNamed(context, "/dashboardMain");
+        toDashboard();
       } else {
-        Navigator.pushNamed(context, '/createProfile',
-            arguments: PlayerPersonalInfo(
-                name: "",
-                phoneNo:
-                    FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
-                position: "",
-                role: "",
-                prefFoot: "",
-                gender: ""));
+        toProfile();
       }
     }
+  }
+
+  toDashboard() {
+    Navigator.pushNamed(context, "/dashboardMain");
+  }
+
+  toProfile() {
+    Navigator.pushNamed(context, '/createProfile',
+        arguments: PlayerPersonalInfo(
+            name: "",
+            phoneNo: FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
+            position: "",
+            role: "",
+            prefFoot: "",
+            gender: ""));
   }
 }

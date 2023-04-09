@@ -13,6 +13,7 @@ import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/points_table/team_points_model.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -265,6 +266,8 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
 
   saveTeam(String? logoUrl) async {
     DialogShared.loadingDialog(context, "Adding Team");
+    Map<String, TeamPointsModel> pTmap =
+        Map.from(widget.tournamentModel.pointsTable);
     await FirebaseFirestore.instance
         .collection("Teams")
         .add(AddTeamModel(
@@ -274,9 +277,39 @@ class _AddTeamBottomSheetState extends State<AddTeamBottomSheet> {
                 tournamentId: [widget.tournamentModel.id!],
                 isGrouped: false)
             .toJson())
-        .then((value) {
-      Navigator.pop(context);
-      Navigator.pop(context);
+        .then((value) async {
+      pTmap.putIfAbsent(
+          value.id,
+          () => TeamPointsModel(
+              teamId: value.id,
+              played: 0,
+              wins: 0,
+              lost: 0,
+              draws: 0,
+              goalsScored: 0,
+              goalsConceded: 0,
+              playedAgainst: [],
+              wonAgainst: [],
+              lostAgainst: []));
+
+      Map<String, Map<String, dynamic>> pTMapFinal = {};
+
+      pTmap.forEach((key, value) {
+        pTMapFinal.putIfAbsent(key, () => value.toJson());
+      });
+
+      await FirebaseFirestore.instance
+          .collection("Tournaments")
+          .doc(widget.tournamentModel.id)
+          .update({
+        "pointsTable": pTMapFinal,
+        "teams": FieldValue.arrayUnion([value.id])
+      }).then((value) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }).onError((error, stackTrace) {
+        Fluttertoast.showToast(msg: error.toString());
+      });
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());
     });

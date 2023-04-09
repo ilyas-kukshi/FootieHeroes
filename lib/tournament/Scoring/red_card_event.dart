@@ -4,12 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/Scoring/match_event_model/match_event_model.dart';
 import 'package:footie_heroes/tournament/Scoring/scoring_main.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
+import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
+import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 
+// ignore: must_be_immutable
 class RedCardEvent extends ConsumerStatefulWidget {
   AddMatchModel matchModel;
   RedCardEvent({super.key, required this.matchModel});
@@ -37,7 +41,7 @@ class _RedCardEventState extends ConsumerState<RedCardEvent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
-              Text("Red Card"),
+              const Text("Red Card"),
               const SizedBox(height: 15),
               selectTeam(),
               const SizedBox(height: 15),
@@ -46,7 +50,7 @@ class _RedCardEventState extends ConsumerState<RedCardEvent> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Select Player"),
+                        const Text("Select Player"),
                         const SizedBox(height: 15),
                         selectedTeam!.id == widget.matchModel.homeTeamId
                             ? Wrap(
@@ -86,7 +90,7 @@ class _RedCardEventState extends ConsumerState<RedCardEvent> {
         teamId: selectedTeam!.id!,
         minute: widget.matchModel.currTimer!,
         half: widget.matchModel.currHalf!,
-        event: MatchEvents.substitution.name,
+        event: MatchEvents.redcard.name,
         cardType: CardType.red.name,
         playerCarded: redCarded!.id,
         addedAt: DateTime.now(),
@@ -101,6 +105,7 @@ class _RedCardEventState extends ConsumerState<RedCardEvent> {
     }).then((value) {
       ref.read(keyEventsProvider.notifier).add(event);
       Fluttertoast.showToast(msg: "added");
+      updateLeaderboard();
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());
@@ -186,5 +191,43 @@ class _RedCardEventState extends ConsumerState<RedCardEvent> {
         ),
       ),
     );
+  }
+
+  updateLeaderboard() async {
+    Map<String, PlayersTournamentModel> map = {};
+    AddTournamentModel tournamentModel =
+        await Utility().getTournament(widget.matchModel.tournamentId);
+
+    map = Map.fromEntries(tournamentModel.playerStats.entries);
+    map.update(
+      redCarded!.id!,
+      (value) {
+        return value.copyWith(noOfRC: value.noOfRC + 1);
+      },
+      ifAbsent: () {
+        return PlayersTournamentModel(
+            playerId: redCarded!.id!,
+            teamId: selectedTeam!.id!,
+            noOfGoals: 0,
+            noOfAssists: 0,
+            noOfYC: 0,
+            noOfRC: 1,
+            noOfMatches: 0,
+            noOfCleanSheets: 0);
+      },
+    );
+
+    Map<String, Map<String, dynamic>> finalMap = {};
+    for (var element in map.entries) {
+      finalMap.putIfAbsent(element.key, () => element.value.toJson());
+    }
+    await FirebaseFirestore.instance
+        .collection("Tournaments")
+        .doc(widget.matchModel.tournamentId)
+        .update({"playerStats": finalMap}).then((value) {
+      Fluttertoast.showToast(msg: "Leaderboard Updated");
+    }).onError((error, stackTrace) {
+      Fluttertoast.showToast(msg: error.toString());
+    });
   }
 }

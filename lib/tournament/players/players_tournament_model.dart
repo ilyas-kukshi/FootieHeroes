@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
-import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'players_tournament_model.freezed.dart';
@@ -12,8 +10,14 @@ abstract class PlayersTournamentModel implements _$PlayersTournamentModel {
 
   factory PlayersTournamentModel({
     String? id,
-    required AddTeamModel teamModel,
-    required PlayerPersonalInfo playerPersonalInfo,
+    required String playerId,
+    required String teamId,
+    required int noOfGoals,
+    required int noOfAssists,
+    required int noOfYC,
+    required int noOfRC,
+    required int noOfMatches,
+    required int noOfCleanSheets,
   }) = _PlayersTournamentModel;
 
   factory PlayersTournamentModel.fromJson(Map<String, dynamic> json) =>

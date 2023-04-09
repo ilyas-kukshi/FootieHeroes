@@ -6,39 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6c27e142-c45f-46b7-8610-dcddf5460ba8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/footie_heroes.iml" beforeDir="false" afterPath="$PROJECT_DIR$/footie_heroes.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/authentication/otp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/authentication/otp.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dashboard/dashboard_drawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dashboard/dashboard_drawer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dashboard/my_tournaments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dashboard/my_tournaments.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/player_profile/player_personal_info_model/player_personal_info.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/player_profile/player_personal_info_model/player_personal_info.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/shared/app_theme_shared.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shared/app_theme_shared.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/shared/utility.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shared/utility.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_team/add_team_bottom_sheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_team/add_team_bottom_sheet.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_team/add_team_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_team/teams.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_team/teams.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/add_tournaments/add_tournament_model/add_tournament_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/match_dashboard/display_squads.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/match_dashboard/display_squads.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tournament/Scoring/red_card_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/Scoring/red_card_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tournament/Scoring/yellow_card_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/Scoring/yellow_card_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tournament/match_dashboard/line_ups/home_team_lineup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/match_dashboard/line_ups/home_team_lineup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tournament/match_dashboard/line_ups/lineup_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/match_dashboard/line_ups/lineup_utils.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/tournament/match_dashboard/match_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/match_dashboard/match_main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/match_dashboard/sliver_app_bar_match_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/match_dashboard/sliver_app_bar_match_main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/matches/add_match_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/matches/add_matches.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/matches/add_matches.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/matches/matches.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/matches/matches.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/players/options_add_players.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/players/options_add_players.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/players/players.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/players/players.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/players/players_tournament_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/players/players_tournament_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tournament/tournament_dashboard/tournament_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tournament/tournament_dashboard/tournament_main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,15 +47,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "F:/Flutter projects/FootieHeroes",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Flutter projects/FootieHeroes&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

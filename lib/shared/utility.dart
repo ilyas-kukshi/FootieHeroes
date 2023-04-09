@@ -8,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
-import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utility {
@@ -229,7 +228,7 @@ class Utility {
                 .doc(FirebaseAuth.instance.currentUser!.uid)
                 .get()
                 .then((value) {
-              addPlayer(context, value, instanceLink.link.queryParameters);
+              // addPlayer(context, value, instanceLink.link.queryParameters);
             }).onError((error, stackTrace) {
               Fluttertoast.showToast(msg: error.toString());
             });
@@ -257,26 +256,26 @@ class Utility {
     });
   }
 
-  addPlayer(BuildContext context, DocumentSnapshot documentSnapshot,
-      Map<String, String> paths) async {
-    PlayerPersonalInfo playerInfo =
-        PlayerPersonalInfo.fromDocument(documentSnapshot);
-    AddTeamModel teamModel = await getTeamModel(paths);
-    await FirebaseFirestore.instance
-        .collection("Tournaments")
-        .doc(paths["tournamentId"])
-        .collection("Players")
-        .doc(playerInfo.id)
-        .set(PlayersTournamentModel(
-                teamModel: teamModel, playerPersonalInfo: playerInfo)
-            .toJson())
-        .then((value) {
-      Navigator.pushNamed(context, "/players", arguments: teamModel);
-      Fluttertoast.showToast(msg: "Player Added");
-    }).onError((error, stackTrace) {
-      Fluttertoast.showToast(msg: error.toString());
-    });
-  }
+  // addPlayer(BuildContext context, DocumentSnapshot documentSnapshot,
+  //     Map<String, String> paths) async {
+  //   PlayerPersonalInfo playerInfo =
+  //       PlayerPersonalInfo.fromDocument(documentSnapshot);
+  //   AddTeamModel teamModel = await getTeamModel(paths);
+  //   await FirebaseFirestore.instance
+  //       .collection("Tournaments")
+  //       .doc(paths["tournamentId"])
+  //       .collection("Players")
+  //       .doc(playerInfo.id)
+  //       .set(PlayersTournamentModel(
+  //               teamModel: teamModel, playerPersonalInfo: playerInfo)
+  //           .toJson())
+  //       .then((value) {
+  //     Navigator.pushNamed(context, "/players", arguments: teamModel);
+  //     Fluttertoast.showToast(msg: "Player Added");
+  //   }).onError((error, stackTrace) {
+  //     Fluttertoast.showToast(msg: error.toString());
+  //   });
+  // }
 
   Future<AddTeamModel> getTeamModel(Map<String, String> paths) async {
     late AddTeamModel addTeamModel;
@@ -312,5 +311,24 @@ class Utility {
       Fluttertoast.showToast(msg: error.toString());
     });
     return playerPersonalInfo;
+  }
+
+  Future<AddTournamentModel> getTournament(String id) async {
+    late AddTournamentModel tournamentModel;
+    await FirebaseFirestore.instance
+        .collection("Tournaments")
+        .doc(id)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        tournamentModel = AddTournamentModel.fromDocument(value);
+        // Navigator.pushNamed(context, "/dashboardMain");
+      } else {
+        // Navigator.pushNamed(context, '/createProfile');
+      }
+    }).onError((error, stackTrace) {
+      Fluttertoast.showToast(msg: error.toString());
+    });
+    return tournamentModel;
   }
 }

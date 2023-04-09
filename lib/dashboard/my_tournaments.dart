@@ -112,12 +112,12 @@ class _MyTournamentsState extends State<MyTournaments> {
 
   Future<List<AddTournamentModel>> getMyTournaments() async {
     List<AddTournamentModel> tournament = [];
-    await FirebaseFirestore.instance
+    await FirebaseFirestore.instance 
         .collection("Tournaments")
         .where("followersId",
             arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .get()
-        .then((value) {
+        .then((value) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
       for (var element in value.docs) {
         tournament.add(AddTournamentModel.fromDocument(element));
       }

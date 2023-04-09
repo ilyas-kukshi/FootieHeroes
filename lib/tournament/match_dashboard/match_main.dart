@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
+import 'package:footie_heroes/tournament/Scoring/display_key_events.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/match_dashboard/line_ups/display_lineups.dart';
 import 'package:footie_heroes/tournament/match_dashboard/sliver_app_bar_match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
+import 'package:footie_heroes/tournament/matches/matches.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
 
 // ignore: must_be_immutable
@@ -27,11 +29,19 @@ class _MatchMainState extends ConsumerState<MatchMain>
   List<Widget> matchNotStartedViews = [];
   List<Widget> lineupAnnouncedTabs = [];
   List<Widget> lineupAnnouncedViews = [];
+  List<Widget> matchStartedTabs = [];
+  List<Widget> matchStartedViews = [];
+
   @override
   void initState() {
     super.initState();
     tabController = TabController(
-        length: widget.matchModel.awayLineup == null ? 2 : 3, vsync: this);
+        length: widget.matchModel.matchStatus == MatchStatus.upcoming.name
+            ? widget.matchModel.awayLineup == null
+                ? 2
+                : 3
+            : 4,
+        vsync: this);
     matchNotStartedTabs = const [
       Tab(
         text: "Squads",
@@ -64,6 +74,27 @@ class _MatchMainState extends ConsumerState<MatchMain>
       DisplayLineUps(matchModel: widget.matchModel),
       Container()
     ];
+
+    matchStartedTabs = const [
+      Tab(text: "Key Events", height: 50),
+      Tab(
+        text: "Squads",
+        height: 50,
+      ),
+      Tab(
+        text: "Lineups",
+      ),
+      Tab(
+        text: "About",
+        height: 50,
+      ),
+    ];
+    matchStartedViews = [
+      DisplayKeyEvents(matchModel: widget.matchModel),
+      DisplaySquads(matchModel: widget.matchModel),
+      DisplayLineUps(matchModel: widget.matchModel),
+      Container()
+    ];
   }
 
   @override
@@ -82,18 +113,24 @@ class _MatchMainState extends ConsumerState<MatchMain>
                       // isScrollable: true,
                       indicatorColor: Colors.white,
                       controller: tabController,
-                      tabs: widget.matchModel.awayLineup == null
-                          ? matchNotStartedTabs
-                          : lineupAnnouncedTabs),
+                      tabs: widget.matchModel.matchStatus ==
+                              MatchStatus.upcoming.name
+                          ? widget.matchModel.awayLineup == null
+                              ? matchNotStartedTabs
+                              : lineupAnnouncedTabs
+                          : matchStartedTabs),
                 ),
               ),
             ];
           },
           body: TabBarView(
               controller: tabController,
-              children: widget.matchModel.awayLineup == null
-                  ? matchNotStartedViews
-                  : lineupAnnouncedViews),
+              children:
+                  widget.matchModel.matchStatus == MatchStatus.upcoming.name
+                      ? widget.matchModel.awayLineup == null
+                          ? matchNotStartedViews
+                          : lineupAnnouncedViews
+                      : matchStartedViews),
         ),
       ),
     );

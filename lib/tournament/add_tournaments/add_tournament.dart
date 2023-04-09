@@ -379,12 +379,18 @@ class _AddTournamentState extends State<AddTournament> {
         minsEachHalf: int.parse(minsEachHalfController.text),
         noOfHalfs: int.parse(noOfHalfs),
         scorers: [widget.playerPersonalInfo.id],
-        followersId: [widget.playerPersonalInfo.id!]);
+        followersId: [widget.playerPersonalInfo.id!],
+        playerStats: {},
+        pointsTable: {},
+        assistLeaderboard: {},
+        goalLeaderboard: {},
+        yellowCardLeaderboard: {},
+        redCardLeaderboard: {},
+        cleanSheetLeaderboard: {});
 
     await FirebaseFirestore.instance
         .collection("Tournaments")
         .add(addTournamentModel.toJson())
-      
         .then((value) {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Tournament Created");

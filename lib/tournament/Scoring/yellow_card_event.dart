@@ -4,12 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
+import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/Scoring/match_event_model/match_event_model.dart';
 import 'package:footie_heroes/tournament/Scoring/scoring_main.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
+import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
+import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 
+// ignore: must_be_immutable
 class YellowCardEvent extends ConsumerStatefulWidget {
   AddMatchModel matchModel;
   YellowCardEvent({super.key, required this.matchModel});
@@ -38,7 +42,7 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
-              Text("Yellow Card"),
+              const Text("Yellow Card"),
               const SizedBox(height: 15),
               selectTeam(),
               const SizedBox(height: 15),
@@ -47,7 +51,7 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Select Player"),
+                        const Text("Select Player"),
                         const SizedBox(height: 15),
                         selectedTeam!.id == widget.matchModel.homeTeamId
                             ? Wrap(
@@ -87,7 +91,7 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
         teamId: selectedTeam!.id!,
         minute: widget.matchModel.currTimer!,
         half: widget.matchModel.currHalf!,
-        event: MatchEvents.substitution.name,
+        event: MatchEvents.yellowcard.name,
         cardType: CardType.fyellow.name,
         playerCarded: yellowCarded!.id,
         addedAt: DateTime.now(),
@@ -103,6 +107,7 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
       ref.read(keyEventsProvider.notifier).add(event);
       Fluttertoast.showToast(msg: "added");
       Navigator.pop(context);
+      updateLeaderboard();
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());
     });
@@ -187,5 +192,43 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
         ),
       ),
     );
+  }
+
+  updateLeaderboard() async {
+    Map<String, PlayersTournamentModel> map = {};
+    AddTournamentModel tournamentModel =
+        await Utility().getTournament(widget.matchModel.tournamentId);
+
+    map = Map.fromEntries(tournamentModel.playerStats.entries);
+    map.update(
+      yellowCarded!.id!,
+      (value) {
+        return value.copyWith(noOfYC: value.noOfYC + 1);
+      },
+      ifAbsent: () {
+        return PlayersTournamentModel(
+            playerId: yellowCarded!.id!,
+            teamId: selectedTeam!.id!,
+            noOfGoals: 0,
+            noOfAssists: 0,
+            noOfYC: 1,
+            noOfRC: 0,
+            noOfMatches: 0,
+            noOfCleanSheets: 0);
+      },
+    );
+
+    Map<String, Map<String, dynamic>> finalMap = {};
+    for (var element in map.entries) {
+      finalMap.putIfAbsent(element.key, () => element.value.toJson());
+    }
+    await FirebaseFirestore.instance
+        .collection("Tournaments")
+        .doc(widget.matchModel.tournamentId)
+        .update({"playerStats": finalMap}).then((value) {
+      Fluttertoast.showToast(msg: "Leaderboard Updated");
+    }).onError((error, stackTrace) {
+      Fluttertoast.showToast(msg: error.toString());
+    });
   }
 }

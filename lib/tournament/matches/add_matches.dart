@@ -282,7 +282,7 @@ class _AddMatchesState extends ConsumerState<AddMatches> {
     AddMatchModel matchModel = AddMatchModel(
         tournamentId: widget.tournamentModel.id!,
         matchType: matchType,
-        matchStatus: "Upcoming",
+        matchStatus: "upcoming",
         homeTeamId: selectedTeams.first.id!,
         awayTeamId: selectedTeams.last.id!,
         noOfHalfs: int.parse(noOfHalfs),

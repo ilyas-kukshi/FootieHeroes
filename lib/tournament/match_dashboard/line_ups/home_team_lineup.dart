@@ -30,39 +30,49 @@ class _HomeTeamLineUpState extends ConsumerState<HomeTeamLineUp>
     super.build(context);
 
     return Scaffold(
-      body: Column(
-        children: [
-          AppThemeShared.sharedDropDown(
-            context: context,
-            items: ["1-2"],
-            onChanged: (p0) {},
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height -
-                192 -
-                kToolbarHeight -
-                50 -
-                54,
-            decoration: const BoxDecoration(color: Colors.green),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset("assets/images/lineup.png",
-                    width: MediaQuery.of(context).size.width, fit: BoxFit.fill),
-                formation.containsKey(PositionNames.gk.name)
-                    ? lineupPlayer(PositionNames.gk)
-                    : const Offstage(),
-                formation.containsKey(PositionNames.lb.name)
-                    ? lineupPlayer(PositionNames.lb)
-                    : const Offstage(),
-                formation.containsKey(PositionNames.rb.name)
-                    ? lineupPlayer(PositionNames.rb)
-                    : const Offstage(),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // AppThemeShared.sharedDropDown(
+            //   context: context,
+            //   items: ["1-2"],
+            //   onChanged: (p0) {},
+            // ),
+            Container(
+              height: 400,
+              decoration: const BoxDecoration(color: Colors.green),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset("assets/images/lineup.png",
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.fill),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: AppThemeShared.sharedDropDown(
+                      context: context,
+                      height: 40,
+                      widthPercent: 0.4,
+                      items: ["1-2"],
+                      borderColor: Colors.white,
+                      onChanged: (p0) {},
+                    ),
+                  ),
+                  formation.containsKey(PositionNames.gk.name)
+                      ? lineupPlayer(PositionNames.gk)
+                      : const Offstage(),
+                  formation.containsKey(PositionNames.lb.name)
+                      ? lineupPlayer(PositionNames.lb)
+                      : const Offstage(),
+                  formation.containsKey(PositionNames.rb.name)
+                      ? lineupPlayer(PositionNames.rb)
+                      : const Offstage(),
+                ],
+              ),
             ),
-          ),
-          LineUpUtils().playersListView(widget.players),
-        ],
+            LineUpUtils().playersListView(widget.players),
+          ],
+        ),
       ),
       bottomNavigationBar: AppThemeShared.sharedButton(
         context: context,

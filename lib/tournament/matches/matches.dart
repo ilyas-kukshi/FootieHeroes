@@ -6,6 +6,7 @@ import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/match_dashboard/match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tournament_main.dart';
 import 'package:intl/intl.dart';
@@ -114,74 +115,111 @@ class _MatchesState extends ConsumerState<Matches> {
                 const Divider(
                   thickness: 2,
                 ),
-                FutureBuilder<AddTeamModel>(
-                  future: Utility().getTeamById(matchModel.homeTeamId),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        AddTeamModel homeTeam = snapshot.data;
-                        homeTeamModel = homeTeam;
-                        return Column(
-                          children: [
-                            Row(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FutureBuilder<AddTeamModel>(
+                      future: Utility().getTeamById(matchModel.homeTeamId),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            AddTeamModel homeTeam = snapshot.data;
+                            homeTeamModel = homeTeam;
+                            return Column(
                               children: [
-                                logoWidget(homeTeam),
-                                const SizedBox(
-                                  width: 10,
+                                Column(
+                                  children: [
+                                    logoWidget(homeTeam),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(homeTeam.name),
+                                  ],
                                 ),
-                                Text(homeTeam.name),
                               ],
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const Text("");
-                      }
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-                const SizedBox(height: 20),
-                FutureBuilder<AddTeamModel>(
-                  future: Utility().getTeamById(matchModel.awayTeamId),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        AddTeamModel awayTeam = snapshot.data;
-                        awayTeamModel = awayTeam;
-                        return Column(
-                          children: [
-                            Row(
+                            );
+                          } else {
+                            return const Text("");
+                          }
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    timerAndScore(matchModel),
+                    FutureBuilder<AddTeamModel>(
+                      future: Utility().getTeamById(matchModel.awayTeamId),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            AddTeamModel awayTeam = snapshot.data;
+                            awayTeamModel = awayTeam;
+                            return Column(
                               children: [
-                                logoWidget(awayTeam),
-                                const SizedBox(
-                                  width: 10,
+                                Column(
+                                  children: [
+                                    logoWidget(awayTeam),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(awayTeam.name),
+                                  ],
                                 ),
-                                Text(awayTeam.name),
                               ],
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const Text("");
-                      }
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
+                            );
+                          } else {
+                            return const Text("");
+                          }
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                const Divider(
-                  thickness: 2,
-                ),
-                Text(
-                    "Match Scheduled at ${DateFormat('yyyy-MM-dd – kk:mm a').format(matchModel.matchDate)}")
+                matchModel.matchStatus == MatchStatus.upcoming.name
+                    ? Column(
+                        children: [
+                          const Divider(
+                            thickness: 2,
+                          ),
+                          Text(
+                              "Match Scheduled at ${DateFormat('yyyy-MM-dd – kk:mm a').format(matchModel.matchDate)}")
+                        ],
+                      )
+                    : const Offstage()
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget timerAndScore(AddMatchModel match) {
+    return ref.watch(currMatchProvider(match)).when(
+          data: (data) {
+            return Column(
+              children: [
+                Text(
+                  data.matchStatus == MatchStatus.fHalfEnd.name
+                      ? "HALF TIME"
+                      : match.matchStatus == MatchStatus.completed.name
+                          ? "FULL TIME"
+                          : "${data.currTimer}'",
+                  style: const TextStyle(color: Colors.green, fontSize: 16),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "${data.homeTeamScore} - ${data.awayTeamScore}",
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            );
+          },
+          error: (error, stackTrace) => Text(error.toString()),
+          loading: () => const CircularProgressIndicator(),
+        );
   }
 
   Widget logoWidget(AddTeamModel teamModel) {

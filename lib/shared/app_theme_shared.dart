@@ -20,11 +20,7 @@ class AppThemeShared {
     return AppBar(
       title: Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .headline1
-            ?.copyWith(fontSize: textSize)
-            .copyWith(color: textColor, fontWeight: fontWeight),
+        style: TextStyle(color: textColor, fontWeight: fontWeight),
       ),
       automaticallyImplyLeading: false,
       centerTitle: centerTitle,
@@ -55,10 +51,7 @@ class AppThemeShared {
       onPressed: onTap,
       child: Text(
         buttonText,
-        style: Theme.of(context)
-            .textTheme
-            .headline1
-            ?.copyWith(fontSize: textSize)
+        style: TextStyle(fontSize: textSize)
             .copyWith(color: textColor, fontWeight: fontWeight),
       ),
     );
@@ -133,20 +126,14 @@ class AppThemeShared {
         onFieldSubmitted: onFieldSubmitted,
         onTap: onTap,
         inputFormatters: inputFormatters,
-        style: Theme.of(context).textTheme.headline3?.copyWith(fontSize: 18),
+        style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
-          hintStyle: Theme.of(context)
-              .textTheme
-              .headline3
-              ?.copyWith(fontSize: 18, color: Colors.black.withOpacity(0.7)),
+          hintStyle: TextStyle(fontSize: 18, color: Colors.black.withOpacity(0.7)),
           labelText: labelText,
-          labelStyle: Theme.of(context)
-              .textTheme
-              .headline3
-              ?.copyWith(fontSize: 16, color: AppThemeShared.primaryColor),
+          labelStyle: TextStyle(fontSize: 16, color: AppThemeShared.primaryColor),
           suffixIcon: suffixIcon,
           isDense: true,
           prefixIcon: prefixIcon,
@@ -190,7 +177,7 @@ class AppThemeShared {
         style: ElevatedButton.styleFrom(backgroundColor: color),
         child: Text(
           buttonText,
-          style: Theme.of(context).textTheme.headline3?.copyWith(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -227,10 +214,7 @@ class AppThemeShared {
       child: DropdownButtonFormField(
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: Theme.of(context)
-                .textTheme
-                .headline3
-                ?.copyWith(fontSize: 16, color: AppThemeShared.primaryColor),
+            labelStyle: TextStyle(fontSize: 16, color: AppThemeShared.primaryColor),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
                 borderSide: BorderSide(

@@ -51,7 +51,7 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
                         top: collapsed ? 8 : kToolbarHeight),
                     child: SafeArea(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           collapsed
                               ? homeTeamRow(widget.matchModel)
@@ -62,7 +62,7 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
                                           MatchStatus.upcoming.name ||
                                       match.matchStatus !=
                                           MatchStatus.completed.name
-                                  ? Container()
+                                  ? timerAndScore(match)
                                   : const Offstage(),
                           collapsed
                               ? awayTeamRow(widget.matchModel)
@@ -103,23 +103,26 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
     );
   }
 
-  Column awayTeamColumn(AddMatchModel match) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        logoWidget(widget.matchModel.awayTeamModel!),
-        const SizedBox(height: 8),
-        collapsed
-            ? const Offstage()
-            : Text(
-                match.awayTeamModel!.name,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              )
-      ],
+  Widget awayTeamColumn(AddMatchModel match) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.2,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          logoWidget(widget.matchModel.awayTeamModel!),
+          const SizedBox(height: 8),
+          collapsed
+              ? const Offstage()
+              : Text(
+                  match.awayTeamModel!.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 9,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                )
+        ],
+      ),
     );
   }
 
@@ -138,23 +141,26 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
     );
   }
 
-  Column homeTeamColumn(AddMatchModel match) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        logoWidget(match.homeTeamModel!),
-        const SizedBox(height: 8),
-        collapsed
-            ? const Offstage()
-            : Text(
-                match.homeTeamModel!.name,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              )
-      ],
+  Widget homeTeamColumn(AddMatchModel match) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.2,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          logoWidget(match.homeTeamModel!),
+          const SizedBox(height: 8),
+          collapsed
+              ? const Offstage()
+              : Text(
+                  match.homeTeamModel!.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 9,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                )
+        ],
+      ),
     );
   }
 
@@ -173,6 +179,31 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
     );
   }
 
+  Widget timerAndScore(AddMatchModel match) {
+    return ref.watch(currMatchProvider(widget.matchModel)).when(
+          data: (data) {
+            return Column(
+              children: [
+                Text(
+                  match.matchStatus == MatchStatus.fHalfEnd.name
+                      ? "HALF TIME"
+                      : match.matchStatus == MatchStatus.completed.name
+                          ? "FULL TIME"
+                          : "${data.currTimer}'",
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                Text(
+                  "${data.homeTeamScore} - ${data.awayTeamScore}",
+                  style: const TextStyle(fontSize: 25),
+                ),
+              ],
+            );
+          },
+          error: (error, stackTrace) => Text(error.toString()),
+          loading: () => const CircularProgressIndicator(),
+        );
+  }
+
   Widget logoWidget(AddTeamModel teamModel) {
     return Stack(children: [
       teamModel.logoUri == null
@@ -186,7 +217,7 @@ class _SliverAppBarMatchMainState extends ConsumerState<SliverAppBarMatchMain> {
                 ),
               ))
           : CircleAvatar(
-              radius: collapsed ? 15 : 25,
+              radius: collapsed ? 15 : 20,
               child: CachedNetworkImage(
                   imageUrl: teamModel.logoUri!,
                   placeholder: (context, url) =>

@@ -32,6 +32,17 @@ mixin _$AddTournamentModel {
   List<dynamic> get scorers => throw _privateConstructorUsedError;
   List<String> get followersId => throw _privateConstructorUsedError;
   List<String>? get teams => throw _privateConstructorUsedError;
+  Map<String, PlayersTournamentModel> get playerStats =>
+      throw _privateConstructorUsedError;
+  Map<String, TeamPointsModel> get pointsTable =>
+      throw _privateConstructorUsedError;
+  Map<String, int> get goalLeaderboard => throw _privateConstructorUsedError;
+  Map<String, int> get assistLeaderboard => throw _privateConstructorUsedError;
+  Map<String, int> get cleanSheetLeaderboard =>
+      throw _privateConstructorUsedError;
+  Map<String, int> get yellowCardLeaderboard =>
+      throw _privateConstructorUsedError;
+  Map<String, int> get redCardLeaderboard => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +68,14 @@ abstract class $AddTournamentModelCopyWith<$Res> {
       String bannerUri,
       List<dynamic> scorers,
       List<String> followersId,
-      List<String>? teams});
+      List<String>? teams,
+      Map<String, PlayersTournamentModel> playerStats,
+      Map<String, TeamPointsModel> pointsTable,
+      Map<String, int> goalLeaderboard,
+      Map<String, int> assistLeaderboard,
+      Map<String, int> cleanSheetLeaderboard,
+      Map<String, int> yellowCardLeaderboard,
+      Map<String, int> redCardLeaderboard});
 }
 
 /// @nodoc
@@ -85,6 +103,13 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
     Object? scorers = null,
     Object? followersId = null,
     Object? teams = freezed,
+    Object? playerStats = null,
+    Object? pointsTable = null,
+    Object? goalLeaderboard = null,
+    Object? assistLeaderboard = null,
+    Object? cleanSheetLeaderboard = null,
+    Object? yellowCardLeaderboard = null,
+    Object? redCardLeaderboard = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -135,6 +160,34 @@ class _$AddTournamentModelCopyWithImpl<$Res, $Val extends AddTournamentModel>
           ? _value.teams
           : teams // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      playerStats: null == playerStats
+          ? _value.playerStats
+          : playerStats // ignore: cast_nullable_to_non_nullable
+              as Map<String, PlayersTournamentModel>,
+      pointsTable: null == pointsTable
+          ? _value.pointsTable
+          : pointsTable // ignore: cast_nullable_to_non_nullable
+              as Map<String, TeamPointsModel>,
+      goalLeaderboard: null == goalLeaderboard
+          ? _value.goalLeaderboard
+          : goalLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      assistLeaderboard: null == assistLeaderboard
+          ? _value.assistLeaderboard
+          : assistLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      cleanSheetLeaderboard: null == cleanSheetLeaderboard
+          ? _value.cleanSheetLeaderboard
+          : cleanSheetLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      yellowCardLeaderboard: null == yellowCardLeaderboard
+          ? _value.yellowCardLeaderboard
+          : yellowCardLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      redCardLeaderboard: null == redCardLeaderboard
+          ? _value.redCardLeaderboard
+          : redCardLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ) as $Val);
   }
 }
@@ -159,7 +212,14 @@ abstract class _$$_AddTournamentModelCopyWith<$Res>
       String bannerUri,
       List<dynamic> scorers,
       List<String> followersId,
-      List<String>? teams});
+      List<String>? teams,
+      Map<String, PlayersTournamentModel> playerStats,
+      Map<String, TeamPointsModel> pointsTable,
+      Map<String, int> goalLeaderboard,
+      Map<String, int> assistLeaderboard,
+      Map<String, int> cleanSheetLeaderboard,
+      Map<String, int> yellowCardLeaderboard,
+      Map<String, int> redCardLeaderboard});
 }
 
 /// @nodoc
@@ -185,6 +245,13 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
     Object? scorers = null,
     Object? followersId = null,
     Object? teams = freezed,
+    Object? playerStats = null,
+    Object? pointsTable = null,
+    Object? goalLeaderboard = null,
+    Object? assistLeaderboard = null,
+    Object? cleanSheetLeaderboard = null,
+    Object? yellowCardLeaderboard = null,
+    Object? redCardLeaderboard = null,
   }) {
     return _then(_$_AddTournamentModel(
       id: freezed == id
@@ -235,6 +302,34 @@ class __$$_AddTournamentModelCopyWithImpl<$Res>
           ? _value._teams
           : teams // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      playerStats: null == playerStats
+          ? _value._playerStats
+          : playerStats // ignore: cast_nullable_to_non_nullable
+              as Map<String, PlayersTournamentModel>,
+      pointsTable: null == pointsTable
+          ? _value._pointsTable
+          : pointsTable // ignore: cast_nullable_to_non_nullable
+              as Map<String, TeamPointsModel>,
+      goalLeaderboard: null == goalLeaderboard
+          ? _value._goalLeaderboard
+          : goalLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      assistLeaderboard: null == assistLeaderboard
+          ? _value._assistLeaderboard
+          : assistLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      cleanSheetLeaderboard: null == cleanSheetLeaderboard
+          ? _value._cleanSheetLeaderboard
+          : cleanSheetLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      yellowCardLeaderboard: null == yellowCardLeaderboard
+          ? _value._yellowCardLeaderboard
+          : yellowCardLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      redCardLeaderboard: null == redCardLeaderboard
+          ? _value._redCardLeaderboard
+          : redCardLeaderboard // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ));
   }
 }
@@ -254,10 +349,24 @@ class _$_AddTournamentModel extends _AddTournamentModel {
       required this.bannerUri,
       required final List<dynamic> scorers,
       required final List<String> followersId,
-      final List<String>? teams})
+      final List<String>? teams,
+      required final Map<String, PlayersTournamentModel> playerStats,
+      required final Map<String, TeamPointsModel> pointsTable,
+      required final Map<String, int> goalLeaderboard,
+      required final Map<String, int> assistLeaderboard,
+      required final Map<String, int> cleanSheetLeaderboard,
+      required final Map<String, int> yellowCardLeaderboard,
+      required final Map<String, int> redCardLeaderboard})
       : _scorers = scorers,
         _followersId = followersId,
         _teams = teams,
+        _playerStats = playerStats,
+        _pointsTable = pointsTable,
+        _goalLeaderboard = goalLeaderboard,
+        _assistLeaderboard = assistLeaderboard,
+        _cleanSheetLeaderboard = cleanSheetLeaderboard,
+        _yellowCardLeaderboard = yellowCardLeaderboard,
+        _redCardLeaderboard = redCardLeaderboard,
         super._();
 
   factory _$_AddTournamentModel.fromJson(Map<String, dynamic> json) =>
@@ -307,9 +416,69 @@ class _$_AddTournamentModel extends _AddTournamentModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final Map<String, PlayersTournamentModel> _playerStats;
+  @override
+  Map<String, PlayersTournamentModel> get playerStats {
+    if (_playerStats is EqualUnmodifiableMapView) return _playerStats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_playerStats);
+  }
+
+  final Map<String, TeamPointsModel> _pointsTable;
+  @override
+  Map<String, TeamPointsModel> get pointsTable {
+    if (_pointsTable is EqualUnmodifiableMapView) return _pointsTable;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_pointsTable);
+  }
+
+  final Map<String, int> _goalLeaderboard;
+  @override
+  Map<String, int> get goalLeaderboard {
+    if (_goalLeaderboard is EqualUnmodifiableMapView) return _goalLeaderboard;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_goalLeaderboard);
+  }
+
+  final Map<String, int> _assistLeaderboard;
+  @override
+  Map<String, int> get assistLeaderboard {
+    if (_assistLeaderboard is EqualUnmodifiableMapView)
+      return _assistLeaderboard;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_assistLeaderboard);
+  }
+
+  final Map<String, int> _cleanSheetLeaderboard;
+  @override
+  Map<String, int> get cleanSheetLeaderboard {
+    if (_cleanSheetLeaderboard is EqualUnmodifiableMapView)
+      return _cleanSheetLeaderboard;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_cleanSheetLeaderboard);
+  }
+
+  final Map<String, int> _yellowCardLeaderboard;
+  @override
+  Map<String, int> get yellowCardLeaderboard {
+    if (_yellowCardLeaderboard is EqualUnmodifiableMapView)
+      return _yellowCardLeaderboard;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_yellowCardLeaderboard);
+  }
+
+  final Map<String, int> _redCardLeaderboard;
+  @override
+  Map<String, int> get redCardLeaderboard {
+    if (_redCardLeaderboard is EqualUnmodifiableMapView)
+      return _redCardLeaderboard;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_redCardLeaderboard);
+  }
+
   @override
   String toString() {
-    return 'AddTournamentModel(id: $id, name: $name, organizerId: $organizerId, startDate: $startDate, endDate: $endDate, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, logoUri: $logoUri, bannerUri: $bannerUri, scorers: $scorers, followersId: $followersId, teams: $teams)';
+    return 'AddTournamentModel(id: $id, name: $name, organizerId: $organizerId, startDate: $startDate, endDate: $endDate, noOfHalfs: $noOfHalfs, minsEachHalf: $minsEachHalf, logoUri: $logoUri, bannerUri: $bannerUri, scorers: $scorers, followersId: $followersId, teams: $teams, playerStats: $playerStats, pointsTable: $pointsTable, goalLeaderboard: $goalLeaderboard, assistLeaderboard: $assistLeaderboard, cleanSheetLeaderboard: $cleanSheetLeaderboard, yellowCardLeaderboard: $yellowCardLeaderboard, redCardLeaderboard: $redCardLeaderboard)';
   }
 
   @override
@@ -334,25 +503,47 @@ class _$_AddTournamentModel extends _AddTournamentModel {
             const DeepCollectionEquality().equals(other._scorers, _scorers) &&
             const DeepCollectionEquality()
                 .equals(other._followersId, _followersId) &&
-            const DeepCollectionEquality().equals(other._teams, _teams));
+            const DeepCollectionEquality().equals(other._teams, _teams) &&
+            const DeepCollectionEquality()
+                .equals(other._playerStats, _playerStats) &&
+            const DeepCollectionEquality()
+                .equals(other._pointsTable, _pointsTable) &&
+            const DeepCollectionEquality()
+                .equals(other._goalLeaderboard, _goalLeaderboard) &&
+            const DeepCollectionEquality()
+                .equals(other._assistLeaderboard, _assistLeaderboard) &&
+            const DeepCollectionEquality()
+                .equals(other._cleanSheetLeaderboard, _cleanSheetLeaderboard) &&
+            const DeepCollectionEquality()
+                .equals(other._yellowCardLeaderboard, _yellowCardLeaderboard) &&
+            const DeepCollectionEquality()
+                .equals(other._redCardLeaderboard, _redCardLeaderboard));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      organizerId,
-      startDate,
-      endDate,
-      noOfHalfs,
-      minsEachHalf,
-      logoUri,
-      bannerUri,
-      const DeepCollectionEquality().hash(_scorers),
-      const DeepCollectionEquality().hash(_followersId),
-      const DeepCollectionEquality().hash(_teams));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        organizerId,
+        startDate,
+        endDate,
+        noOfHalfs,
+        minsEachHalf,
+        logoUri,
+        bannerUri,
+        const DeepCollectionEquality().hash(_scorers),
+        const DeepCollectionEquality().hash(_followersId),
+        const DeepCollectionEquality().hash(_teams),
+        const DeepCollectionEquality().hash(_playerStats),
+        const DeepCollectionEquality().hash(_pointsTable),
+        const DeepCollectionEquality().hash(_goalLeaderboard),
+        const DeepCollectionEquality().hash(_assistLeaderboard),
+        const DeepCollectionEquality().hash(_cleanSheetLeaderboard),
+        const DeepCollectionEquality().hash(_yellowCardLeaderboard),
+        const DeepCollectionEquality().hash(_redCardLeaderboard)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -371,18 +562,26 @@ class _$_AddTournamentModel extends _AddTournamentModel {
 
 abstract class _AddTournamentModel extends AddTournamentModel {
   factory _AddTournamentModel(
-      {final String? id,
-      required final String name,
-      required final String organizerId,
-      required final DateTime startDate,
-      required final DateTime endDate,
-      required final int noOfHalfs,
-      required final int minsEachHalf,
-      required final String logoUri,
-      required final String bannerUri,
-      required final List<dynamic> scorers,
-      required final List<String> followersId,
-      final List<String>? teams}) = _$_AddTournamentModel;
+          {final String? id,
+          required final String name,
+          required final String organizerId,
+          required final DateTime startDate,
+          required final DateTime endDate,
+          required final int noOfHalfs,
+          required final int minsEachHalf,
+          required final String logoUri,
+          required final String bannerUri,
+          required final List<dynamic> scorers,
+          required final List<String> followersId,
+          final List<String>? teams,
+          required final Map<String, PlayersTournamentModel> playerStats,
+          required final Map<String, TeamPointsModel> pointsTable,
+          required final Map<String, int> goalLeaderboard,
+          required final Map<String, int> assistLeaderboard,
+          required final Map<String, int> cleanSheetLeaderboard,
+          required final Map<String, int> yellowCardLeaderboard,
+          required final Map<String, int> redCardLeaderboard}) =
+      _$_AddTournamentModel;
   _AddTournamentModel._() : super._();
 
   factory _AddTournamentModel.fromJson(Map<String, dynamic> json) =
@@ -412,6 +611,20 @@ abstract class _AddTournamentModel extends AddTournamentModel {
   List<String> get followersId;
   @override
   List<String>? get teams;
+  @override
+  Map<String, PlayersTournamentModel> get playerStats;
+  @override
+  Map<String, TeamPointsModel> get pointsTable;
+  @override
+  Map<String, int> get goalLeaderboard;
+  @override
+  Map<String, int> get assistLeaderboard;
+  @override
+  Map<String, int> get cleanSheetLeaderboard;
+  @override
+  Map<String, int> get yellowCardLeaderboard;
+  @override
+  Map<String, int> get redCardLeaderboard;
   @override
   @JsonKey(ignore: true)
   _$$_AddTournamentModelCopyWith<_$_AddTournamentModel> get copyWith =>

@@ -10,6 +10,7 @@ import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 
+// ignore: must_be_immutable
 class SubstitutionEvent extends ConsumerStatefulWidget {
   AddMatchModel matchModel;
   SubstitutionEvent({super.key, required this.matchModel});
@@ -41,7 +42,7 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
-              Text("Select Team"),
+              const Text("Select Team"),
               const SizedBox(height: 15),
               selectTeam(),
               const SizedBox(height: 15),
@@ -50,7 +51,7 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Player In?*"),
+                        const Text("Player In?*"),
                         const SizedBox(height: 15),
                         selectedTeam!.id == widget.matchModel.homeTeamId
                             ? Wrap(
@@ -71,7 +72,7 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Player Out"),
+                        const Text("Player Out"),
                         const SizedBox(height: 15),
                         selectedTeam!.id == widget.matchModel.homeTeamId
                             ? Wrap(

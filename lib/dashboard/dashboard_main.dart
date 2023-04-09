@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:footie_heroes/dashboard/dashboard_drawer.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
+import 'package:footie_heroes/tournament/Scoring/services/key_to_sentences_service.dart';
 
 class DashboardMain extends StatefulWidget {
   const DashboardMain({Key? key}) : super(key: key);
@@ -32,15 +32,18 @@ class _DashboardMainState extends State<DashboardMain> {
         return Future.value(false);
       },
       child: Scaffold(
-          key: scaffoldKey,
-          drawer: const DashboardDrawer(),
-          appBar: AppThemeShared.appBar(
-              title: "Dashboard",
-              context: context,
-              leading: GestureDetector(
-                  onTap: () => scaffoldKey.currentState!.openDrawer(),
-                  child:
-                      const Icon(Icons.menu_outlined, color: Colors.white)))),
+        key: scaffoldKey,
+        drawer: const DashboardDrawer(),
+        appBar: AppThemeShared.appBar(
+            title: "Dashboard",
+            context: context,
+            leading: GestureDetector(
+                onTap: () => scaffoldKey.currentState!.openDrawer(),
+                child: const Icon(Icons.menu_outlined, color: Colors.white))),
+        body: Column(
+          children: [],
+        ),
+      ),
     );
   }
 }

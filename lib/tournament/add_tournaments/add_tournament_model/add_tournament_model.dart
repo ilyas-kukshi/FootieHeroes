@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
+import 'package:footie_heroes/tournament/points_table/team_points_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_tournament_model.freezed.dart';
@@ -21,6 +23,13 @@ class AddTournamentModel with _$AddTournamentModel {
     required List scorers,
     required List<String> followersId,
     List<String>? teams,
+    required Map<String, PlayersTournamentModel> playerStats,
+    required Map<String, TeamPointsModel> pointsTable,
+    required Map<String, int> goalLeaderboard,
+    required Map<String, int> assistLeaderboard,
+    required Map<String, int> cleanSheetLeaderboard,
+    required Map<String, int> yellowCardLeaderboard,
+    required Map<String, int> redCardLeaderboard,
   }) = _AddTournamentModel;
 
   factory AddTournamentModel.fromJson(Map<String, dynamic> json) =>

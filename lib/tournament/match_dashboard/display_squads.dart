@@ -1,4 +1,4 @@
- import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +21,6 @@ class DisplaySquads extends ConsumerStatefulWidget {
 }
 
 class _DisplaySquadsState extends ConsumerState<DisplaySquads> {
-  bool noHomeTeamPlayers = false;
-  bool noAwayTeamPlayers = false;
-
   List<PlayerPersonalInfo> homePlayersQ = [];
   List<PlayerPersonalInfo> awayPlayersQ = [];
 
@@ -72,7 +69,7 @@ class _DisplaySquadsState extends ConsumerState<DisplaySquads> {
                                   isOrganizer.when(
                                     data: (data) {
                                       if (data) {
-                                        selectAwayTeam(homePlayers[index]);
+                                        selectHomeTeam(homePlayers[index]);
                                       }
                                     },
                                     error: (error, stackTrace) =>
@@ -220,12 +217,14 @@ class _DisplaySquadsState extends ConsumerState<DisplaySquads> {
                   height: 50,
                   buttonText: "Start Scoring",
                   onTap: () {
-                    if (homePlayersQ.length >=
+                    if (ref.read(selectedHomeProvider).length >=
                             widget.matchModel.startingPlayers &&
-                        homePlayersQ.length <= requiredPlayers) {
-                      if (awayPlayersQ.length >=
+                        ref.read(selectedHomeProvider).length <=
+                            requiredPlayers) {
+                      if (ref.read(selectedAwayProvider).length >=
                               widget.matchModel.startingPlayers &&
-                          awayPlayersQ.length <= requiredPlayers) {
+                          ref.read(selectedAwayProvider).length <=
+                              requiredPlayers) {
                         Navigator.pushNamed(context, '/setLineups',
                             arguments: widget.matchModel);
                       } else {
@@ -350,10 +349,6 @@ final selectedHomeProvider =
   (ref) => SelectHomePlayers(),
 );
 
-// final selectedHomeProvider =
-//     StateNotifierProvider<SelectHomePlayers, Queue<PlayerPersonalInfo>>((ref) {
-//   return SelectHomePlayers();
-// });
 final selectedAwayProvider =
     StateNotifierProvider<SelectHomePlayers, List<PlayerPersonalInfo>>(
   (ref) => SelectHomePlayers(),

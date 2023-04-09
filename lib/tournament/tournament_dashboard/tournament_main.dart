@@ -9,8 +9,10 @@ import 'package:footie_heroes/tournament/about.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_team/teams.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
+import 'package:footie_heroes/tournament/leaderboard/leaderboard_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/matches/matches.dart';
+import 'package:footie_heroes/tournament/points_table/display_points_table.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_app_bar_tournament_main.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
 
@@ -75,12 +77,10 @@ class _TournamentMainState extends ConsumerState<TournamentMain>
       body: org.when(
         data: (data) => TabBarView(controller: tabController, children: [
           Matches(tournamentModel: widget.tournamentAbout),
-          Container(),
-          Container(),
+          LeaderboardMain(tournamentModel: widget.tournamentAbout),
+          DisplayPointsTable(tournament: widget.tournamentAbout),
           Teams(tournamentModel: widget.tournamentAbout, organizer: data),
-          About(
-            tournamentModel: widget.tournamentAbout,
-          )
+          About(tournamentModel: widget.tournamentAbout)
         ]),
         error: (error, stackTrace) => Text(error.toString()),
         loading: () => const CircularProgressIndicator(),
