@@ -7,12 +7,14 @@ import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/Scoring/match_event_model/match_event_model.dart';
 import 'package:footie_heroes/tournament/Scoring/scoring_main.dart';
-import 'package:footie_heroes/tournament/Scoring/services/key_to_sentences_service.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_model.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_widget.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/key_to_sentences_service.dart';
 
 // ignore: must_be_immutable
 class GoalEvent extends ConsumerStatefulWidget {
@@ -32,9 +34,20 @@ class _GoalEventState extends ConsumerState<GoalEvent> {
   PlayerPersonalInfo? assistedBy;
   bool penalty = false;
 
-  TextEditingController _controller = TextEditingController();
+  TextEditingController commentaryController = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+
   List<String> _filteredTags = [];
   List<String> selectedKeywords = [];
+  List<String> generatedSentences = [];
+  int generatedSentencesIndex = 0;
+
+  String finalCommentary = '';
+  currCommentary(String commentary) {
+    setState(() {
+      finalCommentary = commentary;
+    });
+  }
 
   @override
   void dispose() {
@@ -121,81 +134,10 @@ class _GoalEventState extends ConsumerState<GoalEvent> {
                           ],
                         )
                   : const Offstage(),
-              selectedKeywords.isNotEmpty
-                  ? Wrap(
-                      children: selectedKeywords.map((key) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(
-                                    color: AppThemeShared.primaryColor,
-                                    width: 2)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(key),
-                                const SizedBox(width: 4),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedKeywords.remove(key);
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    color: AppThemeShared.primaryColor,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    )
-                  : const Offstage(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _controller,
-                  onChanged: _onTextChanged,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter a tag',
-                  ),
-                ),
-              ),
-              if (_filteredTags.isNotEmpty)
-                Dialog(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _filteredTags.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(_filteredTags[index]),
-                        onTap: () {
-                          selectedKeywords.add(_filteredTags[index]);
-                          _filteredTags.clear();
-                          _controller.clear();
-                          setState(() {});
-                          // Navigator.pop(context);
-                        },
-                      );
-                    },
-                  ),
-                ),
-              selectedKeywords.length >= 3
-                  ? AppThemeShared.sharedButton(
-                      context: context,
-                      width: 200,
-                      buttonText: "Get Commentary",
-                      onTap: () {
-                        KeyToSentencesService()
-                            .getConmmentary(selectedKeywords);
-                      },
-                    )
-                  : const Offstage()
+              const SizedBox(height: 12),
+              CommentaryWidget(
+                currentCommentary: currCommentary,
+              )
             ],
           ),
         ),
@@ -208,32 +150,18 @@ class _GoalEventState extends ConsumerState<GoalEvent> {
           height: 50,
           buttonText: "Confirm Goal Event",
           onTap: () {
-            if (selectedTeam != null && scoredBy != null) {
-              // updateScores();
+            if (selectedTeam != null &&
+                scoredBy != null &&
+                finalCommentary.length > 1) {
+              updateScores();
               updateLeaderboard();
+              KeyToSentencesService().updateCommentary(
+                  widget.matchModel.currTimer!,
+                  finalCommentary,
+                  widget.matchModel.id!);
             }
           }),
     );
-  }
-
-  void _onTextChanged(String value) {
-    setState(() {
-      _filteredTags = [
-        "low cross",
-        "In swinging cross",
-        "Out swinging cross",
-        'High cross',
-        "Chip cross",
-        "Cut back cros",
-        "Diagonal cross",
-        "save",
-        "shot",
-        "scored"
-      ]
-          .where(
-              (tag) => tag.toLowerCase().contains(value.toLowerCase().trim()))
-          .toList();
-    });
   }
 
   updateScores() async {
@@ -246,7 +174,6 @@ class _GoalEventState extends ConsumerState<GoalEvent> {
         assistedBy: assistedBy?.id,
         penalty: penalty,
         addedAt: DateTime.now());
-
     await FirebaseFirestore.instance
         .collection("Matches")
         .doc(widget.matchModel.id)
@@ -258,10 +185,10 @@ class _GoalEventState extends ConsumerState<GoalEvent> {
           ? widget.matchModel.awayTeamScore + 1
           : widget.matchModel.awayTeamScore,
       "keyEvents": FieldValue.arrayUnion(
-        [event.toJson()],
+        [event!.toJson()],
       )
     }).then((value) {
-      ref.read(keyEventsProvider.notifier).add(event);
+      ref.read(keyEventsProvider.notifier).add(event!);
       Fluttertoast.showToast(msg: "scores and keyevents updated");
       updateLeaderboard();
     }).onError((error, stackTrace) {

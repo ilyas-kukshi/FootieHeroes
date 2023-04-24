@@ -1,13 +1,15 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
-import 'package:footie_heroes/tournament/add_tournaments/add_tournament.dart';
 import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/add_tournament_model.dart';
 import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 
+// ignore: must_be_immutable
 class LeaderboardMain extends ConsumerStatefulWidget {
   AddTournamentModel tournamentModel;
   LeaderboardMain({super.key, required this.tournamentModel});
@@ -67,7 +69,7 @@ class _LeaderboardMainState extends ConsumerState<LeaderboardMain> {
               child: TabBar(
                   padding: const EdgeInsets.all(0),
                   unselectedLabelColor: AppThemeShared.primaryColor,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 8),
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                   // indicatorSize: TabBarIndicatorSize.label,
                   indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),

@@ -25,8 +25,6 @@ class _DisplayPointsTableState extends ConsumerState<DisplayPointsTable> {
       teamPoints.add(element);
     }
 
-    print(teamPoints);
-
     teamPoints.sort((a, b) {
       int pointComp = -(a.wins * 3).compareTo(b.wins * 3);
       if (pointComp == 0) {
@@ -35,21 +33,12 @@ class _DisplayPointsTableState extends ConsumerState<DisplayPointsTable> {
       }
       return pointComp;
     });
-
-    print(teamPoints);
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.tournament.pointsTable.isEmpty
-        ? Center(
-            child: AppThemeShared.sharedButton(
-              context: context,
-              width: 200,
-              buttonText: "Generate",
-              onTap: () {},
-            ),
-          )
+        ? const Center(child: Text("No matches played yet"))
         : Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -85,10 +74,10 @@ class _DisplayPointsTableState extends ConsumerState<DisplayPointsTable> {
                                       AddTeamModel team = snapshot.data;
                                       return Text(team.name);
                                     } else {
-                                      return Text("No data");
+                                      return const Text("No data");
                                     }
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               ),

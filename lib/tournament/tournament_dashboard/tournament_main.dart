@@ -140,6 +140,7 @@ final currTournamentMatchesProvider =
   (ref, arg) {
     final stream = FirebaseFirestore.instance
         .collection("Matches")
+        .where("tournamentId", isEqualTo: arg.id)
         .orderBy("matchDate")
         .snapshots();
 

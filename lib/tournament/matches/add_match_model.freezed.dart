@@ -42,7 +42,8 @@ mixin _$AddMatchModel {
   int get awayTeamScore => throw _privateConstructorUsedError;
   int? get currTimer => throw _privateConstructorUsedError;
   int? get currHalf => throw _privateConstructorUsedError;
-  List<MatchEventModel>? get keyEvents => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>>? get keyEvents =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -79,7 +80,7 @@ abstract class $AddMatchModelCopyWith<$Res> {
       int awayTeamScore,
       int? currTimer,
       int? currHalf,
-      List<MatchEventModel>? keyEvents});
+      List<Map<String, dynamic>>? keyEvents});
 
   $AddTeamModelCopyWith<$Res>? get homeTeamModel;
   $AddTeamModelCopyWith<$Res>? get awayTeamModel;
@@ -214,7 +215,7 @@ class _$AddMatchModelCopyWithImpl<$Res, $Val extends AddMatchModel>
       keyEvents: freezed == keyEvents
           ? _value.keyEvents
           : keyEvents // ignore: cast_nullable_to_non_nullable
-              as List<MatchEventModel>?,
+              as List<Map<String, dynamic>>?,
     ) as $Val);
   }
 
@@ -274,7 +275,7 @@ abstract class _$$_AddMatchModelCopyWith<$Res>
       int awayTeamScore,
       int? currTimer,
       int? currHalf,
-      List<MatchEventModel>? keyEvents});
+      List<Map<String, dynamic>>? keyEvents});
 
   @override
   $AddTeamModelCopyWith<$Res>? get homeTeamModel;
@@ -409,7 +410,7 @@ class __$$_AddMatchModelCopyWithImpl<$Res>
       keyEvents: freezed == keyEvents
           ? _value._keyEvents
           : keyEvents // ignore: cast_nullable_to_non_nullable
-              as List<MatchEventModel>?,
+              as List<Map<String, dynamic>>?,
     ));
   }
 }
@@ -440,7 +441,7 @@ class _$_AddMatchModel extends _AddMatchModel {
       required this.awayTeamScore,
       this.currTimer,
       this.currHalf,
-      final List<MatchEventModel>? keyEvents})
+      final List<Map<String, dynamic>>? keyEvents})
       : _homeLineup = homeLineup,
         _homeSubstitutes = homeSubstitutes,
         _awayLineup = awayLineup,
@@ -527,9 +528,9 @@ class _$_AddMatchModel extends _AddMatchModel {
   final int? currTimer;
   @override
   final int? currHalf;
-  final List<MatchEventModel>? _keyEvents;
+  final List<Map<String, dynamic>>? _keyEvents;
   @override
-  List<MatchEventModel>? get keyEvents {
+  List<Map<String, dynamic>>? get keyEvents {
     final value = _keyEvents;
     if (value == null) return null;
     if (_keyEvents is EqualUnmodifiableListView) return _keyEvents;
@@ -661,7 +662,7 @@ abstract class _AddMatchModel extends AddMatchModel {
       required final int awayTeamScore,
       final int? currTimer,
       final int? currHalf,
-      final List<MatchEventModel>? keyEvents}) = _$_AddMatchModel;
+      final List<Map<String, dynamic>>? keyEvents}) = _$_AddMatchModel;
   _AddMatchModel._() : super._();
 
   factory _AddMatchModel.fromJson(Map<String, dynamic> json) =
@@ -712,7 +713,7 @@ abstract class _AddMatchModel extends AddMatchModel {
   @override
   int? get currHalf;
   @override
-  List<MatchEventModel>? get keyEvents;
+  List<Map<String, dynamic>>? get keyEvents;
   @override
   @JsonKey(ignore: true)
   _$$_AddMatchModelCopyWith<_$_AddMatchModel> get copyWith =>

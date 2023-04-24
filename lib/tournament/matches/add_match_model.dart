@@ -34,7 +34,7 @@ abstract class AddMatchModel implements _$AddMatchModel {
     required int awayTeamScore,
     int? currTimer,
     int? currHalf,
-    List<MatchEventModel>? keyEvents,
+    List<Map<String, dynamic>>? keyEvents,
   }) = _AddMatchModel;
 
   factory AddMatchModel.fromJson(Map<String, dynamic> json) =>

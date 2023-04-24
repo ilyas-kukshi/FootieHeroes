@@ -11,6 +11,7 @@ import 'package:footie_heroes/tournament/match_dashboard/line_ups/display_lineup
 import 'package:footie_heroes/tournament/match_dashboard/sliver_app_bar_match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/matches/matches.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/display_commentary.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tab_bar/sliver_persistent_header_delegate.dart';
 
 // ignore: must_be_immutable
@@ -40,7 +41,7 @@ class _MatchMainState extends ConsumerState<MatchMain>
             ? widget.matchModel.awayLineup == null
                 ? 2
                 : 3
-            : 4,
+            : 5,
         vsync: this);
     matchNotStartedTabs = const [
       Tab(
@@ -78,11 +79,12 @@ class _MatchMainState extends ConsumerState<MatchMain>
     matchStartedTabs = const [
       Tab(text: "Key Events", height: 50),
       Tab(
+        text: "Lineups",
+      ),
+      Tab(text: 'Commentary'),
+      Tab(
         text: "Squads",
         height: 50,
-      ),
-      Tab(
-        text: "Lineups",
       ),
       Tab(
         text: "About",
@@ -91,9 +93,10 @@ class _MatchMainState extends ConsumerState<MatchMain>
     ];
     matchStartedViews = [
       DisplayKeyEvents(matchModel: widget.matchModel),
-      DisplaySquads(matchModel: widget.matchModel),
       DisplayLineUps(matchModel: widget.matchModel),
-      Container()
+      DisplayCommentary(matchModel: widget.matchModel),
+      DisplaySquads(matchModel: widget.matchModel),
+      Container(),
     ];
   }
 

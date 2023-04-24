@@ -344,12 +344,7 @@ class _AddTournamentState extends State<AddTournament> {
   Future<String?> uploadFile(String path, String image) async {
     TaskSnapshot? fileUpload;
     try {
-      fileUpload = await FirebaseStorage.instance
-          .ref()
-          .child("players/" +
-              FirebaseAuth.instance.currentUser!.uid.toString() +
-              "/Tournaments/")
-          .putFile(File(path));
+      fileUpload = await FirebaseStorage.instance.ref().putFile(File(path));
     } on FirebaseException catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }

@@ -39,7 +39,10 @@ class _HomeTeamLineUpState extends ConsumerState<HomeTeamLineUp>
             //   onChanged: (p0) {},
             // ),
             Container(
-              height: 400,
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  60 -
+                  140,
               decoration: const BoxDecoration(color: Colors.green),
               child: Stack(
                 alignment: Alignment.center,

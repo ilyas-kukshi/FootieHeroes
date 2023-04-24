@@ -12,6 +12,8 @@ import 'package:footie_heroes/tournament/add_tournaments/add_tournament_model/ad
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_widget.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/key_to_sentences_service.dart';
 
 // ignore: must_be_immutable
 class YellowCardEvent extends ConsumerStatefulWidget {
@@ -29,6 +31,14 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
 
   List<PlayerPersonalInfo> homePlayers = [];
   List<PlayerPersonalInfo> awayPlayers = [];
+
+  String finalCommentary = '';
+  currCommentary(String commentary) {
+    setState(() {
+      finalCommentary = commentary;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     homePlayers = ref.watch(selectedHomeProvider);
@@ -66,6 +76,7 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
                               ),
                       ],
                     ),
+              CommentaryWidget(currentCommentary: currCommentary)
             ],
           ),
         ),
@@ -78,8 +89,14 @@ class _YellowCardEventState extends ConsumerState<YellowCardEvent> {
             selectedTeam != null && yellowCarded != null ? 1 : 0.5),
         buttonText: "Save Yellow Event",
         onTap: () {
-          if (selectedTeam != null && yellowCarded != null) {
+          if (selectedTeam != null &&
+              yellowCarded != null &&
+              finalCommentary.length > 1) {
             updateYC();
+            KeyToSentencesService().updateCommentary(
+                widget.matchModel.currTimer!,
+                finalCommentary,
+                widget.matchModel.id!);
           }
         },
       ),

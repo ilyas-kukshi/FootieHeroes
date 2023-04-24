@@ -45,7 +45,7 @@ _$_AddMatchModel _$$_AddMatchModelFromJson(Map<String, dynamic> json) =>
       currTimer: json['currTimer'] as int?,
       currHalf: json['currHalf'] as int?,
       keyEvents: (json['keyEvents'] as List<dynamic>?)
-          ?.map((e) => MatchEventModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e as Map<String, dynamic>)
           .toList(),
     );
 

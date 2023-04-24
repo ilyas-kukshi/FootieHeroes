@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/authentication/otp_model.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
@@ -124,11 +123,13 @@ class _OtpState extends State<Otp> {
         verificationId: widget.otpModel.verificationId,
         smsCode: otpController.text);
 
-    UserCredential user = await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
-    });
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    //   .onError((error, stackTrace) {
+    // Fluttertoast.showToast(msg: error.toString());
+
+    //   },
+    // );
 
     if (user.user?.uid != null) {
       await FirebaseFirestore.instance

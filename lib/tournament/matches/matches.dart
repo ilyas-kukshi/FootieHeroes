@@ -38,13 +38,15 @@ class _MatchesState extends ConsumerState<Matches> {
       error: (error, stackTrace) => Text(error.toString()),
       data: (matches) {
         return Scaffold(
-            body: ListView.builder(
-              padding: const EdgeInsets.all(0),
-              itemCount: matches.length,
-              itemBuilder: (BuildContext context, int index) {
-                return matchCard(matches[index]);
-              },
-            ),
+            body: matches.isEmpty
+                ? const Center(child: Text("No matches scheduled"))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    itemCount: matches.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return matchCard(matches[index]);
+                    },
+                  ),
             bottomNavigationBar: isOrganizer.when(
               data: (data) {
                 return data
@@ -199,23 +201,27 @@ class _MatchesState extends ConsumerState<Matches> {
   Widget timerAndScore(AddMatchModel match) {
     return ref.watch(currMatchProvider(match)).when(
           data: (data) {
-            return Column(
-              children: [
-                Text(
-                  data.matchStatus == MatchStatus.fHalfEnd.name
-                      ? "HALF TIME"
-                      : match.matchStatus == MatchStatus.completed.name
-                          ? "FULL TIME"
-                          : "${data.currTimer}'",
-                  style: const TextStyle(color: Colors.green, fontSize: 16),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "${data.homeTeamScore} - ${data.awayTeamScore}",
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            );
+            return data.matchStatus == MatchStatus.upcoming.name
+                ? Text(
+                    DateFormat('yyyy-MM-dd \n kk:mm a').format(match.matchDate))
+                : Column(
+                    children: [
+                      Text(
+                        data.matchStatus == MatchStatus.fHalfEnd.name
+                            ? "HALF TIME"
+                            : match.matchStatus == MatchStatus.completed.name
+                                ? "FULL TIME"
+                                : "${data.currTimer}'",
+                        style:
+                            const TextStyle(color: Colors.green, fontSize: 16),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "${data.homeTeamScore} - ${data.awayTeamScore}",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  );
           },
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => const CircularProgressIndicator(),
@@ -227,6 +233,7 @@ class _MatchesState extends ConsumerState<Matches> {
       teamModel.logoUri == null
           ? Container(
               height: 100,
+              width: 70,
               color: AppThemeShared.secondaryColor,
               child: Center(
                 child: Text(

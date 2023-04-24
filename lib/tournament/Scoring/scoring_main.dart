@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/dialogs.dart';
 import 'package:footie_heroes/shared/utility.dart';
@@ -18,9 +17,12 @@ import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 import 'package:footie_heroes/tournament/matches/matches.dart';
 import 'package:footie_heroes/tournament/players/players_tournament_model.dart';
 import 'package:footie_heroes/tournament/points_table/team_points_model.dart';
-import 'package:footie_heroes/tournament/tournament_dashboard/tournament_main.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_model.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+
+import 'commentary_module/key_to_sentences_service.dart';
 
 // ignore: must_be_immutable
 class ScoringMain extends ConsumerStatefulWidget {
@@ -36,6 +38,13 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
   bool paused = false;
 
   StopWatchTimer stopwatch = StopWatchTimer(mode: StopWatchMode.countUp);
+
+  String finalCommentary = '';
+  currCommentary(String commentary) {
+    setState(() {
+      finalCommentary = commentary;
+    });
+  }
 
   @override
   void initState() {
@@ -76,7 +85,49 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
                         ? const Text(
                             "Start/Resume match to update key events",
                           )
-                        : eventGrid()
+                        : Column(
+                            children: [
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: const [
+                              //     Text(
+                              //       "View Key Events",
+                              //       style: TextStyle(
+                              //           decoration: TextDecoration.underline,
+                              //           decorationColor: Colors.blue,
+                              //           decorationStyle:
+                              //               TextDecorationStyle.solid),
+                              //     ),
+                              //     Text(
+                              //       "View Commentary",
+                              //       style: TextStyle(
+                              //           decoration: TextDecoration.underline),
+                              //     )
+                              //   ],
+                              // ),
+                              const SizedBox(height: 8),
+                              eventGrid(),
+                              CommentaryWidget(
+                                  currentCommentary: currCommentary),
+                              finalCommentary.isNotEmpty
+                                  ? AppThemeShared.sharedButton(
+                                      context: context,
+                                      color: AppThemeShared.primaryColor,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      height: 50,
+                                      buttonText: "Post Commentary",
+                                      onTap: () {
+                                        KeyToSentencesService()
+                                            .updateCommentary(
+                                                stopwatch.minuteTime.value,
+                                                finalCommentary,
+                                                widget.matchModel.id!);
+                                      })
+                                  : const Offstage()
+                            ],
+                          ),
                   ],
                 ));
               },
@@ -121,7 +172,7 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
                     updateTimer(MatchStatus.sHalfEnd.name);
                   } else {
                     changeMatchStatus(MatchStatus.completed.name);
-                    // updateTimer(MatchStatus.completed.name);
+                    updateTimer(MatchStatus.completed.name);
                     updatePointsTable();
                   }
                 },
@@ -143,9 +194,31 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
     await FirebaseFirestore.instance
         .collection("Matches")
         .doc(widget.matchModel.id)
-        .update({"matchStatus": newMatchStatus}).then((value) {
+        .update({"matchStatus": newMatchStatus}).then((value) async {
       setState(() {});
+
+      await FirebaseFirestore.instance
+          .collection("Matches")
+          .doc(widget.matchModel.id)
+          .collection("Commentary")
+          .add(CommentaryModel(
+                  timestamp: DateTime.now(),
+                  commentary: getComnByMatchStatus(newMatchStatus),
+                  minute: stopwatch.minuteTime.value)
+              .toJson());
     });
+  }
+
+  String getComnByMatchStatus(String newMatchStatus) {
+    if (newMatchStatus == MatchStatus.fHalfStart.name) {
+      return "KICK OFF";
+    } else if (newMatchStatus == MatchStatus.fHalfEnd.name) {
+      return "HALF TIME";
+    } else if (newMatchStatus == MatchStatus.sHalfStart.name) {
+      return "SECOND HALF";
+    } else {
+      return "MATCH END";
+    }
   }
 
   updateTimer(String newMatchStatus) {
@@ -520,7 +593,7 @@ class _ScoringMainState extends ConsumerState<ScoringMain> {
           Map<String, TeamPointsModel>.from(tournament.pointsTable);
 
       final matchDoc = ref.read(currMatchProvider(widget.matchModel));
-
+  
       matchDoc.whenData((matchModel) {
         map.update(
           matchModel.homeTeamId,

@@ -9,6 +9,8 @@ import 'package:footie_heroes/tournament/Scoring/scoring_main.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/commentary_widget.dart';
+import 'package:footie_heroes/tournament/scoring/commentary_module/key_to_sentences_service.dart';
 
 // ignore: must_be_immutable
 class SubstitutionEvent extends ConsumerStatefulWidget {
@@ -27,6 +29,13 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
   AddTeamModel? selectedTeam;
   PlayerPersonalInfo? playerIn;
   PlayerPersonalInfo? playerOut;
+
+  String finalCommentary = '';
+  currCommentary(String commentary) {
+    setState(() {
+      finalCommentary = commentary;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,10 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
                                 }).toList(),
                               ),
                       ],
-                    )
+                    ),
+              CommentaryWidget(
+                currentCommentary: currCommentary,
+              )
             ],
           ),
         ),
@@ -101,7 +113,10 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
           height: 50,
           buttonText: "Confirm Goal Event",
           onTap: () {
-            if (selectedTeam != null && playerIn != null && playerOut != null) {
+            if (selectedTeam != null &&
+                playerIn != null &&
+                playerOut != null &&
+                finalCommentary.length > 1) {
               updateSubs();
             }
           }),
@@ -127,6 +142,8 @@ class _SubstitutionEventState extends ConsumerState<SubstitutionEvent> {
       )
     }).then((value) {
       ref.read(keyEventsProvider.notifier).add(event);
+      KeyToSentencesService().updateCommentary(
+          widget.matchModel.currTimer!, finalCommentary, widget.matchModel.id!);
       Fluttertoast.showToast(msg: "added");
     }).onError((error, stackTrace) {
       Fluttertoast.showToast(msg: error.toString());

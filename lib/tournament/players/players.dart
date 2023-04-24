@@ -2,11 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
 import 'package:footie_heroes/shared/app_theme_shared.dart';
 import 'package:footie_heroes/shared/utility.dart';
 import 'package:footie_heroes/tournament/add_team/add_team_model.dart';
 import 'package:footie_heroes/tournament/tournament_dashboard/tournament_main.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // ignore: must_be_immutable
 class Players extends ConsumerStatefulWidget {
@@ -61,10 +64,55 @@ class _PlayersState extends ConsumerState<Players> {
           height: 50,
           buttonText: "Add",
           onTap: () {
-            Navigator.pushNamed(context, "/optionsAddPlayers",
-                arguments: widget.teamModel);
+            openContacts();
           }),
     );
+  }
+
+  openContacts() async {
+    try {
+      if (await Permission.contacts.request().isGranted) {
+        final PhoneContact contact =
+            await FlutterContactPicker.pickPhoneContact();
+
+        String phoneNo =
+            contact.phoneNumber!.number!.replaceAll(RegExp(r"\s+\b|\b\s"), "");
+        if (!phoneNo.startsWith('+')) {
+          phoneNo = "+91$phoneNo";
+        }
+        await FirebaseFirestore.instance
+            .collection("Players")
+            .where("phoneNo", isEqualTo: phoneNo)
+            .get()
+            .then((value) {
+          if (value.size > 0) {
+            addPlayer(value.docs.first.id);
+          } else {
+            Fluttertoast.showToast(msg: "Ask user to create an account.");
+          }
+        }).onError((error, stackTrace) {
+          Fluttertoast.showToast(msg: error.toString());
+        });
+      } else if (await Permission.storage.isPermanentlyDenied ||
+          await Permission.storage.isDenied) {
+        openAppSettings();
+      }
+    } on Exception catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  addPlayer(String id) async {
+    await FirebaseFirestore.instance
+        .collection("Teams")
+        .doc(widget.teamModel.id)
+        .update({
+      "playersId": FieldValue.arrayUnion([id])
+    }).then((value) {
+      Fluttertoast.showToast(msg: "Player Added");
+    }).onError((error, stackTrace) {
+      Fluttertoast.showToast(msg: error.toString());
+    });
   }
 
   Widget playerCard(PlayerPersonalInfo player) {

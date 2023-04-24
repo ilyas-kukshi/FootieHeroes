@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:footie_heroes/player_profile/player_personal_info_model/player_personal_info.dart';
@@ -9,6 +8,7 @@ import 'package:footie_heroes/tournament/match_dashboard/display_squads.dart';
 import 'package:footie_heroes/tournament/match_dashboard/match_main.dart';
 import 'package:footie_heroes/tournament/matches/add_match_model.dart';
 
+// ignore: must_be_immutable
 class DisplayKeyEvents extends ConsumerStatefulWidget {
   AddMatchModel matchModel;
   DisplayKeyEvents({super.key, required this.matchModel});
@@ -31,7 +31,8 @@ class _DisplayKeyEventsState extends ConsumerState<DisplayKeyEvents> {
             if (data.keyEvents != null) {
               List<MatchEventModel> reversedList = [];
               for (var element in data.keyEvents!.reversed) {
-                reversedList.add(element);
+                MatchEventModel fElement = MatchEventModel.fromJson(element);
+                reversedList.add(fElement);
               }
 
               return Padding(
@@ -75,15 +76,6 @@ class _DisplayKeyEventsState extends ConsumerState<DisplayKeyEvents> {
         );
   }
 
-  // eventCard(MatchEventModel matchEvent) {
-  //   return Row(
-  //     mainAxisAlignment: matchEvent.teamId == widget.matchModel.homeTeamId ?
-  //     MainAxisAlignment.start : MainAxisAlignment.end,
-  //     children: [
-
-  //     ],
-  //   );
-  // }
   Widget goalEventCard(MatchEventModel matchEvent) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +184,7 @@ class _DisplayKeyEventsState extends ConsumerState<DisplayKeyEvents> {
               if (snapshot.connectionState == ConnectionState.done) {
                 // PlayerPersonalInfo scoredBy = PlayerPersonalInfo.fromDocument(snapshot)
                 return Text(
-                  "${snapshot.data!.name}",
+                  snapshot.data!.name,
                 );
               } else {
                 return const CircularProgressIndicator();
